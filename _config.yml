@@ -1,4 +1,6 @@
-site_name: BERTopic
+markdown:kramdown
+
+site_name: py Participation Shifts
 repo_url: https://github.com/bdfsaraiva/py-Participation-Shifts
 site_url: https://bdfsaraiva.github.io/py-Participation-Shifts/
 site_description: Leveraging BERT and a class-based TF-IDF to create easily interpretable topics.
