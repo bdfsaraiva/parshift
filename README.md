@@ -3,6 +3,9 @@
 ## Description
 
 ## Requirements
+The implementation requires Python 3.8+ to run. The following libraries are also required:
+
+- 
 
 ## How to install
 
@@ -13,9 +16,9 @@ pip install foobar
 ```
 
 ## Documentation
-- A
-- B
-- C
+- numpy
+- pandas
+- sentence-transformers
 
 ## Authors and acknowledgment
 Show your appreciation to those who have contributed to the project.
