@@ -1,4 +1,4 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/bdfsaraiva/py-Participation-Shifts/blob/main/LICENSE)
 
 # py-Participation-Shifts
 
@@ -21,8 +21,3 @@ pip install XPTO
 pip install link
 ```
 
-## Documentation
-
-
-## License
-[MIT License](https://github.com/bdfsaraiva/py-Participation-Shifts/blob/main/LICENSE)
