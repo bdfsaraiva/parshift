@@ -1,20 +1,50 @@
+site_name: py Participation Shift
+repo_url: https://github.com/bdfsaraiva/py-Participation-Shifts
+site_url: https://bdfsaraiva.github.io/py-Participation-Shifts/
+site_description: description
+site_author: Bruno D. Ferreira-Saraiva
+use_directory_urls: false
+
+
 theme:
-  name: null
-  custom_dir: mkdocs-material/material
-
-  # 404 page
-  static_templates:
-    - 404.html
-
-  # Necessary for search to work properly
-  include_search_page: false
-  search_index_only: true
-
-  # Default values, taken from mkdocs_theme.yml
-  language: en
-  font:
-    text: Roboto
-    code: Roboto Mono
-  favicon: assets/favicon.png
+  custom_dir: images/
+  name: material
   icon:
-    logo: logo
+    logo: material/library
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      primary: blue grey
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      primary: blue grey
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  font:
+    text: Ubuntu
+    code: Ubuntu Mono
+  favicon: icon.png
+  logo: icon.png
+  feature:
+    tabs: true
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.instant
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+
+
+nav:
+  - Home: index.md
+  - Info: info.md
+
+copyright: Copyright &copy; 2022 Maintained by <a href="https://github.com/bdfsaraiva">Bruno D. Ferreira Saraiva</a>.
