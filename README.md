@@ -7,11 +7,15 @@ The implementation requires Python 3.8+ to run. The following libraries are also
 
 - 
 
-## How to install
+## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install XPTO.
+#### From PyPI
 ```bash
-pip install foobar
+pip install XPTO
+```
+#### From source
+```
+pip install link
 ```
 
 ## Documentation
