@@ -1,6 +1,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/bdfsaraiva/py-Participation-Shifts/blob/main/LICENSE)
+[![docs](https://img.shields.io/badge/docs-Passing-green.svg)]()
 
-# py-Participation-Shifts
+# py Participation Shifts
 
 ## Description
 
