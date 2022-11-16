@@ -1,5 +1,7 @@
 import pandas as pd
-from annotation import pshift_annotation
+from annotation import pshift_annotation, label_type
+import squarify
+import matplotlib.pyplot as plt
 
 
 def frequency_table(file_name):
@@ -41,7 +43,6 @@ def frequency_table(file_name):
     return [dict_prob_empirical_count, count_start_A0_total, count_start_AB_total, count_not_turn_continuing_A0, count_not_turn_continuing_AB]
 
 
-
 def conditional_probabilities(file_name):
     frequency_table_and_counts = frequency_table(file_name)
     freq_table = frequency_table_and_counts[0]
@@ -73,8 +74,11 @@ def conditional_probabilities(file_name):
 
     cond_prob = pd.DataFrame.from_dict(cond_prob, orient='index')
     freq = pd.DataFrame.from_dict(freq_table, orient='index', columns=['Frequency'])
-    result = pd.concat([freq, cond_prob], axis=1)
-    custom_dict={
+    freq['Probability'] = round(freq['Frequency'] / freq['Frequency'].sum(),2)
+
+
+    result = pd.concat([freq, cond_prob], axis=1).reset_index().rename(columns = {'index':'pshift_code'})
+    order={
         'AB-BA': 5, 'AB-B0': 6,
         'AB-BY': 11, 'A0-X0': 1,
         'A0-XA': 0, 'A0-XY': 2,
@@ -83,8 +87,26 @@ def conditional_probabilities(file_name):
         'A0-AY': 3, 'AB-A0': 10,
         'AB-AY': 12, 'A0-A0': 4
     }
-    result = result.sort_index(key = lambda x: x.map(custom_dict))
+    
+    result['p_shift'] = result['pshift_code'].map(label_type)
+    result = result.sort_values(by=['pshift_code'], key =  lambda x: x.map(order)).reset_index(drop=True)
+    
+    # print('----- Conditional Probabilities -----')
     return result
 
 
-print(conditional_probabilities('./py-Participation-Shifts/py-participation-shifts/a.csv'))
+def frequency_treemap(df):
+    gb_pshift = df.groupby(['p_shift']).sum()
+
+    data = [el for el in list(zip(gb_pshift['Frequency'].values, gb_pshift['Frequency'].index.values)) if el[0]!=0 ]
+    lbls = [f'{el} \n {round( 100 * (list(zip(*data))[0][idx] / sum(list(list(zip(*data))[0]))),1)}%' for idx,el in enumerate(list(zip(*data))[1])]
+    
+    squarify.plot(list(zip(*data))[0], label=lbls, pad=2)
+    
+    plt.axis("off")
+    plt.show()
+
+
+
+# print(conditional_probabilities('./py-Participation-Shifts/py-participation-shifts/a.csv'))
+frequency_treemap(conditional_probabilities('./py-Participation-Shifts/py-participation-shifts/a.csv'))
