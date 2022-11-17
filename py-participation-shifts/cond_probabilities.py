@@ -103,6 +103,7 @@ def frequency_treemap(df):
     
     squarify.plot(list(zip(*data))[0], label=lbls, pad=2)
     
+    plt.title('Participation Shifts Frequency (%)')
     plt.axis("off")
     plt.show()
 

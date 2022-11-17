@@ -61,10 +61,8 @@ def pshift_annotation(filename, delimiter=','):
     label_type_v = ''
 
     for idx,msg in enumerate(conversation):
-        # print(msg)
 
         if msg['reply_id'] == None or msg['reply_id'] == 'None':
-            # print('no reply')
             part_2 = ' ' + str(msg['user_id']) + ' to group'
         else:
             for msgPrev in conversation:
@@ -126,12 +124,6 @@ def pshift_annotation(filename, delimiter=','):
             msg['label_type'] = label_type_v
 
         
-
-        # print(str(msg['id']) + '℗' + str(msg['user_id']) + '℗' + msg['message_text'] + '℗' +
-        #       str(msg['reply_id']) + '℗' + str(p1p2) + '℗' + str(label_code_v) + '℗' + str(label_t))
-        # f.write(str(msg['id']) + '℗' + str(msg['user_id']) + '℗' + msg['message_text'].replace('\n', '') +
-        #         '℗' + str(msg['reply_id']) + '℗' + str(p1p2) + '℗' + str(label_code_v) + '℗' + str(label_t))
-        # f.write('\n')
         df.loc[len(df.index)] = [str(msg['id']), str(msg['user_id']), msg['message_text'], str(msg['reply_id']),
             (p1p2), (label_code_v), (label_type_v)]
         # print('-'*20)
