@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "py-participation-shifts"
+version = "0.0.1"
+description = ""
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["participation shifts", "conversational analysis"]
+license = {text = "MIT"}
+authors = [ { name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt" } ]
+dependencies = ["csv", "pandas" ] # Not really required

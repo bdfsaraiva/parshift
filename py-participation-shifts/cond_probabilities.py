@@ -1,12 +1,12 @@
 import pandas as pd
-from annotation import pshift_annotation, label_type
+import annotation #import pshift_annotation, label_type
 import squarify
 import matplotlib.pyplot as plt
 
 
 def frequency_table(file_name):
 
-    df = pshift_annotation(file_name)
+    df = annotation.pshift_annotation(file_name)
 
     pshift_codes = ['AB-BA', 'AB-B0', 'AB-BY', 'A0-X0', 'A0-XA', 'A0-XY', 'AB-X0', 'AB-XA', 'AB-XB', 'AB-XY', 'A0-AY', 'AB-A0', 'AB-AY', 'A0-A0']
 
@@ -88,7 +88,7 @@ def conditional_probabilities(file_name):
         'AB-AY': 12, 'A0-A0': 4
     }
     
-    result['p_shift'] = result['pshift_code'].map(label_type)
+    result['p_shift'] = result['pshift_code'].map(annotation.label_type)
     result = result.sort_values(by=['pshift_code'], key =  lambda x: x.map(order)).reset_index(drop=True)
     
     # print('----- Conditional Probabilities -----')
@@ -107,7 +107,8 @@ def frequency_treemap(df):
     plt.axis("off")
     plt.show()
 
-
-
-# print(conditional_probabilities('./py-Participation-Shifts/py-participation-shifts/a.csv'))
+a = './py-Participation-Shifts/py-participation-shifts/a.csv'
+print(annotation.pshift_annotation(a))
+print('\n')
+print(conditional_probabilities('./py-Participation-Shifts/py-participation-shifts/a.csv'))
 frequency_treemap(conditional_probabilities('./py-Participation-Shifts/py-participation-shifts/a.csv'))
