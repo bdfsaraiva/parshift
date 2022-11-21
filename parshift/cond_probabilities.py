@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 def frequency_table(file_name):
 
-    df = annotation.pshift_annotation(file_name)
+    df = annotation.parshift_annotation(file_name)
 
     pshift_codes = ['AB-BA', 'AB-B0', 'AB-BY', 'A0-X0', 'A0-XA', 'A0-XY', 'AB-X0', 'AB-XA', 'AB-XB', 'AB-XY', 'A0-AY', 'AB-A0', 'AB-AY', 'A0-A0']
 
@@ -78,7 +78,7 @@ def conditional_probabilities(file_name):
 
 
     result = pd.concat([freq, cond_prob], axis=1).reset_index().rename(columns = {'index':'pshift_code'})
-    order={
+    order = {
         'AB-BA': 5, 'AB-B0': 6,
         'AB-BY': 11, 'A0-X0': 1,
         'A0-XA': 0, 'A0-XY': 2,
@@ -91,7 +91,6 @@ def conditional_probabilities(file_name):
     result['p_shift'] = result['pshift_code'].map(annotation.label_type)
     result = result.sort_values(by=['pshift_code'], key =  lambda x: x.map(order)).reset_index(drop=True)
     
-    # print('----- Conditional Probabilities -----')
     return result
 
 
@@ -99,16 +98,18 @@ def frequency_treemap(df):
     gb_pshift = df.groupby(['p_shift']).sum()
 
     data = [el for el in list(zip(gb_pshift['Frequency'].values, gb_pshift['Frequency'].index.values)) if el[0]!=0 ]
-    lbls = [f'{el} \n {round( 100 * (list(zip(*data))[0][idx] / sum(list(list(zip(*data))[0]))),1)}%' for idx,el in enumerate(list(zip(*data))[1])]
+    labels = [f'{el} \n {round( 100 * (list(zip(*data))[0][idx] / sum(list(list(zip(*data))[0]))),1)}%' for idx,el in enumerate(list(zip(*data))[1])]
     
-    squarify.plot(list(zip(*data))[0], label=lbls, pad=2)
+    squarify.plot(list(zip(*data))[0], label=labels, pad=2)
     
     plt.title('Participation Shifts Frequency (%)')
     plt.axis("off")
-    plt.show()
+    # plt.show()
+    return plt
 
-a = './py-Participation-Shifts/py-participation-shifts/a.csv'
-print(annotation.pshift_annotation(a))
-print('\n')
-print(conditional_probabilities('./py-Participation-Shifts/py-participation-shifts/a.csv'))
-frequency_treemap(conditional_probabilities('./py-Participation-Shifts/py-participation-shifts/a.csv'))
+# a = './py-Participation-Shifts/parshift/a.csv'
+# print(annotation.parshift_annotation(a))
+# print('\n')
+# cp = conditional_probabilities('./py-Participation-Shifts/parshift/a.csv')
+# print(cp)
+# frequency_treemap(cp).show()

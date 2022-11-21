@@ -42,7 +42,7 @@ def read_conversation(filename, delimiter=','):
 
     return conversation
 
-def pshift_annotation(filename, delimiter=','):
+def parshift_annotation(filename, delimiter=','):
 
     conversation = read_conversation(filename)
 
@@ -69,9 +69,9 @@ def pshift_annotation(filename, delimiter=','):
                 if msg['reply_id'] in msgPrev['id']:
                     if msgPrev['reply_id'] == None or msgPrev['reply_id'] == 'None':
                         part_1 = str(msgPrev['user_id']) + ' to group,'
-                    else:  # SE O REPLY TIVER TAMBÉM REPLY
+                    else:  # reply - reply 
                         for msgPrev2 in conversation:
-                            if msgPrev['reply_id'] in msgPrev2['id']:  # ENCONTRAR REPLY-REPLY
+                            if msgPrev['reply_id'] in msgPrev2['id']:
                                 part_1 = str(msgPrev['user_id']) + ' to ' + str(msgPrev2['user_id']) + ','
 
                     part_2 = ' ' + str(msg['user_id']) +' to ' + str(msgPrev['user_id'])
@@ -80,9 +80,8 @@ def pshift_annotation(filename, delimiter=','):
         # print(part_1 + part_2)
         part_1 = part_2[1:] + ','
 
-        #############! CRIAÇÃO DE CODIGOS ##########
         def label_code(label):
-            # divisão por partes
+            # label split
             a = label.split(',')[0].split('to')[0].replace(' ', '')
             b = label.split(',')[0].split('to')[1].replace(' ', '')
             c = label.split(',')[1].split('to')[0].replace(' ', '')
@@ -113,7 +112,7 @@ def pshift_annotation(filename, delimiter=','):
                 result += 'Y'
 
             return result
-        #######!#####################################
+        
 
         
         if idx != 0:
@@ -156,7 +155,7 @@ def label_type(label_code):
     }
     return p_shift[label_code]
 
-# print(pshift_annotation('./py-Participation-Shifts/py-participation-shifts/a.csv'))
+# print(parshift_annotation('./py-Participation-Shifts/py-participation-shifts/a.csv'))
 
 
 
