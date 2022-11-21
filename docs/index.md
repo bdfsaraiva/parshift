@@ -2,16 +2,17 @@
 hide:
   - navigation
 ---
-# py Participation Shifts
+# parshift
 
 ## Description
 
 ## Requirements
 The implementation requires Python 3.8+ to run. The following libraries are also required:
 
-- `numpy`
+- `csv`
 - `pandas`
-- `sentence-transformers`
+- `matplotlib`
+- `squarify`
 
 ## Installation
 
@@ -20,6 +21,6 @@ The implementation requires Python 3.8+ to run. The following libraries are also
 pip install XPTO
 ```
 #### From source
-```
+``` bash
 pip install link
 ```
