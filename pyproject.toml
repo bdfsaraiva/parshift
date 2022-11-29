@@ -14,15 +14,15 @@ authors = [ { name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt" } ]
 dependencies = ["pandas", "matplotlib" ] # Not really required
 
 
-[project.optional-dependencies]
-docs = [
-    mkdocs>=1.2.2
-    mkdocs-material>=7.1.11
-]
-test = [
-    "pytest>=5.4.3",
-    "pytest-cov>=2.6.1"
-]
+#[project.optional-dependencies]
+#docs = [
+#    mkdocs>=1.2.2
+#    mkdocs-material>=7.1.11
+#]
+#test = [
+#    "pytest>=5.4.3",
+#    "pytest-cov>=2.6.1"
+#]
 
 
 [tool.black]
