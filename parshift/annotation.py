@@ -1,8 +1,9 @@
 import csv
 import pandas as pd
+import re
 
 
-def read_conversation(filename, delimiter=","):
+def read_conversation(filename, delimiter = ","):
     """_summary_
 
     Args:
@@ -13,9 +14,19 @@ def read_conversation(filename, delimiter=","):
         list: _description_
     """
 
+    if not isinstance(filename, str):
+        raise TypeError('Parameter filename must be a String')
+    if not re.search('[A-Z|a-z]+.(csv|CSV)', filename):
+        raise ValueError('Parameter filename must be a CSV file')
+    if not isinstance(delimiter, str):
+        raise TypeError('Parameter delimiter must be a String')
+    if len(delimiter) != 1:
+        raise ValueError('Parameter delimiter must be one character')
+
+
     conversation = []
-    with open(filename, "r", encoding="utf8") as file:
-        csv_reader = csv.reader(file, delimiter=delimiter)
+    with open(filename, "r", encoding = "utf8") as file:
+        csv_reader = csv.reader(file, delimiter = delimiter)
 
         turn = 0
         for idx, csv_line in enumerate(csv_reader):
@@ -51,7 +62,7 @@ def read_conversation(filename, delimiter=","):
 
 def parshift_annotation(filename, delimiter=","):
 
-    conversation = read_conversation(filename)
+    conversation = read_conversation(filename, delimiter)
 
     df = pd.DataFrame(
         {
@@ -158,6 +169,12 @@ def label_type(label_code):
     Returns:
         str: Participation Shift type - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing]
     """
+
+    if not isinstance(label_code, str):
+        raise TypeError('Parameter label_code must be a String')
+    if not re.search('A[B|0]-[A|B|X][A|B|X|Y|0]', label_code):
+        raise ValueError('Parameter label_code must be a parshift code. eg: AB-B0')
+
     p_shift = {
         "AB-BA": "Turn Receiving",
         "AB-B0": "Turn Receiving",
@@ -175,6 +192,3 @@ def label_type(label_code):
         "A0-A0": "Turn Continuing",
     }
     return p_shift[label_code]
-
-
-# print(parshift_annotation('./py-Participation-Shifts/py-participation-shifts/a.csv'))

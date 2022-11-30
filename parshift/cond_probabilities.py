@@ -148,11 +148,3 @@ def frequency_treemap(df):
     plt.axis("off")
     # plt.show()
     return plt
-
-
-# a = './py-Participation-Shifts/parshift/a.csv'
-# print(annotation.parshift_annotation(a))
-# print('\n')
-# cp = conditional_probabilities('./py-Participation-Shifts/parshift/a.csv')
-# print(cp)
-# frequency_treemap(cp).show()
