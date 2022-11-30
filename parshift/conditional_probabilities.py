@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 
 def frequency_table(parshif_annotation_df):
 
-    
     # df = annotation.parshift_annotation(file_name)
 
     pshift_codes = [
@@ -58,8 +57,9 @@ def frequency_table(parshif_annotation_df):
     ]
 
 
-def conditional_probabilities(file_name):
-    frequency_table_and_counts = frequency_table(file_name)
+def conditional_probabilities(parshif_annotation_df):
+
+    frequency_table_and_counts = frequency_table(parshif_annotation_df)
     freq_table = frequency_table_and_counts[0]
 
     cond_prob = {}
@@ -142,3 +142,6 @@ def frequency_treemap(df):
     plt.axis("off")
     # plt.show()
     return plt
+
+
+print(conditional_probabilities(annotation.parshift_annotation('py-Participation-Shifts/tests/a.csv')))
