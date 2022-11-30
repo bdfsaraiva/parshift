@@ -3,7 +3,7 @@ import pandas as pd
 import re
 
 
-def read_conversation(filename, delimiter = ","):
+def read_conversation(filename, delimiter=","):
     """_summary_
 
     Args:
@@ -15,18 +15,17 @@ def read_conversation(filename, delimiter = ","):
     """
 
     if not isinstance(filename, str):
-        raise TypeError('Parameter filename must be a String')
-    if not re.search('[A-Z|a-z]+.(csv|CSV)', filename):
-        raise ValueError('Parameter filename must be a CSV file')
+        raise TypeError("Parameter filename must be a String")
+    if not re.search("[A-Z|a-z]+.(csv|CSV)", filename):
+        raise ValueError("Parameter filename must be a CSV file")
     if not isinstance(delimiter, str):
-        raise TypeError('Parameter delimiter must be a String')
+        raise TypeError("Parameter delimiter must be a String")
     if len(delimiter) != 1:
-        raise ValueError('Parameter delimiter must be one character')
-
+        raise ValueError("Parameter delimiter must be one character")
 
     conversation = []
-    with open(filename, "r", encoding = "utf8") as file:
-        csv_reader = csv.reader(file, delimiter = delimiter)
+    with open(filename, "r", encoding="utf8") as file:
+        csv_reader = csv.reader(file, delimiter=delimiter)
 
         turn = 0
         for idx, csv_line in enumerate(csv_reader):
@@ -171,9 +170,9 @@ def label_type(label_code):
     """
 
     if not isinstance(label_code, str):
-        raise TypeError('Parameter label_code must be a String')
-    if not re.search('A[B|0]-[A|B|X][A|B|X|Y|0]', label_code):
-        raise ValueError('Parameter label_code must be a parshift code. eg: AB-B0')
+        raise TypeError("Parameter label_code must be a String")
+    if not re.search("A[B|0]-[A|B|X][A|B|X|Y|0]", label_code):
+        raise ValueError("Parameter label_code must be a parshift code. eg: AB-B0")
 
     p_shift = {
         "AB-BA": "Turn Receiving",

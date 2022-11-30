@@ -4,9 +4,10 @@ import squarify
 import matplotlib.pyplot as plt
 
 
-def frequency_table(file_name):
+def frequency_table(parshif_annotation_df):
 
-    df = annotation.parshift_annotation(file_name)
+    
+    # df = annotation.parshift_annotation(file_name)
 
     pshift_codes = [
         "AB-BA",
@@ -33,9 +34,7 @@ def frequency_table(file_name):
 
     for code in pshift_codes:
         count = 0
-        for index, row in df.iterrows():
-            # print(users_data[line[1]]['gender'])
-            # users_data[line[1]]['gender'] == 'FEMALE' and
+        for index, row in parshif_annotation_df.iterrows():
             if row["label_code"] == code:
                 count += 1
 
@@ -50,11 +49,6 @@ def frequency_table(file_name):
             if code not in ["A0-AY", "AB-A0", "AB-AY", "A0-A0"]:
                 count_not_turn_continuing_AB += count
 
-    # print(dict_prob_empirical_count)
-    # print(count_start_A0_total)
-    # print(count_start_AB_total )
-    # print(count_not_turn_continuing_A0)
-    # print(count_not_turn_continuing_AB)
     return [
         dict_prob_empirical_count,
         count_start_A0_total,
