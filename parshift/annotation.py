@@ -3,7 +3,7 @@ import pandas as pd
 import re
 
 
-def read_conversation(filename, delimiter=","):
+def _read_conversation(filename, delimiter=","):
     """_summary_
 
     Args:
@@ -61,7 +61,7 @@ def read_conversation(filename, delimiter=","):
 
 def parshift_annotation(filename, delimiter=","):
 
-    conversation = read_conversation(filename, delimiter)
+    conversation = _read_conversation(filename, delimiter)
 
     df = pd.DataFrame(
         {
@@ -106,7 +106,7 @@ def parshift_annotation(filename, delimiter=","):
         # print(part_1 + part_2)
         part_1 = part_2[1:] + ","
 
-        def label_code(label):
+        def _label_code(label):
             # label split
             a = label.split(",")[0].split("to")[0].replace(" ", "")
             b = label.split(",")[0].split("to")[1].replace(" ", "")
@@ -141,9 +141,9 @@ def parshift_annotation(filename, delimiter=","):
 
         if idx != 0:
             msg["label"] = p1p2
-            label_code_v = label_code(p1p2)
+            label_code_v = _label_code(p1p2)
             msg["label_code"] = label_code_v
-            label_type_v = label_type(label_code_v)
+            label_type_v = _label_type(label_code_v)
             msg["label_type"] = label_type_v
 
         df.loc[len(df.index)] = [
@@ -159,7 +159,7 @@ def parshift_annotation(filename, delimiter=","):
     return df
 
 
-def label_type(label_code):
+def _label_type(label_code):
     """Returns the Participation Shift type, based in Gibson's paper
 
     Args:

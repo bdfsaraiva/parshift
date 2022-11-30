@@ -1,14 +1,12 @@
 import pandas as pd
-import annotation  # import pshift_annotation, label_type
+from parshift import annotation
 import squarify
 import matplotlib.pyplot as plt
 
 
-def frequency_table(parshif_annotation_df):
+def _frequency_table(parshift_annotation_df):
 
-    # df = annotation.parshift_annotation(file_name)
-
-    pshift_codes = [
+    parshift_codes = [
         "AB-BA",
         "AB-B0",
         "AB-BY",
@@ -31,9 +29,9 @@ def frequency_table(parshif_annotation_df):
     count_not_turn_continuing_A0 = 0
     count_not_turn_continuing_AB = 0
 
-    for code in pshift_codes:
+    for code in parshift_codes:
         count = 0
-        for index, row in parshif_annotation_df.iterrows():
+        for index, row in parshift_annotation_df.iterrows():
             if row["label_code"] == code:
                 count += 1
 
@@ -57,9 +55,12 @@ def frequency_table(parshif_annotation_df):
     ]
 
 
-def conditional_probabilities(parshif_annotation_df):
+def conditional_probabilities(parshift_annotation_df):
 
-    frequency_table_and_counts = frequency_table(parshif_annotation_df)
+    if not isinstance(parshift_annotation_df, pd.DataFrame):
+        raise TypeError("Parameter parshift_annotation_df must be a Dataframe")
+
+    frequency_table_and_counts = _frequency_table(parshift_annotation_df)
     freq_table = frequency_table_and_counts[0]
 
     cond_prob = {}
@@ -67,28 +68,28 @@ def conditional_probabilities(parshif_annotation_df):
         if key.split("-")[0] == "A0":
             if key not in ["A0-AY", "AB-A0", "AB-AY", "A0-A0"]:
                 cond_prob[key] = {
-                    "CP General": round(freq_table[key] / frequency_table_and_counts[1], 2),
-                    "CP excludes turn continuing": round(
+                    "CP": round(freq_table[key] / frequency_table_and_counts[1], 2),
+                    "CPeTC": round(
                         freq_table[key] / frequency_table_and_counts[3], 2
                     ),
                 }
             else:
                 cond_prob[key] = {
-                    "CP General": round(freq_table[key] / frequency_table_and_counts[1], 2),
-                    "CP excludes turn continuing": "",
+                    "CP": round(freq_table[key] / frequency_table_and_counts[1], 2),
+                    "CPeTC": "",
                 }
         else:
             if key not in ["A0-AY", "AB-A0", "AB-AY", "A0-A0"]:
                 cond_prob[key] = {
-                    "CP General": round(freq_table[key] / frequency_table_and_counts[2], 2),
-                    "CP excludes turn continuing": round(
+                    "CP": round(freq_table[key] / frequency_table_and_counts[2], 2),
+                    "CPeTC": round(
                         freq_table[key] / frequency_table_and_counts[4], 2
                     ),
                 }
             else:
                 cond_prob[key] = {
-                    "CP General": round(freq_table[key] / frequency_table_and_counts[2], 2),
-                    "CP excludes turn continuing": "",
+                    "CP": round(freq_table[key] / frequency_table_and_counts[2], 2),
+                    "CPeTC": "",
                 }
 
     cond_prob = pd.DataFrame.from_dict(cond_prob, orient="index")
@@ -96,7 +97,7 @@ def conditional_probabilities(parshif_annotation_df):
     freq["Probability"] = round(freq["Frequency"] / freq["Frequency"].sum(), 2)
 
     result = (
-        pd.concat([freq, cond_prob], axis=1).reset_index().rename(columns={"index": "pshift_code"})
+        pd.concat([freq, cond_prob], axis=1).reset_index().rename(columns={"index": "parshift_code"})
     )
     order = {
         "AB-BA": 5,
@@ -115,20 +116,20 @@ def conditional_probabilities(parshif_annotation_df):
         "A0-A0": 4,
     }
 
-    result["p_shift"] = result["pshift_code"].map(annotation.label_type)
-    result = result.sort_values(by=["pshift_code"], key=lambda x: x.map(order)).reset_index(
+    result["parshift"] = result["parshift_code"].map(annotation._label_type)
+    result = result.sort_values(by=["parshift_code"], key=lambda x: x.map(order)).reset_index(
         drop=True
     )
 
     return result
 
 
-def frequency_treemap(df):
-    gb_pshift = df.groupby(["p_shift"]).sum()
+def frequency_treemap(conditional_probabilities_df):
+    gb_parshift = conditional_probabilities_df.groupby(["parshift"])['Frequency'].sum()
 
     data = [
         el
-        for el in list(zip(gb_pshift["Frequency"].values, gb_pshift["Frequency"].index.values))
+        for el in list(zip(gb_parshift.values, gb_parshift.index.values))
         if el[0] != 0
     ]
     labels = [
@@ -136,12 +137,10 @@ def frequency_treemap(df):
         for idx, el in enumerate(list(zip(*data))[1])
     ]
 
+    f = plt.figure()
     squarify.plot(list(zip(*data))[0], label=labels, pad=2)
-
     plt.title("Participation Shifts Frequency (%)")
     plt.axis("off")
     # plt.show()
-    return plt
+    return f
 
-
-print(conditional_probabilities(annotation.parshift_annotation('py-Participation-Shifts/tests/a.csv')))

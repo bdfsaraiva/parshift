@@ -20,33 +20,33 @@ conversation = [
 
 
 def test_read_conversation():
-    assert type(annotation.read_conversation("py-Participation-Shifts/tests/a.csv")) == type(
+    assert type(annotation._read_conversation("py-Participation-Shifts/tests/a.csv")) == type(
         conversation
     )
 
-    assert len(annotation.read_conversation("py-Participation-Shifts/tests/a.csv")) == len(
+    assert len(annotation._read_conversation("py-Participation-Shifts/tests/a.csv")) == len(
         conversation
     )
-    assert len(annotation.read_conversation("py-Participation-Shifts/tests/b.csv", ";")) == len(
+    assert len(annotation._read_conversation("py-Participation-Shifts/tests/b.csv", ";")) == len(
         conversation
     )
 
-    assert annotation.read_conversation("py-Participation-Shifts/tests/a.csv") == conversation
-    assert annotation.read_conversation("py-Participation-Shifts/tests/b.csv", ";") == conversation
+    assert annotation._read_conversation("py-Participation-Shifts/tests/a.csv") == conversation
+    assert annotation._read_conversation("py-Participation-Shifts/tests/b.csv", ";") == conversation
 
 
 def test_read_conversation_errors():
     with pytest.raises(TypeError):
-        annotation.read_conversation(10)
+        annotation._read_conversation(10)
     with pytest.raises(ValueError):
-        annotation.read_conversation("file")
+        annotation._read_conversation("file")
     with pytest.raises(TypeError):
-        annotation.read_conversation("file.csv", 1)
+        annotation._read_conversation("file.csv", 1)
     with pytest.raises(ValueError):
-        annotation.read_conversation("file.csv", ",,")
+        annotation._read_conversation("file.csv", ",,")
 
 
-def test_parshif_annotation():
+def test_parshift_annotation():
     assert type(annotation.parshift_annotation("py-Participation-Shifts/tests/a.csv")) == type(
         pd.DataFrame()
     )
@@ -65,11 +65,10 @@ def test_parshif_annotation():
 
 
 def test_label_type_values():
-    assert annotation.label_type("AB-BA") == "Turn Receiving"
-
+    assert annotation._label_type("AB-BA") == "Turn Receiving"
 
 def test_label_type_errors():
     with pytest.raises(TypeError):
-        annotation.label_type(1)
+        annotation._label_type(1)
     with pytest.raises(ValueError):
-        annotation.label_type("hi")
+        annotation._label_type("hi")
