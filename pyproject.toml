@@ -22,11 +22,11 @@ dependencies = ["pandas", "matplotlib", "squarify" ] # Not really required
 
 [project.optional-dependencies]
 dev = [
-    "mkdocs>=1.2.2"
-    "mkdocs-material>=7.1.11"
-    "pytest>=7.2.0"
-    "pytest-cov>=4.0.0"
-    "pandas>=1.5.2"
+    "mkdocs>=1.2.2",
+    "mkdocs-material>=7.1.11",
+    "pytest>=7.2.0",
+    "pytest-cov>=4.0.0",
+    "pandas>=1.5.2",
     "matplotlib>=3.6.2"
 ]
 
