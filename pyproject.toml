@@ -14,21 +14,21 @@ requires-python = ">=3.8"
 keywords = ["participation shifts", "conversational analysis"]
 license = {text = "MIT"}
 authors = [ { name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt" } ]
-dependencies = ["pandas", "matplotlib" ] # Not really required
+dependencies = ["pandas", "matplotlib", "squarify" ] # Not really required
 
 [project.urls]
 "Homepage" = "https://github.com/bdfsaraiva/parshift"
 "Bug Tracker" = "https://github.com/bdfsaraiva/parshift/issues"
 
-#[project.optional-dependencies]
-#docs = [
-#    mkdocs>=1.2.2
-#    mkdocs-material>=7.1.11
-#]
-#test = [
-#    "pytest>=5.4.3",
-#    "pytest-cov>=2.6.1"
-#]
+[project.optional-dependencies]
+dev = [
+    mkdocs>=1.2.2
+    mkdocs-material>=7.1.11
+    pytest>=7.2.0
+    pytest-cov>=4.0.0
+    pandas>=1.5.2
+    matplotlib>=3.6.2
+]
 
 
 [tool.black]
