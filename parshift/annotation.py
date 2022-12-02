@@ -100,7 +100,9 @@ def parshift_annotation(filename, delimiter=","):
                                     + ","
                                 )
 
-                    part_2 = " " + str(msg["user_id"]) + " to " + str(msgPrev["user_id"])
+                    part_2 = (
+                        " " + str(msg["user_id"]) + " to " + str(msgPrev["user_id"])
+                    )
 
         p1p2 = part_1 + part_2
         # print(part_1 + part_2)

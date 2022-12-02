@@ -20,19 +20,25 @@ conversation = [
 
 
 def test_read_conversation():
-    assert type(annotation._read_conversation("py-Participation-Shifts/tests/a.csv")) == type(
-        conversation
-    )
+    assert type(
+        annotation._read_conversation("py-Participation-Shifts/tests/a.csv")
+    ) == type(conversation)
 
-    assert len(annotation._read_conversation("py-Participation-Shifts/tests/a.csv")) == len(
-        conversation
-    )
-    assert len(annotation._read_conversation("py-Participation-Shifts/tests/b.csv", ";")) == len(
-        conversation
-    )
+    assert len(
+        annotation._read_conversation("py-Participation-Shifts/tests/a.csv")
+    ) == len(conversation)
+    assert len(
+        annotation._read_conversation("py-Participation-Shifts/tests/b.csv", ";")
+    ) == len(conversation)
 
-    assert annotation._read_conversation("py-Participation-Shifts/tests/a.csv") == conversation
-    assert annotation._read_conversation("py-Participation-Shifts/tests/b.csv", ";") == conversation
+    assert (
+        annotation._read_conversation("py-Participation-Shifts/tests/a.csv")
+        == conversation
+    )
+    assert (
+        annotation._read_conversation("py-Participation-Shifts/tests/b.csv", ";")
+        == conversation
+    )
 
 
 def test_read_conversation_errors():
@@ -47,14 +53,16 @@ def test_read_conversation_errors():
 
 
 def test_parshift_annotation():
-    assert type(annotation.parshift_annotation("py-Participation-Shifts/tests/a.csv")) == type(
-        pd.DataFrame()
-    )
+    assert type(
+        annotation.parshift_annotation("py-Participation-Shifts/tests/a.csv")
+    ) == type(pd.DataFrame())
 
-    parshift_annotation_df = pd.read_csv("py-Participation-Shifts/tests/df.csv").fillna("")
-    assert len(annotation.parshift_annotation("py-Participation-Shifts/tests/a.csv")) == len(
-        parshift_annotation_df
+    parshift_annotation_df = pd.read_csv("py-Participation-Shifts/tests/df.csv").fillna(
+        ""
     )
+    assert len(
+        annotation.parshift_annotation("py-Participation-Shifts/tests/a.csv")
+    ) == len(parshift_annotation_df)
 
     assert (
         parshift_annotation_df["label_code"].values
@@ -66,6 +74,7 @@ def test_parshift_annotation():
 
 def test_label_type_values():
     assert annotation._label_type("AB-BA") == "Turn Receiving"
+
 
 def test_label_type_errors():
     with pytest.raises(TypeError):

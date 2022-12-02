@@ -2,6 +2,9 @@
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+py-modules = []
+
 [project]
 name = "parshift"
 version = "0.0.1"
@@ -13,6 +16,9 @@ license = {text = "MIT"}
 authors = [ { name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt" } ]
 dependencies = ["pandas", "matplotlib" ] # Not really required
 
+[project.urls]
+"Homepage" = "https://github.com/bdfsaraiva/parshift"
+"Bug Tracker" = "https://github.com/bdfsaraiva/parshift/issues"
 
 #[project.optional-dependencies]
 #docs = [

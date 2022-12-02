@@ -69,9 +69,7 @@ def conditional_probabilities(parshift_annotation_df):
             if key not in ["A0-AY", "AB-A0", "AB-AY", "A0-A0"]:
                 cond_prob[key] = {
                     "CP": round(freq_table[key] / frequency_table_and_counts[1], 2),
-                    "CPeTC": round(
-                        freq_table[key] / frequency_table_and_counts[3], 2
-                    ),
+                    "CPeTC": round(freq_table[key] / frequency_table_and_counts[3], 2),
                 }
             else:
                 cond_prob[key] = {
@@ -82,9 +80,7 @@ def conditional_probabilities(parshift_annotation_df):
             if key not in ["A0-AY", "AB-A0", "AB-AY", "A0-A0"]:
                 cond_prob[key] = {
                     "CP": round(freq_table[key] / frequency_table_and_counts[2], 2),
-                    "CPeTC": round(
-                        freq_table[key] / frequency_table_and_counts[4], 2
-                    ),
+                    "CPeTC": round(freq_table[key] / frequency_table_and_counts[4], 2),
                 }
             else:
                 cond_prob[key] = {
@@ -97,7 +93,9 @@ def conditional_probabilities(parshift_annotation_df):
     freq["Probability"] = round(freq["Frequency"] / freq["Frequency"].sum(), 2)
 
     result = (
-        pd.concat([freq, cond_prob], axis=1).reset_index().rename(columns={"index": "parshift_code"})
+        pd.concat([freq, cond_prob], axis=1)
+        .reset_index()
+        .rename(columns={"index": "parshift_code"})
     )
     order = {
         "AB-BA": 5,
@@ -117,15 +115,15 @@ def conditional_probabilities(parshift_annotation_df):
     }
 
     result["parshift"] = result["parshift_code"].map(annotation._label_type)
-    result = result.sort_values(by=["parshift_code"], key=lambda x: x.map(order)).reset_index(
-        drop=True
-    )
+    result = result.sort_values(
+        by=["parshift_code"], key=lambda x: x.map(order)
+    ).reset_index(drop=True)
 
     return result
 
 
 def frequency_treemap(conditional_probabilities_df):
-    gb_parshift = conditional_probabilities_df.groupby(["parshift"])['Frequency'].sum()
+    gb_parshift = conditional_probabilities_df.groupby(["parshift"])["Frequency"].sum()
 
     data = [
         el
@@ -143,4 +141,3 @@ def frequency_treemap(conditional_probabilities_df):
     plt.axis("off")
     # plt.show()
     return f
-
