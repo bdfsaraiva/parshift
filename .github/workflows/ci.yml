@@ -1,4 +1,4 @@
-name: gh-deploy
+name: build
 on:
   push:
     branches:
