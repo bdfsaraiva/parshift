@@ -11,6 +11,8 @@
 ## Requirements
 The implementation requires Python 3.8+ to run. The following libraries are also required:
 - `pandas`
+- `matplotlib`
+- `squarify`
 
 ## Installation
 #### From PyPI
