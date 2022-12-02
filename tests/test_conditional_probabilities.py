@@ -4,7 +4,7 @@ import matplotlib
 # import matplotlib.pyplot as plt
 from parshift import conditional_probabilities
 
-parshift_annotation_df = pd.read_csv("py-Participation-Shifts/tests/df.csv").fillna("")
+parshift_annotation_df = pd.read_csv("tests/df.csv").fillna("")
 
 
 def test_frequency_table():
