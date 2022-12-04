@@ -7,6 +7,7 @@
 # ParShift
 
 ParShift is a python package based on [Gibson's framework](https://doi.org/10.1353/sof.2003.0055) for the analysis of conversational sequences.
+
 The framework is established on the concept of participation shift, which refers to the shifting of individuals between the positions of speaker, target (addressee), and non-addressee (everyone else).
 
 
