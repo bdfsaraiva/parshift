@@ -1,7 +1,5 @@
 import pytest
 import pandas as pd
-import matplotlib
-# import matplotlib.pyplot as plt
 from parshift import conditional_probabilities
 
 parshift_annotation_df = pd.read_csv("tests/df.csv").fillna("")
@@ -51,13 +49,3 @@ def test_conditional_probabilities():
         "CPeTC",
         "parshift",
     ]
-
-
-def test_frequency_treemap():
-    conditional_probabilities_df = conditional_probabilities.conditional_probabilities(
-        parshift_annotation_df
-    )
-    assert isinstance(
-        conditional_probabilities.frequency_treemap(conditional_probabilities_df),
-        matplotlib.figure.Figure,
-    )
