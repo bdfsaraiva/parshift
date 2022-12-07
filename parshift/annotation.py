@@ -4,14 +4,16 @@ import re
 
 
 def _read_conversation(filename, delimiter=","):
-    """_summary_
-
-    Args:
-        filename (csv): _description_
-        delimiter (str, optional): _description_. Defaults to ','.
-
-    Returns:
-        list: _description_
+    """
+        Function used to read a conversation file and return a list of dictionary structure.\n
+        The dictionary keys are: `id`, `user_id`, `message_text` and `reply_id`.\n
+        ---
+        **Arguments**\n
+        `filename` (string): Path file name.\n
+        `dilimiter` (String): Parameter delimiter.\n
+        ---
+        **Returns**\n
+        `conversation` (list): List of dictionary structure.
     """
 
     if not isinstance(filename, str):
@@ -60,6 +62,16 @@ def _read_conversation(filename, delimiter=","):
 
 
 def parshift_annotation(filename, delimiter=","):
+    """
+        Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.\n
+        ---
+        **Arguments**\n
+        `filename` (string): Path file name.\n
+        `dilimiter` (String): Parameter delimiter.\n
+        ---
+        **Returns**\n
+        `df` (Dataframe): New Dataframe with Participation Shift type columns added.
+    """
 
     conversation = _read_conversation(filename, delimiter)
 
@@ -77,7 +89,6 @@ def parshift_annotation(filename, delimiter=","):
 
     part_1 = ""
     part_2 = ""
-    p1p2 = ""
     label_code_v = ""
     label_type_v = ""
 
@@ -162,13 +173,14 @@ def parshift_annotation(filename, delimiter=","):
 
 
 def _label_type(label_code):
-    """Returns the Participation Shift type, based in Gibson's paper
-
-    Args:
-        label_code (str): Participation Shift Code (e.g A0-XA)
-
-    Returns:
-        str: Participation Shift type - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing]
+    """
+    Function used to return the Participation Shift type, based in Gibson's paper.\n
+    ---
+    **Arguments**\n
+    `label_code` (string): Participation Shift Code (e.g A0-XA).\n
+    ---
+    **Returns**\n
+    `Turn Type` (String): Turn type - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing].
     """
 
     if not isinstance(label_code, str):

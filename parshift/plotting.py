@@ -5,6 +5,15 @@ from parshift import conditional_probabilities
 
 
 def frequency_treemap(conditional_probabilities_df):
+    """
+        Function used to return a matplotlib object which contains the conditional probabilities based in Gibson's paper.\n
+        ---
+        **Arguments**\n
+        `conditional_probabilities_df` (Dataframe): Path file name.\n
+        ---
+        **Returns**\n
+        `df` (Dataframe): New Dataframe with Participation Shift type columns added.
+    """
     gb_parshift = conditional_probabilities_df.groupby(["parshift"])["Frequency"].sum()
 
     data = [
