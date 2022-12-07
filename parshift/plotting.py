@@ -1,6 +1,7 @@
 import squarify
 import matplotlib.pyplot as plt
 import pandas as pd
+from parshift import conditional_probabilities
 
 
 def frequency_treemap(conditional_probabilities_df):
@@ -22,3 +23,4 @@ def frequency_treemap(conditional_probabilities_df):
     plt.axis("off")
     # plt.show()
     return f
+

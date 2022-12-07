@@ -14,7 +14,7 @@ requires-python = ">=3.8"
 keywords = ["participation shifts", "conversational analysis"]
 license = {text = "MIT"}
 authors = [ { name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt" } ]
-dependencies = ["pandas", "matplotlib", "squarify" ] # Not really required
+dependencies = ["pandas>=1.4.2", "matplotlib>=3.5.1", "squarify>=0.4.3"] # Not really required
 
 [project.urls]
 "Homepage" = "https://github.com/bdfsaraiva/parshift"
