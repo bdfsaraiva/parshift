@@ -5,15 +5,15 @@ import re
 
 def _read_conversation(filename, delimiter=","):
     """
-        Function used to read a conversation file and return a list of dictionary structure.\n
-        The dictionary keys are: `id`, `user_id`, `message_text` and `reply_id`.\n
-        ---
-        **Arguments**\n
-        `filename` (string): Path file name.\n
-        `dilimiter` (String): Parameter delimiter.\n
-        ---
-        **Returns**\n
-        `conversation` (list): List of dictionary structure.
+    Function used to read a conversation file and return a list of dictionary structure.\n
+    The dictionary keys are: `id`, `user_id`, `message_text` and `reply_id`.\n
+    ---
+    **Arguments**\n
+    `filename` (string): Path file name.\n
+    `dilimiter` (String): Parameter delimiter.\n
+    ---
+    **Returns**\n
+    `conversation` (list): List of dictionary structure.
     """
 
     if not isinstance(filename, str):
@@ -31,9 +31,11 @@ def _read_conversation(filename, delimiter=","):
 
         turn = 0
         for idx, csv_line in enumerate(csv_reader):
+            if idx == 0:
+                continue  # header
 
             if (
-                idx != 0
+                idx != 1
                 and conversation[turn - 1]["user_id"] == csv_line[1]
                 and conversation[turn - 1]["reply_id"] == csv_line[3]
             ):
@@ -62,16 +64,26 @@ def _read_conversation(filename, delimiter=","):
 
 
 def parshift_annotation(filename, delimiter=","):
+
     """
-        Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.\n
-        ---
-        **Arguments**\n
-        `filename` (string): Path file name.\n
-        `dilimiter` (String): Parameter delimiter.\n
-        ---
-        **Returns**\n
-        `df` (Dataframe): New Dataframe with Participation Shift type columns added.
+    Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.\n
+    ---
+    **Arguments**\n
+    `filename` (string): Path file name.\n
+    `dilimiter` (String): Parameter delimiter.\n
+    ---
+    **Returns**\n
+    `df` (Dataframe): New Dataframe with Participation Shift type columns added.
     """
+
+    # # TODO: Adicionar o caso em que o usar já tem uma lista de sentences.
+    # if not filename and not conversation_list:
+    #     raise AssertionError("One of the parameters 'filename' or 'conversation_list' must be not None")
+    # elif not conversation_list:
+    #     conversation = _read_conversation(filename, delimiter)
+    # else:
+    #     conversation = conversation_list
+    # # TODO: fim
 
     conversation = _read_conversation(filename, delimiter)
 
@@ -94,12 +106,20 @@ def parshift_annotation(filename, delimiter=","):
 
     for idx, msg in enumerate(conversation):
 
-        if msg["reply_id"] == None or msg["reply_id"] == "None":
+        if (
+            msg["reply_id"] == None
+            or msg["reply_id"] == "None"
+            or msg["reply_id"] == ""
+        ):
             part_2 = " " + str(msg["user_id"]) + " to group"
         else:
             for msgPrev in conversation:
                 if msg["reply_id"] in msgPrev["id"]:
-                    if msgPrev["reply_id"] == None or msgPrev["reply_id"] == "None":
+                    if (
+                        msgPrev["reply_id"] == None
+                        or msgPrev["reply_id"] == "None"
+                        or msgPrev["reply_id"] == ""
+                    ):
                         part_1 = str(msgPrev["user_id"]) + " to group,"
                     else:  # reply - reply
                         for msgPrev2 in conversation:
