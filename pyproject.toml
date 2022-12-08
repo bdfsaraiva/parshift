@@ -8,15 +8,14 @@ packages = ["parshift"]
 
 [project]
 name = "parshift"
-version = "0.0.2"
+version = "0.1.2"
 description = ""
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["participation shifts", "conversational analysis"]
 license = {text = "MIT"}
 authors = [ { name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt" } ]
-dependencies = ["pandas", "matplotlib"] 
-#, "squarify>=0.4.3"] # Not rea lly required
+dependencies = ["pandas", "matplotlib", "squarify"] # Not really required
 
 [project.urls]
 "Homepage" = "https://github.com/bdfsaraiva/parshift"
