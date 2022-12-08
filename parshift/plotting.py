@@ -6,7 +6,7 @@ from parshift import conditional_probabilities
 
 def frequency_treemap(conditional_probabilities_df):
     """
-    Function used to return a matplotlib object which contains the conditional probabilities based in Gibson's paper.\n
+    Function used to return a matplotlib object which contains the conditional probabilities frequencies based in Gibson's paper.\n
     --- **Arguments**\n
     `conditional_probabilities_df` (Dataframe): Dataframe object that contain the whole
     information about the Participation Shift conditional probabilities.\n
@@ -31,4 +31,3 @@ def frequency_treemap(conditional_probabilities_df):
     plt.axis("off")
     # plt.show()
     return f
-

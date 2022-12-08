@@ -13,5 +13,5 @@ def test_frequency_treemap():
     )
     assert isinstance(
         plotting.frequency_treemap(conditional_probabilities_df),
-        matplotlib.figure.Figure
+        matplotlib.figure.Figure,
     )

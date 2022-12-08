@@ -3,18 +3,20 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-py-modules = []
+packages = ["parshift"]
+#py-modules = []
 
 [project]
 name = "parshift"
-version = "0.0.1"
+version = "0.0.2"
 description = ""
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["participation shifts", "conversational analysis"]
 license = {text = "MIT"}
 authors = [ { name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt" } ]
-dependencies = ["pandas>=1.4.2", "matplotlib>=3.5.1", "squarify>=0.4.3"] # Not really required
+dependencies = ["pandas", "matplotlib"] 
+#, "squarify>=0.4.3"] # Not rea lly required
 
 [project.urls]
 "Homepage" = "https://github.com/bdfsaraiva/parshift"
