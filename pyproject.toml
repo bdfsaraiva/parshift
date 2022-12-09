@@ -12,7 +12,7 @@ version = "0.1.8"
 description = "Python package based on Gibson's framework (2003) for turn-taking in group conversation analysis."
 readme = "README.md"
 requires-python = ">=3.8"
-keywords = ["participation shifts", "conversational analysis"]
+keywords = ["natural language processing", "conversation-analysis", "participation-shifts", "turn-taking"]
 license = {text = "MIT"}
 authors = [ { name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt" } ]
 dependencies = ["pandas", "matplotlib", "squarify"] # Not really required

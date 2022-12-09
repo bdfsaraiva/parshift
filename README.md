@@ -17,6 +17,11 @@ The framework is established on the concept of participation shift, which refers
 pip install parshift #not available yet 
 ```
 #### From source
+Directly using pip:
+```bash
+pip install git+https://github.com/bdfsaraiva/parshift.git#egg=parshift
+```
+Or each step at a time:
 ```bash
 git clone https://github.com/bdfsaraiva/parshift
 cd parshift
