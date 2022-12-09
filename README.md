@@ -14,11 +14,13 @@ The framework is established on the concept of participation shift, which refers
 ## Installation
 #### From PyPI
 ```bash
-pip install XPTO
+pip install parshift #not available yet 
 ```
 #### From source
-```
-pip install link
+```bash
+git clone https://github.com/bdfsaraiva/parshift
+cd parshift
+pip install .
 ```
 
 ## Getting Started
