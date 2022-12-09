@@ -1,6 +1,6 @@
 import pandas as pd
-from parshift import annotation
-
+from parshift.annotation import _label_type
+from parshift.annotation import parshift_annotation
 
 def _frequency_table(parshift_annotation_df):
 
@@ -112,9 +112,12 @@ def conditional_probabilities(parshift_annotation_df):
         "A0-A0": 4,
     }
 
-    result["parshift"] = result["parshift_code"].map(annotation._label_type)
+    result["parshift"] = result["parshift_code"].map(_label_type)
     result = result.sort_values(
         by=["parshift_code"], key=lambda x: x.map(order)
     ).reset_index(drop=True)
 
     return result
+
+
+print(conditional_probabilities(parshift_annotation('./tests/a.csv')))
