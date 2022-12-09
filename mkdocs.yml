@@ -43,8 +43,12 @@ theme:
     - toc.follow
 
 
+plugins:
+- search
+- mkdocstrings
+
 nav:
   - Home: index.md
-  - Info: info.md
+  - API: info.md
 
 copyright: Copyright &copy; 2022 Maintained by <a href="https://github.com/bdfsaraiva">Bruno D. Ferreira-Saraiva</a>.
