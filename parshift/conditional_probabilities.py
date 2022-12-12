@@ -75,13 +75,12 @@ def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFr
 
     Returns:
         A DataFrame containing the frequency, probability and conditional probabilities for each parshift code.
-        CP -> Conditional Probability, where:
-            1. Target is the group (A0-);
-            2. Target is a given person (AB-);
-        
-        CPeTC -> Conditional Probability excluding Turn Continuing, where:           
-            1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)
-            2. Target is a given person (AB-), but 'A' does not keep talking (not turn continuing):
+            CP -> Conditional Probability, where:
+                1. Target is the group (A0-);
+                2. Target is a given person (AB-);
+            CPeTC -> Conditional Probability excluding Turn Continuing, where:           
+                1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)
+                2. Target is a given person (AB-), but 'A' does not keep talking (not turn continuing):
     """
 
     if not isinstance(parshift_annotation_df, pd.DataFrame):
