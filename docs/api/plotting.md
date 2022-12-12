@@ -1,4 +1,6 @@
 # `Plotting`
 
-### `frequency_treemap`
-::: parshift.plotting.frequency_treemap
+::: parshift.plotting
+    options:
+        members:
+            - frequency_treemap
