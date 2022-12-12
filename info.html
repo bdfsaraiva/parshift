@@ -454,11 +454,9 @@
   <div class="doc doc-contents ">
   
       <p>Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.</p>
-<p>Arguments
-<code>filename</code> (string): Path file name.
-<code>dilimiter</code> (String): Parameter delimiter.</p>
-<p>Returns
-<code>df</code> (Dataframe): New Dataframe with Participation Shift label and type columns added.</p>
+      <p>filename: Path file name.
+delimiter: Parameter delimiter.</p>
+      <p>df: New Dataframe with Participation Shift label and type columns added.</p>
 
       <details class="quote">
         <summary>Source code in <code>parshift/annotation.py</code></summary>
@@ -588,17 +586,17 @@
 <span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
-<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parshift_annotation</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parshift_annotation</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function used to return a Dataframe which contains the Participation Shift type, based in Gibson&#39;s paper.</span>
 
-<span class="sd">    Arguments</span>
-<span class="sd">    `filename` (string): Path file name.</span>
-<span class="sd">    `dilimiter` (String): Parameter delimiter.</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    filename: Path file name.</span>
+<span class="sd">    delimiter: Parameter delimiter.</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    `df` (Dataframe): New Dataframe with Participation Shift label and type columns added.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    df: New Dataframe with Participation Shift label and type columns added.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># # TODO: Adicionar o caso em que o usar já tem uma lista de sentences.</span>
