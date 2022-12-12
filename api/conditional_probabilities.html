@@ -559,29 +559,13 @@
           <td>
                 <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
           </td>
-          <td><p>A DataFrame containing the frequency, probability and conditional probabilities for each parshift code.</p></td>
-        </tr>
-        <tr>
-          <td>
-                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
-          </td>
-          <td><p>CP -&gt; Conditional Probability, where:
-1. Target is the group (A0-);
-2. Target is a given person (AB-);</p></td>
-        </tr>
-        <tr>
-          <td>
-                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>
-                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
-          </td>
-          <td><p>CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:         <br />
-1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)
-2. Target is a given person (AB-), but 'A' does not keep talking (not turn continuing):</p></td>
+          <td><p>A DataFrame containing the frequency, probability and conditional probabilities for each parshift code.
+CP -&gt; Conditional Probability, where:
+    1. Target is the group (A0-);
+    2. Target is a given person (AB-);
+CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:         <br />
+    1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)
+    2. Target is a given person (AB-), but 'A' does not keep talking (not turn continuing):</p></td>
         </tr>
     </tbody>
   </table>
@@ -668,8 +652,7 @@
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">conditional_probabilities</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">conditional_probabilities</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the conditional probabilities for a given `parshift_annotation` DataFrame based on Gibson&#39;s framework.</span>
@@ -679,13 +662,12 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A DataFrame containing the frequency, probability and conditional probabilities for each parshift code.</span>
-<span class="sd">        CP -&gt; Conditional Probability, where:</span>
-<span class="sd">            1. Target is the group (A0-);</span>
-<span class="sd">            2. Target is a given person (AB-);</span>
-
-<span class="sd">        CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:           </span>
-<span class="sd">            1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)</span>
-<span class="sd">            2. Target is a given person (AB-), but &#39;A&#39; does not keep talking (not turn continuing):</span>
+<span class="sd">            CP -&gt; Conditional Probability, where:</span>
+<span class="sd">                1. Target is the group (A0-);</span>
+<span class="sd">                2. Target is a given person (AB-);</span>
+<span class="sd">            CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:           </span>
+<span class="sd">                1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)</span>
+<span class="sd">                2. Target is a given person (AB-), but &#39;A&#39; does not keep talking (not turn continuing):</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
