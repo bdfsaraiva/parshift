@@ -1,2 +1,2 @@
 # `Plotting`
-::: parshift.plotting
+::: parshift.plotting.frequency_treemap

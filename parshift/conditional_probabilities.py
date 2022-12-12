@@ -4,6 +4,17 @@ from parshift.annotation import parshift_annotation
 
 
 def _frequency_table(parshift_annotation_df):
+    """
+    This function takes in a dataframe of ParShift annotations and returns a frequency table of ParShift codes.
+    
+    Arguments:
+        parshift_annotation_df: A Pandas dataframe containing ParShift annotations
+        
+    Returns:
+        A list containing a dictionary of ParShift codes and their frequencies, the total number of times a ParShift code starting with "A0" appears, the total number of times a Parshift code
+        starting with "AB" appears, the total number of times a Parshift code with "A0" appears excluding 'Turn Continuing' type, and the total
+        number of times a ParShift code with "AB" appears excluding 'Turn Continuing' type.
+    """
 
     parshift_codes = [
         "AB-BA",
@@ -54,7 +65,18 @@ def _frequency_table(parshift_annotation_df):
     ]
 
 
-def conditional_probabilities(parshift_annotation_df):
+def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFrame:
+
+    """
+    Calculate the conditional probabilities for a given `parshift_annotation_df` DataFrame based on Gibson's framework.
+
+    Arguments:
+        parshift_annotation_df: A DataFrame with `parshift` annotations.
+
+    Returns:
+        A DataFrame containing the conditional probabilities for each `parshift` code.
+    
+    """
 
     if not isinstance(parshift_annotation_df, pd.DataFrame):
         raise TypeError("Parameter parshift_annotation_df must be a Dataframe")
