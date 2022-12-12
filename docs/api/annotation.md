@@ -1,6 +1,11 @@
 # `Annotation`
 
 ::: parshift.annotation
+    options:
+        members:
+            - parshift_annotation
+            - _read_conversation
+            - _label_type
 
 <!-- ### `parshift_annotation`
 ::: parshift.annotation.parshift_annotation
