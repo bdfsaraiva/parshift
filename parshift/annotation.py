@@ -3,7 +3,7 @@ import pandas as pd
 import re
 
 
-def _read_conversation(filename: str, delimiter: str = ","):
+def _read_conversation(filename: str, delimiter: str = ",") -> list:
     """Function used to read a conversation file and return a list of dictionary structure.
     The dictionary keys are: `id`, `user_id`, `message_text` and `reply_id`.
 
@@ -62,7 +62,7 @@ def _read_conversation(filename: str, delimiter: str = ","):
     return conversation
 
 
-def parshift_annotation(filename: str, delimiter: str = ",")-> pd.DataFrame:
+def parshift_annotation(filename: str, delimiter: str = ",") -> pd.DataFrame:
 
     """Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.
 
@@ -71,7 +71,7 @@ def parshift_annotation(filename: str, delimiter: str = ",")-> pd.DataFrame:
         delimiter: Parameter delimiter.
 
     Returns:
-        df: New Dataframe with Participation Shift label and type columns added.
+        New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee).
     """
 
     # # TODO: Adicionar o caso em que o usar já tem uma lista de sentences.
@@ -190,14 +190,14 @@ def parshift_annotation(filename: str, delimiter: str = ",")-> pd.DataFrame:
     return df
 
 
-def _label_type(label_code: str):
+def _label_type(label_code: str) -> str:
     """Function used to return the Participation Shift type, based in Gibson's paper.
 
     Arguments:
         label_code: Participation Shift Code (e.g A0-XA).\n
 
     Returns:
-        Turn Type : Participation shift type in a given turn - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing].
+        Participation shift type in a given turn - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing].
     """
 
     if not isinstance(label_code, str):

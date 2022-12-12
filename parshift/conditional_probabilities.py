@@ -6,10 +6,10 @@ from parshift.annotation import parshift_annotation
 def _frequency_table(parshift_annotation_df):
     """
     This function takes in a dataframe of ParShift annotations and returns a frequency table of ParShift codes.
-    
+
     Arguments:
         parshift_annotation_df: A Pandas dataframe containing ParShift annotations
-        
+
     Returns:
         A list containing a dictionary of ParShift codes and their frequencies, the total number of times a ParShift code starting with "A0" appears, the total number of times a Parshift code
         starting with "AB" appears, the total number of times a Parshift code with "A0" appears excluding 'Turn Continuing' type, and the total
@@ -78,7 +78,7 @@ def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFr
             CP -> Conditional Probability, where:
                 1. Target is the group (A0-);
                 2. Target is a given person (AB-);
-            CPeTC -> Conditional Probability excluding Turn Continuing, where:           
+            CPeTC -> Conditional Probability excluding Turn Continuing, where:
                 1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)
                 2. Target is a given person (AB-), but 'A' does not keep talking (not turn continuing):
     """
