@@ -62,7 +62,7 @@ def _read_conversation(filename: str, delimiter: str = ","):
     return conversation
 
 
-def parshift_annotation(filename: str, delimiter: str = ","):
+def parshift_annotation(filename: str, delimiter: str = ",")-> pd.DataFrame:
 
     """Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.
 

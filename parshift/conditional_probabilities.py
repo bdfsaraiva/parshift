@@ -68,14 +68,20 @@ def _frequency_table(parshift_annotation_df):
 def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFrame:
 
     """
-    Calculate the conditional probabilities for a given `parshift_annotation_df` DataFrame based on Gibson's framework.
+    Calculate the conditional probabilities for a given `parshift_annotation` DataFrame based on Gibson's framework.
 
     Arguments:
-        parshift_annotation_df: A DataFrame with `parshift` annotations.
+        parshift_annotation_df: A DataFrame with `parshift` annotations. See [here](https://bdfsaraiva.github.io/parshift/api/annotation.html#parshift.annotation.parshift_annotation)
 
     Returns:
-        A DataFrame containing the conditional probabilities for each `parshift` code.
-    
+        A DataFrame containing the frequency, probability and conditional probabilities for each parshift code.
+        CP -> Conditional Probability, where:
+            1. Target is the group (A0-);
+            2. Target is a given person (AB-);
+        
+        CPeTC -> Conditional Probability excluding Turn Continuing, where:           
+            1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)
+            2. Target is a given person (AB-), but 'A' does not keep talking (not turn continuing):
     """
 
     if not isinstance(parshift_annotation_df, pd.DataFrame):
