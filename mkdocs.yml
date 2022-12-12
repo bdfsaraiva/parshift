@@ -49,6 +49,9 @@ plugins:
 
 nav:
   - Home: index.md
-  - API: info.md
+  - API:
+    - Annotation: api/annotation.md
+    - Conditional Probabilities: api/conditional_probabilities.md
+    - Plotting: api/plotting.md
 
 copyright: Copyright &copy; 2022 Maintained by <a href="https://github.com/bdfsaraiva">Bruno D. Ferreira-Saraiva</a>.
