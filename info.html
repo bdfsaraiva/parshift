@@ -345,13 +345,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#parshift.conditional_probabilities.conditional_probabilities" class="md-nav__link">
-    conditional_probabilities()
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -403,13 +396,6 @@
         <li class="md-nav__item">
   <a href="#parshift.conditional_probabilities" class="md-nav__link">
     parshift.conditional_probabilities
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parshift.conditional_probabilities.conditional_probabilities" class="md-nav__link">
-    conditional_probabilities()
   </a>
   
 </li>
@@ -468,13 +454,11 @@
   <div class="doc doc-contents ">
   
       <p>Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.</p>
-<hr />
-<p><strong>Arguments</strong></p>
-<p><code>filename</code> (string): Path file name.</p>
-<p><code>dilimiter</code> (String): Parameter delimiter.</p>
-<hr />
-<p><strong>Returns</strong></p>
-<p><code>df</code> (Dataframe): New Dataframe with Participation Shift type columns added.</p>
+<p>Arguments
+<code>filename</code> (string): Path file name.
+<code>dilimiter</code> (String): Parameter delimiter.</p>
+<p>Returns
+<code>df</code> (Dataframe): New Dataframe with Participation Shift label and type columns added.</p>
 
       <details class="quote">
         <summary>Source code in <code>parshift/annotation.py</code></summary>
@@ -607,14 +591,14 @@
 <span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parshift_annotation</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function used to return a Dataframe which contains the Participation Shift type, based in Gibson&#39;s paper.\n</span>
-<span class="sd">    ---</span>
-<span class="sd">    **Arguments**\n</span>
-<span class="sd">    `filename` (string): Path file name.\n</span>
-<span class="sd">    `dilimiter` (String): Parameter delimiter.\n</span>
-<span class="sd">    ---</span>
-<span class="sd">    **Returns**\n</span>
-<span class="sd">    `df` (Dataframe): New Dataframe with Participation Shift type columns added.</span>
+<span class="sd">    Function used to return a Dataframe which contains the Participation Shift type, based in Gibson&#39;s paper.</span>
+
+<span class="sd">    Arguments</span>
+<span class="sd">    `filename` (string): Path file name.</span>
+<span class="sd">    `dilimiter` (String): Parameter delimiter.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    `df` (Dataframe): New Dataframe with Participation Shift label and type columns added.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># # TODO: Adicionar o caso em que o usar já tem uma lista de sentences.</span>
@@ -762,155 +746,6 @@
 
 
 
-
-<div class="doc doc-object doc-function">
-
-
-
-<h2 id="parshift.conditional_probabilities.conditional_probabilities" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">conditional_probabilities</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">)</span></code>
-
-</h2>
-
-
-  <div class="doc doc-contents ">
-
-      <details class="quote">
-        <summary>Source code in <code>parshift/conditional_probabilities.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">conditional_probabilities</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">):</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Parameter parshift_annotation_df must be a Dataframe&quot;</span><span class="p">)</span>
-
-    <span class="n">frequency_table_and_counts</span> <span class="o">=</span> <span class="n">_frequency_table</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">)</span>
-    <span class="n">freq_table</span> <span class="o">=</span> <span class="n">frequency_table_and_counts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-    <span class="n">cond_prob</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">freq_table</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;A0&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;A0-AY&quot;</span><span class="p">,</span> <span class="s2">&quot;AB-A0&quot;</span><span class="p">,</span> <span class="s2">&quot;AB-AY&quot;</span><span class="p">,</span> <span class="s2">&quot;A0-A0&quot;</span><span class="p">]:</span>
-                <span class="n">cond_prob</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;CP&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">freq_table</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/</span> <span class="n">frequency_table_and_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span>
-                    <span class="s2">&quot;CPeTC&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">freq_table</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/</span> <span class="n">frequency_table_and_counts</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span>
-                <span class="p">}</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">cond_prob</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;CP&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">freq_table</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/</span> <span class="n">frequency_table_and_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span>
-                    <span class="s2">&quot;CPeTC&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-                <span class="p">}</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;A0-AY&quot;</span><span class="p">,</span> <span class="s2">&quot;AB-A0&quot;</span><span class="p">,</span> <span class="s2">&quot;AB-AY&quot;</span><span class="p">,</span> <span class="s2">&quot;A0-A0&quot;</span><span class="p">]:</span>
-                <span class="n">cond_prob</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;CP&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">freq_table</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/</span> <span class="n">frequency_table_and_counts</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span>
-                    <span class="s2">&quot;CPeTC&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">freq_table</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/</span> <span class="n">frequency_table_and_counts</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span>
-                <span class="p">}</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">cond_prob</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;CP&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">freq_table</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/</span> <span class="n">frequency_table_and_counts</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span>
-                    <span class="s2">&quot;CPeTC&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-                <span class="p">}</span>
-
-    <span class="n">cond_prob</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">cond_prob</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span>
-    <span class="n">freq</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">freq_table</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Frequency&quot;</span><span class="p">])</span>
-    <span class="n">freq</span><span class="p">[</span><span class="s2">&quot;Probability&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">freq</span><span class="p">[</span><span class="s2">&quot;Frequency&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">freq</span><span class="p">[</span><span class="s2">&quot;Frequency&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
-
-    <span class="n">result</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">freq</span><span class="p">,</span> <span class="n">cond_prob</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="s2">&quot;parshift_code&quot;</span><span class="p">})</span>
-    <span class="p">)</span>
-    <span class="n">order</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;AB-BA&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-        <span class="s2">&quot;AB-B0&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-        <span class="s2">&quot;AB-BY&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
-        <span class="s2">&quot;A0-X0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s2">&quot;A0-XA&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s2">&quot;A0-XY&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="s2">&quot;AB-X0&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
-        <span class="s2">&quot;AB-XA&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
-        <span class="s2">&quot;AB-XB&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
-        <span class="s2">&quot;AB-XY&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-        <span class="s2">&quot;A0-AY&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">&quot;AB-A0&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="s2">&quot;AB-AY&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-        <span class="s2">&quot;A0-A0&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="p">}</span>
-
-    <span class="n">result</span><span class="p">[</span><span class="s2">&quot;parshift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;parshift_code&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_label_type</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
-        <span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;parshift_code&quot;</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">result</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
 
 
 
