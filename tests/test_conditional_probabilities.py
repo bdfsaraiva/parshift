@@ -25,7 +25,7 @@ def test_frequency_table():
         "A0-AY": 0,
         "AB-A0": 1,
         "AB-AY": 0,
-        "A0-A0": 0,
+        # "A0-A0": 0,
     }
     assert result[0] == expected_result_df
 

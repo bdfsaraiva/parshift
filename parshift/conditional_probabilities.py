@@ -19,7 +19,7 @@ def _frequency_table(parshift_annotation_df):
         "A0-AY",
         "AB-A0",
         "AB-AY",
-        "A0-A0",
+        # "A0-A0",
     ]
 
     dict_prob_empirical_count = {}
@@ -110,7 +110,7 @@ def conditional_probabilities(parshift_annotation_df):
         "A0-AY": 3,
         "AB-A0": 10,
         "AB-AY": 12,
-        "A0-A0": 4,
+        # "A0-A0": 4,
     }
 
     result["parshift"] = result["parshift_code"].map(_label_type)

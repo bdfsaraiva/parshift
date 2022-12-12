@@ -5,14 +5,14 @@ import re
 
 def _read_conversation(filename, delimiter=","):
     """
-    Function used to read a conversation file and return a list of dictionary structure.\n
-    The dictionary keys are: `id`, `user_id`, `message_text` and `reply_id`.\n
-    ---
-    **Arguments**\n
-    `filename` (string): Path file name.\n
-    `dilimiter` (String): Parameter delimiter.\n
-    ---
-    **Returns**\n
+    Function used to read a conversation file and return a list of dictionary structure.
+    The dictionary keys are: `id`, `user_id`, `message_text` and `reply_id`.
+    
+    Arguments
+    `filename` (string): Path file name.
+    `delimiter` (String): Parameter delimiter.
+    
+    Returns
     `conversation` (list): List of dictionary structure.
     """
 
@@ -66,14 +66,14 @@ def _read_conversation(filename, delimiter=","):
 def parshift_annotation(filename, delimiter=","):
 
     """
-    Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.\n
-    ---
-    **Arguments**\n
-    `filename` (string): Path file name.\n
-    `dilimiter` (String): Parameter delimiter.\n
-    ---
-    **Returns**\n
-    `df` (Dataframe): New Dataframe with Participation Shift type columns added.
+    Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.
+    
+    Arguments
+    `filename` (string): Path file name.
+    `dilimiter` (String): Parameter delimiter.
+    
+    Returns
+    `df` (Dataframe): New Dataframe with Participation Shift label and type columns added.
     """
 
     # # TODO: Adicionar o caso em que o usar já tem uma lista de sentences.
@@ -194,7 +194,7 @@ def parshift_annotation(filename, delimiter=","):
 
 def _label_type(label_code):
     """
-    Function used to return the Participation Shift type, based in Gibson's paper.\n
+    Function used to return the Participation Shift type, based in Gibson's paper.
     ---
     **Arguments**\n
     `label_code` (string): Participation Shift Code (e.g A0-XA).\n
@@ -222,6 +222,6 @@ def _label_type(label_code):
         "A0-AY": "Turn Continuing",
         "AB-A0": "Turn Continuing",
         "AB-AY": "Turn Continuing",
-        "A0-A0": "Turn Continuing",
+        # "A0-A0": "Turn Continuing", 
     }
     return p_shift[label_code]
