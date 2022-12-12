@@ -371,9 +371,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#conditional_probabilities" class="md-nav__link">
+    conditional_probabilities
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#parshift.conditional_probabilities.conditional_probabilities" class="md-nav__link">
     parshift.conditional_probabilities.conditional_probabilities
   </a>
+  
+    <nav class="md-nav" aria-label="parshift.conditional_probabilities.conditional_probabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_frequency_table" class="md-nav__link">
+    _frequency_table
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -440,9 +460,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#conditional_probabilities" class="md-nav__link">
+    conditional_probabilities
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#parshift.conditional_probabilities.conditional_probabilities" class="md-nav__link">
     parshift.conditional_probabilities.conditional_probabilities
   </a>
+  
+    <nav class="md-nav" aria-label="parshift.conditional_probabilities.conditional_probabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_frequency_table" class="md-nav__link">
+    _frequency_table
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -474,6 +514,7 @@
 
 
 <h1 id="conditional-probabilities"><code>Conditional Probabilities</code></h1>
+<h3 id="conditional_probabilities"><code>conditional_probabilities</code></h3>
 
 
 <div class="doc doc-object doc-function">
@@ -482,7 +523,7 @@
 <a id="parshift.conditional_probabilities.conditional_probabilities"></a>
   <div class="doc doc-contents first">
   
-      <p>Calculate the conditional probabilities for a given <code>parshift_annotation_df</code> DataFrame based on Gibson's framework.</p>
+      <p>Calculate the conditional probabilities for a given <code>parshift_annotation</code> DataFrame based on Gibson's framework.</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -500,7 +541,7 @@
           <td>
                 <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
           </td>
-          <td><p>A DataFrame with <code>parshift</code> annotations.</p></td>
+          <td><p>A DataFrame with <code>parshift</code> annotations. See <a href="https://bdfsaraiva.github.io/parshift/api/annotation.html#parshift.annotation.parshift_annotation">here</a></p></td>
           <td>
               <em>required</em>
           </td>
@@ -521,7 +562,29 @@
           <td>
                 <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
           </td>
-          <td><p>A DataFrame containing the conditional probabilities for each <code>parshift</code> code.</p></td>
+          <td><p>A DataFrame containing the frequency, probability and conditional probabilities for each parshift code.</p></td>
+        </tr>
+        <tr>
+          <td>
+                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+          </td>
+          <td><p>CP -&gt; Conditional Probability, where:
+1. Target is the group (A0-);
+2. Target is a given person (AB-);</p></td>
+        </tr>
+        <tr>
+          <td>
+                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+          </td>
+          <td><p>CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:         <br />
+1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)
+2. Target is a given person (AB-), but 'A' does not keep talking (not turn continuing):</p></td>
         </tr>
     </tbody>
   </table>
@@ -603,17 +666,29 @@
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
-<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">conditional_probabilities</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">conditional_probabilities</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the conditional probabilities for a given `parshift_annotation_df` DataFrame based on Gibson&#39;s framework.</span>
+<span class="sd">    Calculate the conditional probabilities for a given `parshift_annotation` DataFrame based on Gibson&#39;s framework.</span>
 
 <span class="sd">    Arguments:</span>
-<span class="sd">        parshift_annotation_df: A DataFrame with `parshift` annotations.</span>
+<span class="sd">        parshift_annotation_df: A DataFrame with `parshift` annotations. See [here](https://bdfsaraiva.github.io/parshift/api/annotation.html#parshift.annotation.parshift_annotation)</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A DataFrame containing the conditional probabilities for each `parshift` code.</span>
+<span class="sd">        A DataFrame containing the frequency, probability and conditional probabilities for each parshift code.</span>
+<span class="sd">        CP -&gt; Conditional Probability, where:</span>
+<span class="sd">            1. Target is the group (A0-);</span>
+<span class="sd">            2. Target is a given person (AB-);</span>
 
+<span class="sd">        CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:           </span>
+<span class="sd">            1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)</span>
+<span class="sd">            2. Target is a given person (AB-), but &#39;A&#39; does not keep talking (not turn continuing):</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
@@ -683,7 +758,8 @@
       </details>
   </div>
 
-</div>
+</div><h3 id="_frequency_table"><code>_frequency_table</code></h3>
+
 
 <div class="doc doc-object doc-function">
 
