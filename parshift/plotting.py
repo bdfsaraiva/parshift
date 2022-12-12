@@ -3,17 +3,17 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def frequency_treemap(conditional_probabilities_df):
+def frequency_treemap(conditional_probabilities_df: pd.DataFrame):
     """
     Function used to return a matplotlib object which contains the conditional probabilities frequencies based in Gibson's paper.
-    
-    Arguments
-    `conditional_probabilities_df` (Dataframe): Dataframe object that contain the whole
-        information about the Participation Shift conditional probabilities.
-    
-    Returns
-    `Figure` (matplotlib): Matplotlib object with the Participation Shifts Frequency (%).
+
+    Arguments:
+    conditional_probabilities_df: Dataframe object that contain the whole information about the Participation Shift conditional probabilities.
+
+    Returns:
+    Figure: Matplotlib object with the Participation Shifts Frequency.
     """
+
     gb_parshift = conditional_probabilities_df.groupby(["parshift"])["Frequency"].sum()
 
     data = [

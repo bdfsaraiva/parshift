@@ -3,17 +3,17 @@ import pandas as pd
 import re
 
 
-def _read_conversation(filename, delimiter=","):
+def _read_conversation(filename: str, delimiter: str = ","):
     """
     Function used to read a conversation file and return a list of dictionary structure.
     The dictionary keys are: `id`, `user_id`, `message_text` and `reply_id`.
-    
-    Arguments
-    `filename` (string): Path file name.
-    `delimiter` (String): Parameter delimiter.
-    
-    Returns
-    `conversation` (list): List of dictionary structure.
+
+    Arguments:
+    filename: Path file name.
+    delimiter: Parameter delimiter.
+
+    Returns:
+    conversation: List of dictionary structure.
     """
 
     if not isinstance(filename, str):
@@ -63,17 +63,17 @@ def _read_conversation(filename, delimiter=","):
     return conversation
 
 
-def parshift_annotation(filename, delimiter=","):
+def parshift_annotation(filename: str, delimiter: str = ","):
 
     """
     Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.
-    
-    Arguments
-    `filename` (string): Path file name.
-    `dilimiter` (String): Parameter delimiter.
-    
-    Returns
-    `df` (Dataframe): New Dataframe with Participation Shift label and type columns added.
+
+    Arguments:
+    filename: Path file name.
+    delimiter: Parameter delimiter.
+
+    Returns:
+    df: New Dataframe with Participation Shift label and type columns added.
     """
 
     # # TODO: Adicionar o caso em que o usar já tem uma lista de sentences.
@@ -192,15 +192,15 @@ def parshift_annotation(filename, delimiter=","):
     return df
 
 
-def _label_type(label_code):
+def _label_type(label_code: str):
     """
     Function used to return the Participation Shift type, based in Gibson's paper.
-    ---
-    **Arguments**\n
-    `label_code` (string): Participation Shift Code (e.g A0-XA).\n
-    ---
-    **Returns**\n
-    `Turn Type` (String): Turn type - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing].
+
+    Arguments:
+    label_code: Participation Shift Code (e.g A0-XA).\n
+
+    Returns:
+    Turn Type : Participation shift type in a given turn - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing].
     """
 
     if not isinstance(label_code, str):
@@ -222,6 +222,6 @@ def _label_type(label_code):
         "A0-AY": "Turn Continuing",
         "AB-A0": "Turn Continuing",
         "AB-AY": "Turn Continuing",
-        # "A0-A0": "Turn Continuing", 
+        # "A0-A0": "Turn Continuing",
     }
     return p_shift[label_code]
