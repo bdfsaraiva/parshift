@@ -6,7 +6,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://bdfsaraiva.github.io/parshif/info.html</loc>
+         <loc>https://bdfsaraiva.github.io/parshif/api/annotation.html</loc>
+         <lastmod>2022-12-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://bdfsaraiva.github.io/parshif/api/conditional_probabilities.html</loc>
+         <lastmod>2022-12-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://bdfsaraiva.github.io/parshif/api/plotting.html</loc>
          <lastmod>2022-12-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
