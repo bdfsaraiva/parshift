@@ -574,16 +574,16 @@
   <table>
     <thead>
       <tr>
-<th>Name</th>        <th>Type</th>
+        <th>Type</th>
         <th>Description</th>
       </tr>
     </thead>
     <tbody>
         <tr>
-<td><code>df</code></td>          <td>
+          <td>
                 <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
           </td>
-          <td><p>New Dataframe with Participation Shift label and type columns added.</p></td>
+          <td><p>New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee).</p></td>
         </tr>
     </tbody>
   </table>
@@ -715,7 +715,7 @@
 <span class="normal">187</span>
 <span class="normal">188</span>
 <span class="normal">189</span>
-<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parshift_annotation</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parshift_annotation</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 
     <span class="sd">&quot;&quot;&quot;Function used to return a Dataframe which contains the Participation Shift type, based in Gibson&#39;s paper.</span>
 
@@ -724,7 +724,7 @@
 <span class="sd">        delimiter: Parameter delimiter.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        df: New Dataframe with Participation Shift label and type columns added.</span>
+<span class="sd">        New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># # TODO: Adicionar o caso em que o usar já tem uma lista de sentences.</span>
@@ -907,6 +907,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
     <tbody>
         <tr>
 <td><code>conversation</code></td>          <td>
+                <code>list</code>
           </td>
           <td><p>List of dictionary structure.</p></td>
         </tr>
@@ -971,7 +972,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
-<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">_read_conversation</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">):</span>
+<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">_read_conversation</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Function used to read a conversation file and return a list of dictionary structure.</span>
 <span class="sd">    The dictionary keys are: `id`, `user_id`, `message_text` and `reply_id`.</span>
 
@@ -1083,8 +1084,9 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
     <tbody>
         <tr>
           <td>
+                <code>str</code>
           </td>
-          <td><p>Turn Type : Participation shift type in a given turn - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing].</p></td>
+          <td><p>Participation shift type in a given turn - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing].</p></td>
         </tr>
     </tbody>
   </table>
@@ -1122,14 +1124,14 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
 <span class="normal">221</span>
 <span class="normal">222</span>
 <span class="normal">223</span>
-<span class="normal">224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">_label_type</span><span class="p">(</span><span class="n">label_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="normal">224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">_label_type</span><span class="p">(</span><span class="n">label_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Function used to return the Participation Shift type, based in Gibson&#39;s paper.</span>
 
 <span class="sd">    Arguments:</span>
 <span class="sd">        label_code: Participation Shift Code (e.g A0-XA).\n</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Turn Type : Participation shift type in a given turn - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing].</span>
+<span class="sd">        Participation shift type in a given turn - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label_code</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
