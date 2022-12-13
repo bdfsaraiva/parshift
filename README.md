@@ -31,7 +31,7 @@ pip install .
 ## Getting Started
 For an in-depth overview of the features of ParShift 
 you can check the [**full documentation**](https://bdfsaraiva.github.io/parshift/) or you can follow along 
-with one of the examples below:
+with the example below:
 
 
 | Name  | Link  |
