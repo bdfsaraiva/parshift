@@ -559,13 +559,12 @@
           <td>
                 <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
           </td>
-          <td><p>A DataFrame containing the frequency, probability and conditional probabilities for each parshift code.
-CP -&gt; Conditional Probability, where:
-    1. Target is the group (A0-);
-    2. Target is a given person (AB-);
-CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:
-    1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)
-    2. Target is a given person (AB-), but 'A' does not keep talking (not turn continuing):</p></td>
+          <td><p>A DataFrame containing the frequency, probability and conditional probabilities (two) for each parshift code. 
+This DataFrame is divided into two 'subgroups', those beginning with an undirected remark (A0-) and 
+those beginning with a directed one (AB-). 
+CP (Conditional Probability) -&gt; Frequency divided by total occurrences in each subgroup.
+CPeTC (Conditional Probability excluding Turn Continuing type) -&gt; Frequency divided by total occurrences
+in each subgroup, assuming change of speaker.</p></td>
         </tr>
     </tbody>
   </table>
@@ -651,8 +650,7 @@ CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:
 <span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">conditional_probabilities</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">conditional_probabilities</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the conditional probabilities for a given `parshift_annotation` DataFrame based on Gibson&#39;s framework.</span>
@@ -661,13 +659,12 @@ CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:
 <span class="sd">        parshift_annotation_df: A DataFrame with `parshift` annotations. See [here](https://bdfsaraiva.github.io/parshift/api/annotation.html#parshift.annotation.parshift_annotation)</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A DataFrame containing the frequency, probability and conditional probabilities for each parshift code.</span>
-<span class="sd">            CP -&gt; Conditional Probability, where:</span>
-<span class="sd">                1. Target is the group (A0-);</span>
-<span class="sd">                2. Target is a given person (AB-);</span>
-<span class="sd">            CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:</span>
-<span class="sd">                1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)</span>
-<span class="sd">                2. Target is a given person (AB-), but &#39;A&#39; does not keep talking (not turn continuing):</span>
+<span class="sd">        A DataFrame containing the frequency, probability and conditional probabilities (two) for each parshift code. </span>
+<span class="sd">            This DataFrame is divided into two &#39;subgroups&#39;, those beginning with an undirected remark (A0-) and </span>
+<span class="sd">            those beginning with a directed one (AB-). </span>
+<span class="sd">            CP (Conditional Probability) -&gt; Frequency divided by total occurrences in each subgroup.</span>
+<span class="sd">            CPeTC (Conditional Probability excluding Turn Continuing type) -&gt; Frequency divided by total occurrences</span>
+<span class="sd">            in each subgroup, assuming change of speaker.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
@@ -787,18 +784,11 @@ CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:
     <tbody>
         <tr>
           <td>
+                <code>list</code>
           </td>
-          <td><p>A list containing a dictionary of ParShift codes and their frequencies, the total number of times a ParShift code starting with "A0" appears, the total number of times a Parshift code</p></td>
-        </tr>
-        <tr>
-          <td>
-          </td>
-          <td><p>starting with "AB" appears, the total number of times a Parshift code with "A0" appears excluding 'Turn Continuing' type, and the total</p></td>
-        </tr>
-        <tr>
-          <td>
-          </td>
-          <td><p>number of times a ParShift code with "AB" appears excluding 'Turn Continuing' type.</p></td>
+          <td><p>A list containing a dictionary of ParShift codes and their frequencies, the total number of times a ParShift code starting with "A0" appears,
+the total number of times a Parshift code starting with "AB" appears, the total number of times a Parshift code with "A0" assuming change of
+speaker, and the total number of times a ParShift code with "AB" appears assuming change of speaker.</p></td>
         </tr>
     </tbody>
   </table>
@@ -864,7 +854,7 @@ CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:
 <span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
-<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">_frequency_table</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">):</span>
+<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">_frequency_table</span><span class="p">(</span><span class="n">parshift_annotation_df</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function takes in a dataframe of ParShift annotations and returns a frequency table of ParShift codes.</span>
 
@@ -872,9 +862,9 @@ CPeTC -&gt; Conditional Probability excluding Turn Continuing, where:
 <span class="sd">        parshift_annotation_df: A Pandas dataframe containing ParShift annotations</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A list containing a dictionary of ParShift codes and their frequencies, the total number of times a ParShift code starting with &quot;A0&quot; appears, the total number of times a Parshift code</span>
-<span class="sd">        starting with &quot;AB&quot; appears, the total number of times a Parshift code with &quot;A0&quot; appears excluding &#39;Turn Continuing&#39; type, and the total</span>
-<span class="sd">        number of times a ParShift code with &quot;AB&quot; appears excluding &#39;Turn Continuing&#39; type.</span>
+<span class="sd">        A list containing a dictionary of ParShift codes and their frequencies, the total number of times a ParShift code starting with &quot;A0&quot; appears,</span>
+<span class="sd">            the total number of times a Parshift code starting with &quot;AB&quot; appears, the total number of times a Parshift code with &quot;A0&quot; assuming change of</span>
+<span class="sd">            speaker, and the total number of times a ParShift code with &quot;AB&quot; appears assuming change of speaker.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">parshift_codes</span> <span class="o">=</span> <span class="p">[</span>
