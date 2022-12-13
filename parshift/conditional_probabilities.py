@@ -3,7 +3,7 @@ from parshift.annotation import _label_type
 from parshift.annotation import parshift_annotation
 
 
-def _frequency_table(parshift_annotation_df):
+def _frequency_table(parshift_annotation_df)-> list:
     """
     This function takes in a dataframe of ParShift annotations and returns a frequency table of ParShift codes.
 
@@ -11,9 +11,9 @@ def _frequency_table(parshift_annotation_df):
         parshift_annotation_df: A Pandas dataframe containing ParShift annotations
 
     Returns:
-        A list containing a dictionary of ParShift codes and their frequencies, the total number of times a ParShift code starting with "A0" appears, the total number of times a Parshift code
-        starting with "AB" appears, the total number of times a Parshift code with "A0" appears excluding 'Turn Continuing' type, and the total
-        number of times a ParShift code with "AB" appears excluding 'Turn Continuing' type.
+        A list containing a dictionary of ParShift codes and their frequencies, the total number of times a ParShift code starting with "A0" appears,
+            the total number of times a Parshift code starting with "AB" appears, the total number of times a Parshift code with "A0" assuming change of
+            speaker, and the total number of times a ParShift code with "AB" appears assuming change of speaker.
     """
 
     parshift_codes = [
@@ -74,13 +74,12 @@ def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFr
         parshift_annotation_df: A DataFrame with `parshift` annotations. See [here](https://bdfsaraiva.github.io/parshift/api/annotation.html#parshift.annotation.parshift_annotation)
 
     Returns:
-        A DataFrame containing the frequency, probability and conditional probabilities for each parshift code.
-            CP -> Conditional Probability, where:
-                1. Target is the group (A0-);
-                2. Target is a given person (AB-);
-            CPeTC -> Conditional Probability excluding Turn Continuing, where:
-                1. Target is the group (A0-), but the speaker does not keep talking (not turn continuing)
-                2. Target is a given person (AB-), but 'A' does not keep talking (not turn continuing):
+        A DataFrame containing the frequency, probability and conditional probabilities (two) for each parshift code. 
+            This DataFrame is divided into two 'subgroups', those beginning with an undirected remark (A0-) and 
+            those beginning with a directed one (AB-). 
+            CP (Conditional Probability) -> Frequency divided by total occurrences in each subgroup.
+            CPeTC (Conditional Probability excluding Turn Continuing type) -> Frequency divided by total occurrences
+            in each subgroup, assuming change of speaker.
     """
 
     if not isinstance(parshift_annotation_df, pd.DataFrame):
