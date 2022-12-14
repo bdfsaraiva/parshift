@@ -39,13 +39,13 @@ with the example below:
 | Participation Shifts with ParSift | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1gYa32dMQDVuKwHDLgl1wJiVyHwUw4_zL?usp=sharing)  |
 
 
-# Features/Improvements
+## Features/Improvements
 
 I open to any form of idea to further improve this package. If you have an idea or a feature request - just open an
 issue.🤗
 
 
-# For developers
+## For developers
 
 After you cloned the repo head into the `parshift` base directory.
 
