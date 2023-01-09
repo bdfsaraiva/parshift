@@ -17,7 +17,7 @@ def _read_conversation(filename: str, delimiter: str = ",") -> list:
 
     if not isinstance(filename, str):
         raise TypeError("Parameter filename must be a String")
-    if not re.search("[A-Z|a-z]+.(csv|CSV)", filename):
+    if not re.search("^.*\.csv$", filename):
         raise ValueError("Parameter filename must be a CSV file")
     if not isinstance(delimiter, str):
         raise TypeError("Parameter delimiter must be a String")
