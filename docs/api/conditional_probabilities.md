@@ -4,4 +4,3 @@
     options:
         members:
             - conditional_probabilities
-            <!-- - _frequency_table -->
