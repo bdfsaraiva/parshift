@@ -3,7 +3,7 @@ from parshift.annotation import _label_type
 from parshift.annotation import parshift_annotation
 
 
-def _frequency_table(parshift_annotation_df)-> list:
+def _frequency_table(parshift_annotation_df) -> list:
     """
     This function takes in a dataframe of ParShift annotations and returns a frequency table of ParShift codes.
 
@@ -74,9 +74,9 @@ def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFr
         parshift_annotation_df: A DataFrame with `parshift` annotations. See [here](https://bdfsaraiva.github.io/parshift/api/annotation.html#parshift.annotation.parshift_annotation)
 
     Returns:
-        A DataFrame containing the frequency, probability and conditional probabilities (two) for each parshift code. 
-            This DataFrame is divided into two 'subgroups', those beginning with an undirected remark (A0-) and 
-            those beginning with a directed one (AB-). 
+        A DataFrame containing the frequency, probability and conditional probabilities (two) for each parshift code.
+            This DataFrame is divided into two 'subgroups', those beginning with an undirected remark (A0-) and
+            those beginning with a directed one (AB-).
             CP (Conditional Probability) -> Frequency divided by total occurrences in each subgroup.
             CPeTC (Conditional Probability excluding Turn Continuing type) -> Frequency divided by total occurrences
             in each subgroup, assuming change of speaker.

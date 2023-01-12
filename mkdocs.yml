@@ -30,7 +30,7 @@ theme:
   font:
     text: Roboto
     code: Fira Code
-  favicon: material/account-group
+  favicon: icon.png
   logo: icon.png
   feature:
     tabs: true

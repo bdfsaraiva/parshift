@@ -36,12 +36,11 @@ pip install .
 ```
 
 ## Getting Started
-For an in-depth overview of the features of ParShift 
-you can check the [**full documentation**](https://bdfsaraiva.github.io/parshift/) or you can follow along 
+For an in-depth overview of the features of ParShift can follow along 
 with one of the examples below:
 
 
 | Name  | Link  |
-|---|---|
-| Participation Shifts with ParSift | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1gYa32dMQDVuKwHDLgl1wJiVyHwUw4_zL?usp=sharing)  |
+| ----- | ----- |
+| Participation Shifts with ParShift | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1gYa32dMQDVuKwHDLgl1wJiVyHwUw4_zL?usp=sharing)  |
 
