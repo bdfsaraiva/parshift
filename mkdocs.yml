@@ -31,7 +31,7 @@ theme:
     text: Roboto
     code: Fira Code
   favicon: icon.png
-  logo: icon.png
+  logo: icon_g.png
   feature:
     tabs: true
   features:
