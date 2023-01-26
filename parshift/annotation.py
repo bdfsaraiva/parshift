@@ -3,7 +3,9 @@ import pandas as pd
 import re
 
 
-def _read_conversation(filename: str, delimiter: str = ",") -> list:
+def _read_conversation(
+    filename: str, delimiter: str = ",", quotechar: str = '"'
+) -> list:
     """Function used to read a conversation file and return a list of dictionary structure.
     The dictionary keys are: `id`, `user_id`, `message_text` and `reply_id`.
 
@@ -26,7 +28,7 @@ def _read_conversation(filename: str, delimiter: str = ",") -> list:
 
     conversation = []
     with open(filename, "r", encoding="utf8") as file:
-        csv_reader = csv.reader(file, delimiter=delimiter)
+        csv_reader = csv.reader(file, delimiter=delimiter, quotechar=quotechar)
 
         turn = 0
         for idx, csv_line in enumerate(csv_reader):
@@ -39,8 +41,8 @@ def _read_conversation(filename: str, delimiter: str = ",") -> list:
                 and conversation[turn - 1]["reply_id"] == csv_line[3]
             ):
                 msg_join = f"{conversation[turn-1]['message_text']}. {csv_line[2]}"
-                list_id = conversation[turn - 1]["id"] + [csv_line[0]]
-                conversation[turn - 1]["id"] = list_id
+                list_id = conversation[turn - 1]["ids"] + [csv_line[0]]
+                conversation[turn - 1]["ids"] = list_id
                 conversation[turn - 1]["message_text"] = msg_join
 
             else:
@@ -52,7 +54,7 @@ def _read_conversation(filename: str, delimiter: str = ",") -> list:
 
                 conversation.append(
                     {
-                        "id": [id],
+                        "ids": [id],
                         "user_id": user_id,
                         "message_text": message_text,
                         "reply_id": reply_id,
@@ -87,7 +89,7 @@ def parshift_annotation(filename: str, delimiter: str = ",") -> pd.DataFrame:
 
     df = pd.DataFrame(
         {
-            "id": [],
+            "ids": [],
             "user_id": [],
             "message_text": [],
             "reply_id": [],
@@ -112,7 +114,7 @@ def parshift_annotation(filename: str, delimiter: str = ",") -> pd.DataFrame:
             part_2 = " " + str(msg["user_id"]) + " to group"
         else:
             for msgPrev in conversation:
-                if msg["reply_id"] in msgPrev["id"]:
+                if msg["reply_id"] in msgPrev["ids"]:
                     if (
                         msgPrev["reply_id"] == None
                         or msgPrev["reply_id"] == "None"
@@ -121,7 +123,7 @@ def parshift_annotation(filename: str, delimiter: str = ",") -> pd.DataFrame:
                         part_1 = str(msgPrev["user_id"]) + " to group,"
                     else:  # reply - reply
                         for msgPrev2 in conversation:
-                            if msgPrev["reply_id"] in msgPrev2["id"]:
+                            if msgPrev["reply_id"] in msgPrev2["ids"]:
                                 part_1 = (
                                     str(msgPrev["user_id"])
                                     + " to "
@@ -178,7 +180,7 @@ def parshift_annotation(filename: str, delimiter: str = ",") -> pd.DataFrame:
             msg["label_type"] = label_type_v
 
         df.loc[len(df.index)] = [
-            str(msg["id"]),
+            str(msg["ids"]),
             str(msg["user_id"]),
             msg["message_text"],
             str(msg["reply_id"]),
@@ -222,3 +224,6 @@ def _label_type(label_code: str) -> str:
         # "A0-A0": "Turn Continuing",
     }
     return p_shift[label_code]
+
+
+print(_read_conversation("./tests/a.csv"))

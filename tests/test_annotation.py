@@ -4,18 +4,23 @@ import pandas as pd
 
 
 conversation = [
-    {"id": ["0"], "user_id": "10", "message_text": "olá", "reply_id": "None"},
-    {"id": ["1"], "user_id": "11", "message_text": "Olá amigo", "reply_id": "0"},
-    {"id": ["2"], "user_id": "12", "message_text": " Olá a todos", "reply_id": "None"},
-    {"id": ["3"], "user_id": "11", "message_text": " Como vão", "reply_id": "None"},
     {
-        "id": ["4", "5", "6"],
+        "ids": ["0"],
+        "user_id": "10",
+        "message_text": "olá, como vao?",
+        "reply_id": "None",
+    },
+    {"ids": ["1"], "user_id": "11", "message_text": "Olá amigo", "reply_id": "0"},
+    {"ids": ["2"], "user_id": "12", "message_text": "Olá a todos", "reply_id": "None"},
+    {"ids": ["3"], "user_id": "11", "message_text": "Como vão", "reply_id": "None"},
+    {
+        "ids": ["4", "5", "6"],
         "user_id": "13",
-        "message_text": " tá calado.  ola.  xiu",
+        "message_text": "tá calado. ola. xiu",
         "reply_id": "2",
     },
-    {"id": ["7"], "user_id": "13", "message_text": " aaaaa", "reply_id": "None"},
-    {"id": ["8"], "user_id": "20", "message_text": " olaaaaa", "reply_id": "5"},
+    {"ids": ["7"], "user_id": "13", "message_text": "aaaaa", "reply_id": "None"},
+    {"ids": ["8"], "user_id": "20", "message_text": "olaaaaa", "reply_id": "5"},
 ]
 
 
