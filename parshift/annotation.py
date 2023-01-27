@@ -10,8 +10,9 @@ def _read_conversation(
     The dictionary keys are: `id`, `user_id`, `message_text` and `reply_id`.
 
     Arguments:
-        filename: Path file name.
+        filename: Path to csv file.
         delimiter: Parameter delimiter.
+        quotechar: Parameter quotechar.
 
     Returns:
         conversation: List of dictionary structure.
@@ -64,16 +65,17 @@ def _read_conversation(
     return conversation
 
 
-def parshift_annotation(filename: str, delimiter: str = ",") -> pd.DataFrame:
+def parshift_annotation(filename: str, delimiter: str = ",", quotechar: str = '"') -> pd.DataFrame:
 
     """Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.
 
     Arguments:
-        filename: Path file name.
+        filename: Path to csv file.
         delimiter: Parameter delimiter.
+        quotechar: Parameter quotechar.
 
     Returns:
-        New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee).
+        New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee)
     """
 
     # # TODO: Adicionar o caso em que o usar já tem uma lista de sentences.
@@ -85,7 +87,7 @@ def parshift_annotation(filename: str, delimiter: str = ",") -> pd.DataFrame:
     #     conversation = conversation_list
     # # TODO: fim
 
-    conversation = _read_conversation(filename, delimiter)
+    conversation = _read_conversation(filename, delimiter, quotechar)
 
     df = pd.DataFrame(
         {
