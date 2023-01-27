@@ -500,7 +500,7 @@
 
 
 <h2 id="parshift.annotation.parshift_annotation" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">parshift_annotation</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">parshift_annotation</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">quotechar</span><span class="o">=</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span></code>
 
 </h2>
 
@@ -525,7 +525,7 @@
           <td>
                 <code>str</code>
           </td>
-          <td><p>Path file name.</p></td>
+          <td><p>Path to csv file.</p></td>
           <td>
               <em>required</em>
           </td>
@@ -538,6 +538,16 @@
           <td><p>Parameter delimiter.</p></td>
           <td>
                 <code>&#39;,&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>quotechar</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Parameter quotechar.</p></td>
+          <td>
+                <code>&#39;&#34;&#39;</code>
           </td>
         </tr>
     </tbody>
@@ -556,15 +566,14 @@
           <td>
                 <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
           </td>
-          <td><p>New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee).</p></td>
+          <td><p>New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee)</p></td>
         </tr>
     </tbody>
   </table>
 
       <details class="quote">
         <summary>Source code in <code>parshift/annotation.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 67</span>
-<span class="normal"> 68</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 68</span>
 <span class="normal"> 69</span>
 <span class="normal"> 70</span>
 <span class="normal"> 71</span>
@@ -688,16 +697,19 @@
 <span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
-<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parshift_annotation</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parshift_annotation</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">quotechar</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function used to return a Dataframe which contains the Participation Shift type, based in Gibson&#39;s paper.</span>
 
 <span class="sd">    Arguments:</span>
-<span class="sd">        filename: Path file name.</span>
+<span class="sd">        filename: Path to csv file.</span>
 <span class="sd">        delimiter: Parameter delimiter.</span>
+<span class="sd">        quotechar: Parameter quotechar.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee).</span>
+<span class="sd">        New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># # TODO: Adicionar o caso em que o usar já tem uma lista de sentences.</span>
@@ -709,7 +721,7 @@
     <span class="c1">#     conversation = conversation_list</span>
     <span class="c1"># # TODO: fim</span>
 
-    <span class="n">conversation</span> <span class="o">=</span> <span class="n">_read_conversation</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">)</span>
+    <span class="n">conversation</span> <span class="o">=</span> <span class="n">_read_conversation</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">,</span> <span class="n">quotechar</span><span class="p">)</span>
 
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
         <span class="p">{</span>
