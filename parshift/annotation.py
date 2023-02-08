@@ -78,14 +78,6 @@ def parshift_annotation(filename: str, delimiter: str = ",", quotechar: str = '"
         New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee)
     """
 
-    # # TODO: Adicionar o caso em que o usar já tem uma lista de sentences.
-    # if not filename and not conversation_list:
-    #     raise AssertionError("One of the parameters 'filename' or 'conversation_list' must be not None")
-    # elif not conversation_list:
-    #     conversation = _read_conversation(filename, delimiter)
-    # else:
-    #     conversation = conversation_list
-    # # TODO: fim
 
     conversation = _read_conversation(filename, delimiter, quotechar)
 
@@ -138,7 +130,6 @@ def parshift_annotation(filename: str, delimiter: str = ",", quotechar: str = '"
                     )
 
         p1p2 = part_1 + part_2
-        # print(part_1 + part_2)
         part_1 = part_2[1:] + ","
 
         def _label_code(label):
@@ -190,7 +181,7 @@ def parshift_annotation(filename: str, delimiter: str = ",", quotechar: str = '"
             (label_code_v),
             (label_type_v),
         ]
-        # print('-'*20)
+
     return df
 
 
@@ -223,9 +214,7 @@ def _label_type(label_code: str) -> str:
         "A0-AY": "Turn Continuing",
         "AB-A0": "Turn Continuing",
         "AB-AY": "Turn Continuing",
-        # "A0-A0": "Turn Continuing",
     }
     return p_shift[label_code]
 
 
-print(_read_conversation("./tests/a.csv"))

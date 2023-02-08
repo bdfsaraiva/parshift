@@ -1,9 +1,11 @@
 import squarify
 import matplotlib.pyplot as plt
+import seaborn as sns
 import pandas as pd
 
 
-def frequency_treemap(conditional_probabilities_df: pd.DataFrame):
+
+def frequency_treemap(conditional_probabilities_df: pd.DataFrame, ax = None):
     """Function used to return a matplotlib object which contains the conditional probabilities frequencies based in Gibson's paper.
 
     Arguments:
@@ -25,9 +27,11 @@ def frequency_treemap(conditional_probabilities_df: pd.DataFrame):
         for idx, el in enumerate(list(zip(*data))[1])
     ]
 
-    figure = plt.figure()
-    squarify.plot(list(zip(*data))[0], label=labels, pad=2)
+    if ax is None:
+        _, ax = plt.subplots()
+
+    squarify.plot(list(zip(*data))[0], label=labels, pad=2, color=sns.color_palette("Spectral", len(list(zip(*data))[0])), ax = ax) 
     plt.title("Participation Shifts Frequency (%)")
     plt.axis("off")
     # plt.show()
-    return figure
+    return ax

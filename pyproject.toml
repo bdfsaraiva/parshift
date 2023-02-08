@@ -15,7 +15,7 @@ requires-python = ">=3.8"
 keywords = ["natural language processing", "conversation-analysis", "participation-shifts", "turn-taking"]
 license = {text = "MIT"}
 authors = [ { name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt" } ]
-dependencies = ["pandas", "matplotlib", "squarify"] 
+dependencies = ["pandas", "matplotlib", "squarify", "seaborn"] 
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",

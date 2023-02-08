@@ -123,20 +123,19 @@ def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFr
         .rename(columns={"index": "parshift_code"})
     )
     order = {
-        "AB-BA": 5,
-        "AB-B0": 6,
-        "AB-BY": 11,
+        "AB-BA": 4,
+        "AB-B0": 5,
+        "AB-BY": 10,
         "A0-X0": 1,
         "A0-XA": 0,
         "A0-XY": 2,
-        "AB-X0": 7,
-        "AB-XA": 8,
-        "AB-XB": 9,
-        "AB-XY": 12,
+        "AB-X0": 6,
+        "AB-XA": 7,
+        "AB-XB": 8,
+        "AB-XY": 11,
         "A0-AY": 3,
-        "AB-A0": 10,
+        "AB-A0": 9,
         "AB-AY": 12,
-        # "A0-A0": 4,
     }
 
     result["parshift"] = result["parshift_code"].map(_label_type)
