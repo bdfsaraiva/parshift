@@ -528,6 +528,16 @@
               <em>required</em>
           </td>
         </tr>
+        <tr>
+          <td><code>ax</code></td>
+          <td>
+                <code>matplotlib.<span title="matplotlib.axes">axes</span>.<span title="matplotlib.axes.Axes">Axes</span></code>
+          </td>
+          <td><p>Matplotlib axes to plot the treemap.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
     </tbody>
   </table>
 
@@ -541,17 +551,17 @@
     </thead>
     <tbody>
         <tr>
-<td><code>Figure</code></td>          <td>
+<td><code>ax</code></td>          <td>
+                <code>matplotlib.<span title="matplotlib.axes">axes</span>.<span title="matplotlib.axes.Axes">Axes</span></code>
           </td>
-          <td><p>Matplotlib object with the Participation Shifts Frequency.</p></td>
+          <td><p>Matplotlib axes with the Participation Shifts Frequency.</p></td>
         </tr>
     </tbody>
   </table>
 
       <details class="quote">
         <summary>Source code in <code>parshift/plotting.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
-<span class="normal"> 9</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
 <span class="normal">10</span>
 <span class="normal">11</span>
 <span class="normal">12</span>
@@ -579,14 +589,17 @@
 <span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
-<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">frequency_treemap</span><span class="p">(</span><span class="n">conditional_probabilities_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">frequency_treemap</span><span class="p">(</span><span class="n">conditional_probabilities_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function used to return a matplotlib object which contains the conditional probabilities frequencies based in Gibson&#39;s paper.</span>
 
 <span class="sd">    Arguments:</span>
 <span class="sd">        conditional_probabilities_df: Dataframe object that contain the whole information about the Participation Shift conditional probabilities.</span>
+<span class="sd">        ax: Matplotlib axes to plot the treemap.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Figure: Matplotlib object with the Participation Shifts Frequency.</span>
+<span class="sd">        ax: Matplotlib axes with the Participation Shifts Frequency.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">gb_parshift</span> <span class="o">=</span> <span class="n">conditional_probabilities_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;parshift&quot;</span><span class="p">])[</span><span class="s2">&quot;Frequency&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
