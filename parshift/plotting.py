@@ -1,18 +1,20 @@
 import squarify
 import matplotlib.pyplot as plt
+import matplotlib
 import seaborn as sns
 import pandas as pd
 
 
 
-def frequency_treemap(conditional_probabilities_df: pd.DataFrame, ax = None):
+def frequency_treemap(conditional_probabilities_df: pd.DataFrame, ax: matplotlib.axes.Axes = None) -> matplotlib.axes.Axes:
     """Function used to return a matplotlib object which contains the conditional probabilities frequencies based in Gibson's paper.
 
     Arguments:
         conditional_probabilities_df: Dataframe object that contain the whole information about the Participation Shift conditional probabilities.
+        ax: Matplotlib axes to plot the treemap.
 
     Returns:
-        Figure: Matplotlib object with the Participation Shifts Frequency.
+        ax: Matplotlib axes with the Participation Shifts Frequency.
     """
 
     gb_parshift = conditional_probabilities_df.groupby(["parshift"])["Frequency"].sum()
