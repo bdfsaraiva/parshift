@@ -65,7 +65,9 @@ def _read_conversation(
     return conversation
 
 
-def parshift_annotation(filename: str, delimiter: str = ",", quotechar: str = '"') -> pd.DataFrame:
+def parshift_annotation(
+    filename: str, delimiter: str = ",", quotechar: str = '"'
+) -> pd.DataFrame:
 
     """Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.
 
@@ -77,7 +79,6 @@ def parshift_annotation(filename: str, delimiter: str = ",", quotechar: str = '"
     Returns:
         New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee)
     """
-
 
     conversation = _read_conversation(filename, delimiter, quotechar)
 
@@ -216,5 +217,3 @@ def _label_type(label_code: str) -> str:
         "AB-AY": "Turn Continuing",
     }
     return p_shift[label_code]
-
-
