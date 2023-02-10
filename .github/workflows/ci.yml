@@ -23,7 +23,7 @@ jobs:
           python -m pip install -e .[dev]
           
       - name: Run black formatter
-        uses: black .
+        run: black .
         
       - name: Run tests and collect coverage
         run: pytest --cov=./ --cov-report=xml
