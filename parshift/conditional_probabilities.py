@@ -30,7 +30,6 @@ def _frequency_table(parshift_annotation_df) -> list:
         "A0-AY",
         "AB-A0",
         "AB-AY",
-        # "A0-A0",
     ]
 
     dict_prob_empirical_count = {}
@@ -143,4 +142,5 @@ def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFr
         by=["parshift_code"], key=lambda x: x.map(order)
     ).reset_index(drop=True)
 
-    return result
+    result_ordered = result.iloc[:, [0, 5, 1, 2, 3, 4]]
+    return result_ordered
