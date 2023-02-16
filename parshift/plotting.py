@@ -6,19 +6,29 @@ import pandas as pd
 
 
 def frequency_treemap(
-    conditional_probabilities_df: pd.DataFrame, ax: matplotlib.axes.Axes = None
+    conditional_probabilities_df: pd.DataFrame,
+    ax: matplotlib.axes.Axes = None,
+    column_name: str = "parshift",
 ) -> matplotlib.axes.Axes:
     """Function used to return a matplotlib object which contains the conditional probabilities frequencies based in Gibson's paper.
 
     Arguments:
         conditional_probabilities_df: Dataframe object that contain the whole information about the Participation Shift conditional probabilities.
+        column_name: Column name to be used to plot the treemap. Must be one of the following: `parshift_code`, `parshift`.
         ax: Matplotlib axes to plot the treemap.
 
     Returns:
         ax: Matplotlib axes with the Participation Shifts Frequency.
     """
 
-    gb_parshift = conditional_probabilities_df.groupby(["parshift"])["Frequency"].sum()
+    if not isinstance(column_name, str):
+        raise TypeError("Parameter filename must be a String")
+    if column_name not in ["parshift_code", "parshift"]:
+        raise ValueError(
+            "Parameter column_name must be one of the following: `parshift_code`, `parshift`"
+        )
+
+    gb_parshift = conditional_probabilities_df.groupby([column_name])["Frequency"].sum()
 
     data = [
         el
@@ -44,3 +54,5 @@ def frequency_treemap(
     plt.axis("off")
     # plt.show()
     return ax
+
+
