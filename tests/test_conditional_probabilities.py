@@ -25,7 +25,6 @@ def test_frequency_table():
         "A0-AY": 0,
         "AB-A0": 1,
         "AB-AY": 0,
-        # "A0-A0": 0,
     }
     assert result[0] == expected_result_df
 
@@ -44,9 +43,9 @@ def test_conditional_probabilities():
     assert isinstance(result, pd.DataFrame)
     assert list(result.columns) == [
         "parshift_code",
+        "parshift",
         "Frequency",
         "Probability",
         "CP",
-        "CPeTC",
-        "parshift",
+        "CPeTC"
     ]

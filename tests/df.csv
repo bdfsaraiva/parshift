@@ -1,8 +1,8 @@
-id,user_id,message_text,reply_id,label_desc,label_code,label_value
-['0'],10,olá,None, 10 to group,,
-['1'],11,Olá amigo,0,"10 to group, 11 to 10",A0-XA,Turn Claiming
-['2'],12, Olá a todos,None,"11 to 10, 12 to group",AB-X0,Turn Usurping
-['3'],11, Como vão,None,"12 to group, 11 to group",A0-X0,Turn Claiming
-"['4', '5', '6']",13, tá calado.  ola.  xiu,2,"12 to group, 13 to 12",A0-XA,Turn Claiming
-['7'],13, aaaaa,None,"13 to 12, 13 to group",AB-A0,Turn Continuing
-['8'],20, olaaaaa,5,"13 to 12, 20 to 13",AB-XA,Turn Usurping
+id,user_id,message_text,reply_id,parshift_code,parshiift
+['0'],10,olá,None,,
+['1'],11,Olá amigo,0,A0-XA,Turn Claiming
+['2'],12, Olá a todos,None,AB-X0,Turn Usurping
+['3'],11, Como vão,None,A0-X0,Turn Claiming
+"['4', '5', '6']",13, tá calado.  ola.  xiu,2,A0-XA,Turn Claiming
+['7'],13, aaaaa,None,AB-A0,Turn Continuing
+['8'],20, olaaaaa,5,AB-XA,Turn Usurping

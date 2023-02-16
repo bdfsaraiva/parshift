@@ -54,8 +54,8 @@ def test_parshift_annotation():
     )
 
     assert (
-        parshift_annotation_df["label_code"].values
-        == annotation.parshift_annotation("tests/a.csv")["label_code"].values
+        parshift_annotation_df["parshift_code"].values
+        == annotation.parshift_annotation("tests/a.csv")["parshift_code"].values
     ).all()
 
 
