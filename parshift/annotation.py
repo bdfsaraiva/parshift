@@ -182,7 +182,9 @@ def parshift_annotation(
             (label_code_v),
             (label_type_v),
         ]
-
+    df.drop(columns=["label_desc"], inplace=True)
+    df.rename(columns= {"label_code":"parshift_code","label_value":"parshift"}, inplace=True)
+    
     return df
 
 

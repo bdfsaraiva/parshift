@@ -1,6 +1,5 @@
 import pandas as pd
 from parshift.annotation import _label_type
-from parshift.annotation import parshift_annotation
 
 
 def _frequency_table(parshift_annotation_df) -> list:
@@ -32,6 +31,7 @@ def _frequency_table(parshift_annotation_df) -> list:
         "AB-AY",
     ]
 
+
     dict_prob_empirical_count = {}
     count_start_A0_total = 0
     count_start_AB_total = 0
@@ -41,7 +41,7 @@ def _frequency_table(parshift_annotation_df) -> list:
     for code in parshift_codes:
         count = 0
         for index, row in parshift_annotation_df.iterrows():
-            if row["label_code"] == code:
+            if row["parshift_code"] == code:
                 count += 1
 
         dict_prob_empirical_count[code] = count
