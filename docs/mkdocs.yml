@@ -1,13 +1,14 @@
 site_name: ParShift
 repo_url: https://github.com/bdfsaraiva/parshift
 site_url: https://bdfsaraiva.github.io/parshift
-site_description: description
+site_description:
+  ParShift is a Python package based on Gibson's framework for the analysis of
+  conversational sequences.
 site_author: Bruno D. Ferreira-Saraiva
-use_directory_urls: false
-
+watch:
+  - ../parshift
 
 theme:
-  custom_dir: images/
   name: material
   icon:
     logo: material/library
@@ -30,8 +31,8 @@ theme:
   font:
     text: Roboto
     code: Fira Code
-  favicon: icon.png
-  logo: icon_g.png
+  favicon: images/icon.png
+  logo: images/icon_g.png
   feature:
     tabs: true
   features:
@@ -42,11 +43,9 @@ theme:
     - navigation.tracking
     - toc.follow
 
-
 plugins:
 - search:
     lang: en
-
 - mkdocstrings
 
 nav:
