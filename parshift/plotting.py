@@ -3,18 +3,19 @@ import matplotlib.pyplot as plt
 import matplotlib
 import seaborn as sns
 import pandas as pd
+from .annotation import pshift_type
 
 
 def frequency_treemap(
     conditional_probabilities_df: pd.DataFrame,
     ax: matplotlib.axes.Axes = None,
-    column_name: str = "parshift",
+    column_name: str = "pshift",
 ) -> matplotlib.axes.Axes:
     """Function used to return a matplotlib object which contains the conditional probabilities frequencies based in Gibson's paper.
 
     Arguments:
         conditional_probabilities_df: Dataframe object that contain the whole information about the Participation Shift conditional probabilities.
-        column_name: Column name to be used to plot the treemap. Must be one of the following: `parshift_code`, `parshift`.
+        column_name: Column name to be used to plot the treemap. Must be one of the following: `pshift`, `pshift_type`.
         ax: Matplotlib axes to plot the treemap.
 
     Returns:
@@ -23,10 +24,15 @@ def frequency_treemap(
 
     if not isinstance(column_name, str):
         raise TypeError("Parameter filename must be a String")
-    if column_name not in ["parshift_code", "parshift"]:
+    if column_name not in ["pshift_type", "pshift"]:
         raise ValueError(
-            "Parameter column_name must be one of the following: `parshift_code`, `parshift`"
+            "Parameter column_name must be one of the following: `pshift`, `pshift_type`"
         )
+
+    if column_name == "pshift_type":
+        conditional_probabilities_df["pshift_type"] = conditional_probabilities_df[
+            "pshift"
+        ].apply(pshift_type)
 
     gb_parshift = conditional_probabilities_df.groupby([column_name])["Frequency"].sum()
 
@@ -54,5 +60,3 @@ def frequency_treemap(
     plt.axis("off")
     # plt.show()
     return ax
-
-

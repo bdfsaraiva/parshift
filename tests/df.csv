@@ -1,8 +1,8 @@
-id,user_id,message_text,reply_id,parshift_code,parshiift
-['0'],10,olá,None,,
-['1'],11,Olá amigo,0,A0-XA,Turn Claiming
-['2'],12, Olá a todos,None,AB-X0,Turn Usurping
-['3'],11, Como vão,None,A0-X0,Turn Claiming
-"['4', '5', '6']",13, tá calado.  ola.  xiu,2,A0-XA,Turn Claiming
-['7'],13, aaaaa,None,AB-A0,Turn Continuing
-['8'],20, olaaaaa,5,AB-XA,Turn Usurping
+ids,user_id,message_text,reply_id,pshift
+['0'],10,"olá, como vao?",None,,
+['1'],11,"Olá amigo",0,A0-XA
+['2'],12, "Olá a todos",None,AB-X0
+['3'],11, "Como vão",None,A0-X0,
+"['4', '5', '6']",13,"tá calado.  ola.  xiu",2,A0-XA
+['7'],13, "aaaaa",None,AB-A0
+['8'],20, "olaaaaa",5,AB-XA

@@ -1,5 +1,21 @@
 import pandas as pd
-from parshift.annotation import _label_type
+from .annotation import pshift_type
+
+_cp_order = {
+    "AB-BA": 4,
+    "AB-B0": 5,
+    "AB-BY": 10,
+    "A0-X0": 1,
+    "A0-XA": 0,
+    "A0-XY": 2,
+    "AB-X0": 6,
+    "AB-XA": 7,
+    "AB-XB": 8,
+    "AB-XY": 11,
+    "A0-AY": 3,
+    "AB-A0": 9,
+    "AB-AY": 12,
+}
 
 
 def _frequency_table(parshift_annotation_df) -> list:
@@ -31,7 +47,6 @@ def _frequency_table(parshift_annotation_df) -> list:
         "AB-AY",
     ]
 
-
     dict_prob_empirical_count = {}
     count_start_A0_total = 0
     count_start_AB_total = 0
@@ -41,7 +56,7 @@ def _frequency_table(parshift_annotation_df) -> list:
     for code in parshift_codes:
         count = 0
         for index, row in parshift_annotation_df.iterrows():
-            if row["parshift_code"] == code:
+            if row["pshift"] == code:
                 count += 1
 
         dict_prob_empirical_count[code] = count
@@ -70,7 +85,7 @@ def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFr
     Calculate the conditional probabilities for a given `parshift_annotation` DataFrame based on Gibson's framework.
 
     Arguments:
-        parshift_annotation_df: A DataFrame with `parshift` annotations. See [here](https://bdfsaraiva.github.io/parshift/api/annotation.html#parshift.annotation.parshift_annotation)
+        parshift_annotation_df: A DataFrame with `parshift` annotation. See [here](https://bdfsaraiva.github.io/parshift/api/annotation.html#parshift.annotation.parshift_annotation)
 
     Returns:
         A DataFrame containing the frequency, probability and conditional probabilities (two) for each parshift code.
@@ -119,28 +134,12 @@ def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFr
     result = (
         pd.concat([freq, cond_prob], axis=1)
         .reset_index()
-        .rename(columns={"index": "parshift_code"})
+        .rename(columns={"index": "pshift"})
     )
-    order = {
-        "AB-BA": 4,
-        "AB-B0": 5,
-        "AB-BY": 10,
-        "A0-X0": 1,
-        "A0-XA": 0,
-        "A0-XY": 2,
-        "AB-X0": 6,
-        "AB-XA": 7,
-        "AB-XB": 8,
-        "AB-XY": 11,
-        "A0-AY": 3,
-        "AB-A0": 9,
-        "AB-AY": 12,
-    }
 
-    result["parshift"] = result["parshift_code"].map(_label_type)
     result = result.sort_values(
-        by=["parshift_code"], key=lambda x: x.map(order)
+        by=["pshift"], key=lambda x: x.map(_cp_order)
     ).reset_index(drop=True)
 
-    result_ordered = result.iloc[:, [0, 5, 1, 2, 3, 4]]
+    result_ordered = result.iloc[:, [0, 1, 2, 3, 4]]
     return result_ordered

@@ -3,4 +3,6 @@
 ::: parshift.annotation
     options:
         members:
-            - parshift_annotation
+            - read_ccsv
+            - annotate
+            - pshift_type
