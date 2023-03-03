@@ -2,22 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://bdfsaraiva.github.io/parshift/index.html</loc>
-         <lastmod>2023-02-16</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bdfsaraiva.github.io/parshift/api/annotation.html</loc>
-         <lastmod>2023-02-16</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bdfsaraiva.github.io/parshift/api/conditional_probabilities.html</loc>
-         <lastmod>2023-02-16</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bdfsaraiva.github.io/parshift/api/plotting.html</loc>
-         <lastmod>2023-02-16</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
