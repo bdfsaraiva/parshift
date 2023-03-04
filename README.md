@@ -19,7 +19,7 @@ to the shifting of individuals between the positions of speaker, target
 ### From PyPI
 
 ```bash
-pip install parshift #not available yet
+pip install parshift
 ```
 
 ### From source
