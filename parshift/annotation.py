@@ -38,7 +38,7 @@ def read_ccsv(
 
     if not isinstance(filename, str):
         raise TypeError("Parameter filename must be a String")
-    if not re.search("^.*\.csv$", filename):
+    if not re.search(r"^.*\.csv$", filename):
         raise ValueError("Parameter filename must be a CSV file")
     if not isinstance(delimiter, str):
         raise TypeError("Parameter delimiter must be a String")
