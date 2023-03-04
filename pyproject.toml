@@ -8,13 +8,18 @@ packages = ["parshift"]
 
 [project]
 name = "parshift"
-version = "0.1.9"
+version = "0.2.0"
 description = "Python package based on Gibson's framework (2003) for turn-taking in group conversation analysis."
 readme = "README.md"
 requires-python = ">=3.8"
-keywords = ["natural language processing", "conversation-analysis", "participation-shifts", "turn-taking"]
+keywords = ["python", "conversation-analysis", "participation-shifts", "turn-taking"]
 license = {text = "MIT"}
-authors = [ { name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt" } ]
+authors = [ 
+{name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt"}
+{name = "João Pedro Carvalho", email = "joao.matos.carvalho@ulusofona.pt" }
+{name = "Nuno Fachada", email = "nuno.fachada@ulusofona.pt" }
+{name = "Manuel Pita", email = "manuel.pita@ulusofona.pt" }
+]
 dependencies = ["pandas", "matplotlib", "squarify", "seaborn"] 
 classifiers = [
     "License :: OSI Approved :: MIT License",
