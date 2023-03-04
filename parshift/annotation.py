@@ -49,21 +49,21 @@ def read_ccsv(
         csv_reader = csv.reader(file, delimiter=delimiter, quotechar=quotechar)
         first_line_csv = list(csv_reader)[0]
 
-    if "'reply_id'" in first_line_csv or "'target_id'" in first_line_csv:
+    if "reply_id" in first_line_csv or "target_id" in first_line_csv:
         conversation = pd.read_csv(
-            filename, delimiter=delimiter, quotechar=quotechar, index_col="'id'"
+            filename, delimiter=delimiter, quotechar=quotechar, index_col="id"
         )
         return conversation
     else:
-        raise ValueError("CSV file must contain reply_id or target_id column")
+        raise ValueError("CSV file must contain `reply_id` or `target_id` column")
 
 
 def _group_turns(conversation_df: pd.DataFrame) -> list:
     conversation_df = conversation_df.reset_index()
-    if "'reply_id'" in conversation_df.columns:
-        last_col = "'reply_id'"
-    elif "'target_id'" in conversation_df.columns:
-        last_col = "'target_id'"
+    if "reply_id" in conversation_df.columns:
+        last_col = "reply_id"
+    elif "target_id" in conversation_df.columns:
+        last_col = "target_id"
 
     conversation: List[Dict] = []
     turn = 0
@@ -71,20 +71,20 @@ def _group_turns(conversation_df: pd.DataFrame) -> list:
     for index, row in conversation_df.iterrows():
         if (
             index != 0
-            and conversation[turn - 1]["user_id"] == row["'user_id'"]
-            and str(conversation[turn - 1][last_col[1:-1]]) == row[last_col]
+            and conversation[turn - 1]["user_id"] == row["user_id"]
+            and str(conversation[turn - 1][last_col]) == row[last_col]
         ):
             msg_join = ". ".join(
-                [conversation[turn - 1]["message_text"], row["'message_text'"]]
+                [conversation[turn - 1]["message_text"], row["message_text"]]
             )
-            list_id = conversation[turn - 1]["ids"] + [row["'id'"]]
+            list_id = conversation[turn - 1]["ids"] + [row["id"]]
             conversation[turn - 1]["ids"] = list_id
             conversation[turn - 1]["message_text"] = msg_join
 
         else:
-            id = row["'id'"]
-            user_id = row["'user_id'"]
-            message_text = row["'message_text'"]
+            id = row["id"]
+            user_id = row["user_id"]
+            message_text = row["message_text"]
             last_col_val = row[last_col]
             turn += 1
 
@@ -93,7 +93,7 @@ def _group_turns(conversation_df: pd.DataFrame) -> list:
                     "ids": [id],
                     "user_id": user_id,
                     "message_text": message_text,
-                    last_col[1:-1]: int(last_col_val)
+                    last_col: int(last_col_val)
                     if last_col_val != "None"
                     else None,
                 }
@@ -155,7 +155,7 @@ def annotate(conversation_df: pd.DataFrame) -> pd.DataFrame:
     part_1 = ""
     part_2 = ""
 
-    if "'reply_id'" in conversation_df.columns:
+    if "reply_id" in conversation_df.columns:
         annotate_df = pd.DataFrame(
             {
                 "ids": [],
@@ -216,7 +216,7 @@ def annotate(conversation_df: pd.DataFrame) -> pd.DataFrame:
                 label_code_v,
             ]
 
-    elif "'target_id'" in conversation_df.columns:
+    elif "target_id" in conversation_df.columns:
         annotate_df = pd.DataFrame(
             {
                 "ids": [],
