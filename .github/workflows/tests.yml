@@ -2,10 +2,10 @@ name: Tests
 
 on:
   pull_request:
-    branches: [main, separate_ci]
+    branches: [main]
     paths: [ 'parshift/**', 'tests/**', 'pyproject.toml' ]
   push:
-    branches: [main, separate_ci]
+    branches: [main]
     paths: [ 'parshift/**', 'tests/**', 'pyproject.toml' ]
     tags: '*'
 
