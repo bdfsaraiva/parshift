@@ -59,7 +59,6 @@ def read_ccsv(
 
 
 def _group_turns(conversation_df: pd.DataFrame) -> list:
-
     conversation_df = conversation_df.reset_index()
     if "'reply_id'" in conversation_df.columns:
         last_col = "'reply_id'"
@@ -70,7 +69,6 @@ def _group_turns(conversation_df: pd.DataFrame) -> list:
     turn = 0
 
     for index, row in conversation_df.iterrows():
-
         if (
             index != 0
             and conversation[turn - 1]["user_id"] == row["'user_id'"]
@@ -139,7 +137,6 @@ def _pshift_code(label):
 
 
 def annotate(conversation_df: pd.DataFrame) -> pd.DataFrame:
-
     """Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.
 
     Arguments:
@@ -159,7 +156,6 @@ def annotate(conversation_df: pd.DataFrame) -> pd.DataFrame:
     part_2 = ""
 
     if "'reply_id'" in conversation_df.columns:
-
         annotate_df = pd.DataFrame(
             {
                 "ids": [],
@@ -221,7 +217,6 @@ def annotate(conversation_df: pd.DataFrame) -> pd.DataFrame:
             ]
 
     elif "'target_id'" in conversation_df.columns:
-
         annotate_df = pd.DataFrame(
             {
                 "ids": [],
@@ -234,7 +229,6 @@ def annotate(conversation_df: pd.DataFrame) -> pd.DataFrame:
         )
 
         for idx, msg in enumerate(conversation):
-
             if (
                 msg["target_id"] == None
                 or msg["target_id"] == "None"

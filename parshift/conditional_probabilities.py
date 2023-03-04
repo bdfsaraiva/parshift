@@ -80,7 +80,6 @@ def _frequency_table(parshift_annotation_df) -> list:
 
 
 def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFrame:
-
     """
     Calculate the conditional probabilities for a given `parshift_annotation` DataFrame based on Gibson's framework.
 
