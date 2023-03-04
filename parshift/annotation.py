@@ -1,7 +1,8 @@
 import csv
-import pandas as pd
 import re
+from typing import Dict, List
 
+import pandas as pd
 
 _p_shift_dict = {
     "AB-BA": "Turn Receiving",
@@ -44,7 +45,6 @@ def read_ccsv(
     if len(delimiter) != 1:
         raise ValueError("Parameter delimiter must be one character")
 
-    conversation = []
     with open(filename, "r", encoding="utf8") as file:
         csv_reader = csv.reader(file, delimiter=delimiter, quotechar=quotechar)
         first_line_csv = list(csv_reader)[0]
@@ -65,7 +65,7 @@ def _group_turns(conversation_df: pd.DataFrame) -> list:
     elif "'target_id'" in conversation_df.columns:
         last_col = "'target_id'"
 
-    conversation = []
+    conversation: List[Dict] = []
     turn = 0
 
     for index, row in conversation_df.iterrows():
@@ -207,7 +207,7 @@ def annotate(conversation_df: pd.DataFrame) -> pd.DataFrame:
                 label_code_v = _pshift_code(p1p2)
                 msg["pshift"] = label_code_v
 
-            annotate_df.loc[len(annotate_df.index)] = [
+            annotate_df.loc[len(annotate_df.index)] = [  # type: ignore
                 str(msg["ids"]),
                 str(msg["user_id"]),
                 msg["message_text"],
@@ -247,7 +247,7 @@ def annotate(conversation_df: pd.DataFrame) -> pd.DataFrame:
                 label_code_v = _pshift_code(p1p2)
                 msg["pshift"] = label_code_v
 
-            annotate_df.loc[len(annotate_df.index)] = [
+            annotate_df.loc[len(annotate_df.index)] = [  # type: ignore
                 str(msg["ids"]),
                 str(msg["user_id"]),
                 msg["message_text"],
