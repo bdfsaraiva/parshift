@@ -15,9 +15,9 @@ requires-python = ">=3.8"
 keywords = ["python", "conversation-analysis", "participation-shifts", "turn-taking"]
 license = {text = "MIT"}
 authors = [ 
-{name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt"}
-{name = "João Pedro Carvalho", email = "joao.matos.carvalho@ulusofona.pt" }
-{name = "Nuno Fachada", email = "nuno.fachada@ulusofona.pt" }
+{name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt"},
+{name = "João Pedro Carvalho", email = "joao.matos.carvalho@ulusofona.pt" },
+{name = "Nuno Fachada", email = "nuno.fachada@ulusofona.pt" },
 {name = "Manuel Pita", email = "manuel.pita@ulusofona.pt" }
 ]
 dependencies = ["pandas", "matplotlib", "squarify", "seaborn"] 
