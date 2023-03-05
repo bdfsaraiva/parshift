@@ -1,7 +1,7 @@
-from parshift import annotation
-import pytest
 import pandas as pd
+import pytest
 
+from parshift import annotation
 
 # conversation = [
 #     {

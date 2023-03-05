@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-from parshift import conditional_probabilities
-from parshift import frequency_treemap
 
+from parshift import conditional_probabilities, frequency_treemap
 
 parshift_annotation_df = pd.read_csv("tests/df.csv", index_col=False).fillna("")
 

@@ -1,8 +1,9 @@
-import squarify
-import matplotlib.pyplot as plt
 import matplotlib
-import seaborn as sns
+import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
+import squarify
+
 from .annotation import pshift_type
 
 

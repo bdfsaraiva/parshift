@@ -1,5 +1,4 @@
 import pandas as pd
-from .annotation import pshift_type
 
 _cp_order = {
     "AB-BA": 4,
@@ -126,12 +125,12 @@ def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFr
                     "CPeTC": "",
                 }
 
-    cond_prob = pd.DataFrame.from_dict(cond_prob, orient="index")
+    cond_prob_df = pd.DataFrame.from_dict(cond_prob, orient="index")
     freq = pd.DataFrame.from_dict(freq_table, orient="index", columns=["Frequency"])
     freq["Probability"] = round(freq["Frequency"] / freq["Frequency"].sum(), 2)
 
     result = (
-        pd.concat([freq, cond_prob], axis=1)
+        pd.concat([freq, cond_prob_df], axis=1)
         .reset_index()
         .rename(columns={"index": "pshift"})
     )
