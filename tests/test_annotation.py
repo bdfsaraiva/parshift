@@ -40,6 +40,10 @@ def test_read_conversation_errors():
         read_ccsv("file.csv", 1)
     with pytest.raises(TypeError):
         read_ccsv("file.csv", not_valid=",,")
+    with pytest.raises(ValueError):
+        read_ccsv("tests/conv_missing_id.csv")
+    with pytest.raises(ValueError):
+        read_ccsv("tests/conv_missing_target_and_reply.csv")
 
 
 def test_parshift_annotation1():

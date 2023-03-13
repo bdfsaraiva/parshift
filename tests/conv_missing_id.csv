@@ -1,0 +1,10 @@
+user_id,message_text,reply_id
+10,"olá, como vao?",None
+11,"Olá amigo",0
+12,"Olá a todos",None
+11,"Como vão",None
+13,"tá calado",2
+13,"ola",2
+13,"xiu",2
+13,"aaaaa",None
+20,"olaaaaa",5
