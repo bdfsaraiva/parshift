@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from parshift import annotation
+from parshift import annotate, pshift_type, read_ccsv
 
 # conversation = [
 #     {
@@ -25,46 +25,65 @@ from parshift import annotation
 
 
 def test_read_conversation():
-    assert type(annotation.read_ccsv("tests/a.csv")) == type(pd.DataFrame())
+    assert type(read_ccsv("tests/a.csv")) == type(pd.DataFrame())
 
-    assert len(annotation.read_ccsv("tests/a.csv").columns) >= 3
-    # assert len(annotation.read_ccsv("tests/b.csv", ";")) == len(conversation)
+    assert len(read_ccsv("tests/a.csv").columns) >= 3
+    # assert len(read_ccsv("tests/b.csv", ";")) == len(conversation)
 
 
 def test_read_conversation_errors():
-    with pytest.raises(TypeError):
-        annotation.read_ccsv(10)
     with pytest.raises(ValueError):
-        annotation.read_ccsv("file")
+        read_ccsv(10)
+    with pytest.raises(FileNotFoundError):
+        read_ccsv("file")
     with pytest.raises(TypeError):
-        annotation.read_ccsv("file.csv", 1)
-    with pytest.raises(ValueError):
-        annotation.read_ccsv("file.csv", ",,")
+        read_ccsv("file.csv", 1)
+    with pytest.raises(TypeError):
+        read_ccsv("file.csv", not_valid=",,")
 
 
-def test_parshift_annotation():
-    df_read_ccsv = annotation.read_ccsv("tests/a.csv").reset_index(drop=False)
+def test_parshift_annotation1():
+    df_read_ccsv = read_ccsv("tests/a.csv").reset_index(drop=False)
     parshift_annotation_df = pd.read_csv("tests/df.csv", index_col=False).fillna("")
 
-    assert type(annotation.annotate(df_read_ccsv)) == type(parshift_annotation_df)
+    assert type(annotate(df_read_ccsv)) == type(parshift_annotation_df)
 
-    assert len(annotation.annotate(df_read_ccsv)) == len(parshift_annotation_df)
+    assert len(annotate(df_read_ccsv)) == len(parshift_annotation_df)
 
     # print(parshift_annotation_df["pshift"].values)
     print(parshift_annotation_df)
-    # print(annotation.annotate(df_read_ccsv)["pshift"].values)
+    # print(annotate(df_read_ccsv)["pshift"].values)
     assert (
         parshift_annotation_df["pshift"].values
-        == annotation.annotate(df_read_ccsv)["pshift"].values
+        == annotate(df_read_ccsv)["pshift"].values
+    ).all()
+
+
+def test_parshift_annotation2():
+    df_read_ccsv = read_ccsv("tests/b.csv", sep=";", quotechar='"').reset_index(
+        drop=False
+    )
+    parshift_annotation_df = pd.read_csv("tests/df.csv", index_col=False).fillna("")
+
+    assert type(annotate(df_read_ccsv)) == type(parshift_annotation_df)
+
+    assert len(annotate(df_read_ccsv)) == len(parshift_annotation_df)
+
+    # print(parshift_annotation_df["pshift"].values)
+    print(parshift_annotation_df)
+    # print(annotate(df_read_ccsv)["pshift"].values)
+    assert (
+        parshift_annotation_df["pshift"].values
+        == annotate(df_read_ccsv)["pshift"].values
     ).all()
 
 
 def test_pshift_type_values():
-    assert annotation.pshift_type("AB-BA") == "Turn Receiving"
+    assert pshift_type("AB-BA") == "Turn Receiving"
 
 
 def test_pshift_type_errors():
     with pytest.raises(TypeError):
-        annotation.pshift_type(1)
+        pshift_type(1)
     with pytest.raises(ValueError):
-        annotation.pshift_type("hi")
+        pshift_type("hi")
