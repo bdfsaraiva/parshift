@@ -46,7 +46,13 @@ theme:
 plugins:
 - search:
     lang: en
-- mkdocstrings
+- mkdocstrings:
+    default_handler: python
+    handlers:
+      python:
+        import:
+        - https://docs.python.org/3/objects.inv
+        - https://pandas.pydata.org/docs/objects.inv
 
 nav:
   - Home: index.md
