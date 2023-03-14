@@ -44,6 +44,8 @@ def test_read_conversation_errors():
         read_ccsv("tests/conv_missing_id.csv")
     with pytest.raises(ValueError):
         read_ccsv("tests/conv_missing_target_and_reply.csv")
+    with pytest.raises(ValueError):
+        read_ccsv("tests/conv_no_id_but_target_and_reply.csv")
 
 
 def test_parshift_annotation1():
