@@ -1,9 +1,10 @@
-import csv
 import re
 from typing import Dict, List
 
+import numpy as np
 import pandas as pd
 
+# Participation shift types
 _p_shift_dict = {
     "AB-BA": "Turn Receiving",
     "AB-B0": "Turn Receiving",
@@ -20,42 +21,50 @@ _p_shift_dict = {
     "AB-AY": "Turn Continuing",
 }
 
+# Expected column types
+_p_shift_cols = {
+    "id": np.int64,
+    "user_id": np.int64,
+    "message_text": str,
+    "reply_id": object,
+    "target_id": object,
+}
 
-def read_ccsv(
-    filename: str, delimiter: str = ",", quotechar: str = '"'
-) -> pd.DataFrame:
-    """Function used to read a conversation file and return a list of dictionary structure.
-    The dictionary keys are: `id`, `user_id`, `message_text` and one of [`reply_id`, `target_id`].
+
+def read_ccsv(filename: str, **kwargs) -> pd.DataFrame:
+    """Read a conversation file in CSV format, validate it and return a dataframe.
+
+    The conversation file should have the following columns:
+
+    - `id`: ID of the message (int)
+    - `user_id`: ID of the user sending the message (int)
+    - `message_text`: The message itself (string)
+    - `reply_id` or `target_id`: The reply ID or the target ID (int)
 
     Arguments:
         filename: Path to csv file.
-        delimiter: Parameter delimiter.
-        quotechar: Parameter quotechar.
+        **kwargs: Keyword parameters passed to Pandas
+            [`read_csv()`][pandas.read_csv] function.
 
     Returns:
-        conversation: Pandas DataFrame.
+        conversation: Pandas DataFrame containing the validated conversation.
     """
 
-    if not isinstance(filename, str):
-        raise TypeError("Parameter filename must be a String")
-    if not re.search(r"^.*\.csv$", filename):
-        raise ValueError("Parameter filename must be a CSV file")
-    if not isinstance(delimiter, str):
-        raise TypeError("Parameter delimiter must be a String")
-    if len(delimiter) != 1:
-        raise ValueError("Parameter delimiter must be one character")
+    # Read the conversation file
+    conversation = pd.read_csv(filename, dtype=_p_shift_cols, **kwargs)
 
-    with open(filename, "r", encoding="utf8") as file:
-        csv_reader = csv.reader(file, delimiter=delimiter, quotechar=quotechar)
-        first_line_csv = list(csv_reader)[0]
+    # Obtain potentially missing columns
+    missing = _p_shift_cols.keys() - conversation.columns
 
-    if "reply_id" in first_line_csv or "target_id" in first_line_csv:
-        conversation = pd.read_csv(
-            filename, delimiter=delimiter, quotechar=quotechar, index_col="id"
-        )
-        return conversation
-    else:
-        raise ValueError("CSV file must contain `reply_id` or `target_id` column")
+    # Check if we have missing columns
+    if len(missing) == 1 and "reply_id" not in missing and "target_id" not in missing:
+        # If only one column missing, it can't be other than `reply_id` or `target_id`
+        raise ValueError(f"CSV file is missing the `{missing.pop()}` column")
+    elif len(missing) > 1:
+        # If more than one column missing, we have a problem
+        raise ValueError(f"CSV file is missing the `{'`, `'.join(missing)}` columns")
+
+    return conversation
 
 
 def _group_turns(conversation_df: pd.DataFrame) -> list:
@@ -93,9 +102,7 @@ def _group_turns(conversation_df: pd.DataFrame) -> list:
                     "ids": [id],
                     "user_id": user_id,
                     "message_text": message_text,
-                    last_col: int(last_col_val)
-                    if last_col_val != "None"
-                    else None,
+                    last_col: int(last_col_val) if last_col_val != "None" else None,
                 }
             )
 
