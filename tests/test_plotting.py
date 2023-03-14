@@ -3,10 +3,8 @@ import pandas as pd
 
 from parshift import conditional_probabilities, frequency_treemap
 
-parshift_annotation_df = pd.read_csv("tests/df.csv", index_col=False).fillna("")
 
-
-def test_frequency_treemap():
+def test_frequency_treemap(parshift_annotation_df):
     conditional_probabilities_df = conditional_probabilities(parshift_annotation_df)
     _, ax = plt.subplots()
     assert type(ax) == type(frequency_treemap(conditional_probabilities_df))
