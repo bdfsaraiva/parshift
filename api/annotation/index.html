@@ -21,7 +21,7 @@
         <link rel="next" href="../conditional_probabilities/">
       
       <link rel="icon" href="../../images/icon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.0">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.2">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.402914a4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7bf56d0a.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
@@ -527,15 +527,21 @@
 
 
 <h2 id="parshift.annotation.read_ccsv" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">read_ccsv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">quotechar</span><span class="o">=</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">read_ccsv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 </h2>
 
 
   <div class="doc doc-contents ">
   
-      <p>Function used to read a conversation file and return a list of dictionary structure.
-The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_text</code> and one of [<code>reply_id</code>, <code>target_id</code>].</p>
+      <p>Read a conversation file in CSV format, validate it and return a dataframe.</p>
+<p>The conversation file should have the following columns:</p>
+<ul>
+<li><code>id</code>: ID of the message (int)</li>
+<li><code>user_id</code>: ID of the user sending the message (int)</li>
+<li><code>message_text</code>: The message itself (string)</li>
+<li><code>reply_id</code> or <code>target_id</code>: The reply ID or the target ID (int)</li>
+</ul>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -551,7 +557,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
         <tr>
           <td><code>filename</code></td>
           <td>
-                <code>str</code>
+                <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
           </td>
           <td><p>Path to csv file.</p></td>
           <td>
@@ -559,23 +565,13 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
           </td>
         </tr>
         <tr>
-          <td><code>delimiter</code></td>
+          <td><code>**kwargs</code></td>
           <td>
-                <code>str</code>
           </td>
-          <td><p>Parameter delimiter.</p></td>
+          <td><p>Keyword parameters passed to Pandas
+<a class="autorefs autorefs-external" href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html#pandas.read_csv"><code>read_csv()</code></a> function.</p></td>
           <td>
-                <code>&#39;,&#39;</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>quotechar</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td><p>Parameter quotechar.</p></td>
-          <td>
-                <code>&#39;&#34;&#39;</code>
+                <code>{}</code>
           </td>
         </tr>
     </tbody>
@@ -592,27 +588,16 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
     <tbody>
         <tr>
 <td><code>conversation</code></td>          <td>
-                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+                <code><a class="autorefs autorefs-external" title="pandas" href="https://pandas.pydata.org/docs/index.html#module-pandas">pd</a>.<a class="autorefs autorefs-external" title="pandas.DataFrame" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame">DataFrame</a></code>
           </td>
-          <td><p>Pandas DataFrame.</p></td>
+          <td><p>Pandas DataFrame containing the validated conversation.</p></td>
         </tr>
     </tbody>
   </table>
 
       <details class="quote">
         <summary>Source code in <code>parshift/annotation.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
@@ -636,42 +621,49 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
 <span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
-<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">read_ccsv</span><span class="p">(</span>
-    <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">quotechar</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&quot;&#39;</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function used to read a conversation file and return a list of dictionary structure.</span>
-<span class="sd">    The dictionary keys are: `id`, `user_id`, `message_text` and one of [`reply_id`, `target_id`].</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">read_ccsv</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a conversation file in CSV format, validate it and return a dataframe.</span>
+
+<span class="sd">    The conversation file should have the following columns:</span>
+
+<span class="sd">    - `id`: ID of the message (int)</span>
+<span class="sd">    - `user_id`: ID of the user sending the message (int)</span>
+<span class="sd">    - `message_text`: The message itself (string)</span>
+<span class="sd">    - `reply_id` or `target_id`: The reply ID or the target ID (int)</span>
 
 <span class="sd">    Arguments:</span>
 <span class="sd">        filename: Path to csv file.</span>
-<span class="sd">        delimiter: Parameter delimiter.</span>
-<span class="sd">        quotechar: Parameter quotechar.</span>
+<span class="sd">        **kwargs: Keyword parameters passed to Pandas</span>
+<span class="sd">            [`read_csv()`][pandas.read_csv] function.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        conversation: Pandas DataFrame.</span>
+<span class="sd">        conversation: Pandas DataFrame containing the validated conversation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Parameter filename must be a String&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;^.*\.csv$&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parameter filename must be a CSV file&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">delimiter</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Parameter delimiter must be a String&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parameter delimiter must be one character&quot;</span><span class="p">)</span>
+    <span class="c1"># Read the conversation file</span>
+    <span class="n">conversation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">_p_shift_cols</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">conversation</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-        <span class="n">csv_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">delimiter</span><span class="p">,</span> <span class="n">quotechar</span><span class="o">=</span><span class="n">quotechar</span><span class="p">)</span>
-        <span class="n">first_line_csv</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">csv_reader</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Obtain potentially missing columns</span>
+    <span class="n">missing</span> <span class="o">=</span> <span class="n">_p_shift_cols</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">-</span> <span class="n">conversation</span><span class="o">.</span><span class="n">columns</span>
 
-    <span class="k">if</span> <span class="s2">&quot;&#39;reply_id&#39;&quot;</span> <span class="ow">in</span> <span class="n">first_line_csv</span> <span class="ow">or</span> <span class="s2">&quot;&#39;target_id&#39;&quot;</span> <span class="ow">in</span> <span class="n">first_line_csv</span><span class="p">:</span>
-        <span class="n">conversation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-            <span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">delimiter</span><span class="p">,</span> <span class="n">quotechar</span><span class="o">=</span><span class="n">quotechar</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;&#39;id&#39;&quot;</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">conversation</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CSV file must contain reply_id or target_id column&quot;</span><span class="p">)</span>
+    <span class="c1"># Check if we have missing columns</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="s2">&quot;reply_id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">missing</span> <span class="ow">and</span> <span class="s2">&quot;target_id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">missing</span><span class="p">:</span>
+        <span class="c1"># If only one column missing, it can&#39;t be other than `reply_id` or `target_id`</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CSV file is missing the `</span><span class="si">{</span><span class="n">missing</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span><span class="si">}</span><span class="s2">` column&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># If more than one column missing, we have a problem</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CSV file is missing the `</span><span class="si">{</span><span class="s1">&#39;`, `&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s2">` columns&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">conversation</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -706,7 +698,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
         <tr>
           <td><code>conversation_df</code></td>
           <td>
-                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+                <code><a class="autorefs autorefs-external" title="pandas" href="https://pandas.pydata.org/docs/index.html#module-pandas">pd</a>.<a class="autorefs autorefs-external" title="pandas.DataFrame" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame">DataFrame</a></code>
           </td>
           <td><p>Pandas DataFrame.</p></td>
           <td>
@@ -727,7 +719,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
     <tbody>
         <tr>
           <td>
-                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+                <code><a class="autorefs autorefs-external" title="pandas" href="https://pandas.pydata.org/docs/index.html#module-pandas">pd</a>.<a class="autorefs autorefs-external" title="pandas.DataFrame" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame">DataFrame</a></code>
           </td>
           <td><p>New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee)</p></td>
         </tr>
@@ -736,14 +728,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
 
       <details class="quote">
         <summary>Source code in <code>parshift/annotation.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
@@ -858,7 +843,14 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
 <span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
-<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">annotate</span><span class="p">(</span><span class="n">conversation_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">annotate</span><span class="p">(</span><span class="n">conversation_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function used to return a Dataframe which contains the Participation Shift type, based in Gibson&#39;s paper.</span>
 
 <span class="sd">    Arguments:</span>
@@ -877,7 +869,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
     <span class="n">part_1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">part_2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="s2">&quot;&#39;reply_id&#39;&quot;</span> <span class="ow">in</span> <span class="n">conversation_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">&quot;reply_id&quot;</span> <span class="ow">in</span> <span class="n">conversation_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
         <span class="n">annotate_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
             <span class="p">{</span>
                 <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[],</span>
@@ -929,7 +921,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
                 <span class="n">label_code_v</span> <span class="o">=</span> <span class="n">_pshift_code</span><span class="p">(</span><span class="n">p1p2</span><span class="p">)</span>
                 <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;pshift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_code_v</span>
 
-            <span class="n">annotate_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">annotate_df</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">annotate_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">annotate_df</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># type: ignore</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;ids&quot;</span><span class="p">]),</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]),</span>
                 <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;message_text&quot;</span><span class="p">],</span>
@@ -938,7 +930,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
                 <span class="n">label_code_v</span><span class="p">,</span>
             <span class="p">]</span>
 
-    <span class="k">elif</span> <span class="s2">&quot;&#39;target_id&#39;&quot;</span> <span class="ow">in</span> <span class="n">conversation_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="s2">&quot;target_id&quot;</span> <span class="ow">in</span> <span class="n">conversation_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
         <span class="n">annotate_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
             <span class="p">{</span>
                 <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[],</span>
@@ -969,7 +961,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
                 <span class="n">label_code_v</span> <span class="o">=</span> <span class="n">_pshift_code</span><span class="p">(</span><span class="n">p1p2</span><span class="p">)</span>
                 <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;pshift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_code_v</span>
 
-            <span class="n">annotate_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">annotate_df</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">annotate_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">annotate_df</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># type: ignore</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;ids&quot;</span><span class="p">]),</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]),</span>
                 <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;message_text&quot;</span><span class="p">],</span>
@@ -1015,7 +1007,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
         <tr>
           <td><code>pshift_code</code></td>
           <td>
-                <code>str</code>
+                <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
           </td>
           <td><p>Participation Shift Code (e.g A0-XA).</p></td>
           <td>
@@ -1036,7 +1028,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
     <tbody>
         <tr>
           <td>
-                <code>str</code>
+                <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
           </td>
           <td><p>Participation shift type in a given turn - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing].</p></td>
         </tr>
@@ -1045,14 +1037,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
 
       <details class="quote">
         <summary>Source code in <code>parshift/annotation.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">271</span>
 <span class="normal">272</span>
 <span class="normal">273</span>
 <span class="normal">274</span>
@@ -1060,7 +1045,14 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
 <span class="normal">276</span>
 <span class="normal">277</span>
 <span class="normal">278</span>
-<span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pshift_type</span><span class="p">(</span><span class="n">pshift_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pshift_type</span><span class="p">(</span><span class="n">pshift_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function used to return the Participation Shift type, based in Gibson&#39;s paper.</span>
 
 <span class="sd">    Arguments:</span>
@@ -1138,7 +1130,7 @@ The dictionary keys are: <code>id</code>, <code>user_id</code>, <code>message_te
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.instant", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.ce72ebac.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fc8c2696.min.js"></script>
       
     
   </body>
