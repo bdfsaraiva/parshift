@@ -25,9 +25,9 @@ from parshift import annotate, pshift_type, read_ccsv
 
 
 def test_read_conversation():
-    assert type(read_ccsv("tests/a.csv")) == type(pd.DataFrame())
+    assert type(read_ccsv("tests/conv_good.csv")) == type(pd.DataFrame())
 
-    assert len(read_ccsv("tests/a.csv").columns) >= 3
+    assert len(read_ccsv("tests/conv_good.csv").columns) >= 3
     # assert len(read_ccsv("tests/b.csv", ";")) == len(conversation)
 
 
@@ -47,7 +47,7 @@ def test_read_conversation_errors():
 
 
 def test_parshift_annotation1():
-    df_read_ccsv = read_ccsv("tests/a.csv").reset_index(drop=False)
+    df_read_ccsv = read_ccsv("tests/conv_good.csv").reset_index(drop=False)
     parshift_annotation_df = pd.read_csv("tests/df.csv", index_col=False).fillna("")
 
     assert type(annotate(df_read_ccsv)) == type(parshift_annotation_df)
@@ -64,7 +64,7 @@ def test_parshift_annotation1():
 
 
 def test_parshift_annotation2():
-    df_read_ccsv = read_ccsv("tests/b.csv", sep=";", quotechar='"').reset_index(
+    df_read_ccsv = read_ccsv("tests/conv_good_diffsep.csv", sep=";", quotechar='"').reset_index(
         drop=False
     )
     parshift_annotation_df = pd.read_csv("tests/df.csv", index_col=False).fillna("")
