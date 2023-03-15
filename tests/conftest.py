@@ -10,33 +10,61 @@ import pandas as pd
 import pytest
 
 
+_good_conversations = [
+    {"csv_in": "conv_good.csv", "kwargs": {}, "csv_out": "df_good.csv"},
+    {
+        "csv_in": "conv_good_diffsep.csv",
+        "kwargs": {"sep": ";", "quotechar": '"'},
+        "csv_out": "df_good.csv",
+    },
+]
+
+_good_results = [
+    {
+        "csv_out": "df_good.csv",
+        "freq_table": {
+            "AB-BA": 0,
+            "AB-B0": 0,
+            "AB-BY": 0,
+            "A0-X0": 1,
+            "A0-XA": 2,
+            "A0-XY": 0,
+            "AB-X0": 1,
+            "AB-XA": 1,
+            "AB-XB": 0,
+            "AB-XY": 0,
+            "A0-AY": 0,
+            "AB-A0": 1,
+            "AB-AY": 0,
+        },
+    }
+]
+
+
 @pytest.fixture()
 def datapath(request):
     return Path(request.path.parent, "data")
 
 
-@pytest.fixture()
-def file_csv_df_result(datapath):
-    """Location of the CSV file with the outputted dataframe."""
-    return Path(datapath, "df_result.csv")
-
-
-@pytest.fixture()
-def parshift_annotation_df(file_csv_df_result):
+@pytest.fixture(params=_good_results)
+def pshift_freq_table(datapath, request):
     """The dataframe supposed to be generated when reading the good input data."""
-    return pd.read_csv(file_csv_df_result, index_col=False).fillna("")
+    return {
+        "df_ps": pd.read_csv(
+            Path(datapath, request.param["csv_out"]), index_col=False
+        ).fillna(""),
+        "freq_table": request.param["freq_table"],
+    }
 
 
-@pytest.fixture()
-def file_csv_good(datapath):
+@pytest.fixture(params=_good_conversations)
+def file_csv_good(datapath, request):
     """Location of correct CSV test file."""
-    return Path(datapath, "conv_good.csv")
-
-
-@pytest.fixture()
-def file_csv_good_diffsep(datapath):
-    """Location of correct CSV test file with different delimiters, etc."""
-    return Path(datapath, "conv_good_diffsep.csv")
+    return {
+        "csv_in": Path(datapath, request.param["csv_in"]),
+        "kwargs": request.param["kwargs"],
+        "csv_out": Path(datapath, request.param["csv_out"]),
+    }
 
 
 @pytest.fixture()

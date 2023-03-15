@@ -25,9 +25,14 @@ from parshift import annotate, pshift_type, read_ccsv
 
 
 def test_read_conversation(file_csv_good):
-    assert type(read_ccsv(file_csv_good)) == type(pd.DataFrame())
+    assert type(
+        read_ccsv(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
+    ) == type(pd.DataFrame())
 
-    assert len(read_ccsv(file_csv_good).columns) >= 3
+    assert (
+        len(read_ccsv(file_csv_good["csv_in"], **(file_csv_good["kwargs"])).columns)
+        >= 3
+    )
     # assert len(read_ccsv("tests/b.csv", ";")) == len(conversation)
 
 
@@ -52,28 +57,13 @@ def test_read_conversation_errors(
         read_ccsv(file_csv_no_id_but_target_and_reply)
 
 
-def test_parshift_annotation1(file_csv_good, file_csv_df_result):
-    df_read_ccsv = read_ccsv(file_csv_good).reset_index(drop=False)
-    parshift_annotation_df = pd.read_csv(file_csv_df_result, index_col=False).fillna("")
-
-    assert type(annotate(df_read_ccsv)) == type(parshift_annotation_df)
-
-    assert len(annotate(df_read_ccsv)) == len(parshift_annotation_df)
-
-    # print(parshift_annotation_df["pshift"].values)
-    print(parshift_annotation_df)
-    # print(annotate(df_read_ccsv)["pshift"].values)
-    assert (
-        parshift_annotation_df["pshift"].values
-        == annotate(df_read_ccsv)["pshift"].values
-    ).all()
-
-
-def test_parshift_annotation2(file_csv_good_diffsep, file_csv_df_result):
-    df_read_ccsv = read_ccsv(file_csv_good_diffsep, sep=";", quotechar='"').reset_index(
-        drop=False
-    )
-    parshift_annotation_df = pd.read_csv(file_csv_df_result, index_col=False).fillna("")
+def test_parshift_annotation(file_csv_good):
+    df_read_ccsv = read_ccsv(
+        file_csv_good["csv_in"], **(file_csv_good["kwargs"])
+    ).reset_index(drop=False)
+    parshift_annotation_df = pd.read_csv(
+        file_csv_good["csv_out"], index_col=False
+    ).fillna("")
 
     assert type(annotate(df_read_ccsv)) == type(parshift_annotation_df)
 
