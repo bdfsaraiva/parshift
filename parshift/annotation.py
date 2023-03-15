@@ -51,7 +51,7 @@ def read_ccsv(filename: str, **kwargs) -> pd.DataFrame:
     """
 
     # Read the conversation file
-    conversation = pd.read_csv(filename, dtype=_p_shift_cols, **kwargs)
+    conversation: pd.DataFrame = pd.read_csv(filename, dtype=_p_shift_cols, **kwargs)  # type: ignore
 
     # Obtain potentially missing columns
     missing = _p_shift_cols.keys() - conversation.columns

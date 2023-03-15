@@ -4,10 +4,8 @@ import pytest
 from parshift import conditional_probabilities
 from parshift.conditional_probabilities import _frequency_table
 
-parshift_annotation_df = pd.read_csv("tests/df.csv", index_col=False).fillna("")
 
-
-def test_frequency_table():
+def test_frequency_table(parshift_annotation_df):
     result = _frequency_table(parshift_annotation_df)
     assert isinstance(result, list)
     assert len(result) == 5
@@ -38,7 +36,7 @@ def test_conditional_probabilities_errors():
         conditional_probabilities(dict())
 
 
-def test_conditional_probabilities():
+def test_conditional_probabilities(parshift_annotation_df):
     result = conditional_probabilities(parshift_annotation_df)
     assert isinstance(result, pd.DataFrame)
     assert list(result.columns) == [

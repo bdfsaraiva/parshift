@@ -24,14 +24,18 @@ from parshift import annotate, pshift_type, read_ccsv
 # ]
 
 
-def test_read_conversation():
-    assert type(read_ccsv("tests/a.csv")) == type(pd.DataFrame())
+def test_read_conversation(file_csv_good):
+    assert type(read_ccsv(file_csv_good)) == type(pd.DataFrame())
 
-    assert len(read_ccsv("tests/a.csv").columns) >= 3
+    assert len(read_ccsv(file_csv_good).columns) >= 3
     # assert len(read_ccsv("tests/b.csv", ";")) == len(conversation)
 
 
-def test_read_conversation_errors():
+def test_read_conversation_errors(
+    file_csv_missing_id,
+    file_csv_missing_target_and_reply,
+    file_csv_no_id_but_target_and_reply,
+):
     with pytest.raises(ValueError):
         read_ccsv(10)
     with pytest.raises(FileNotFoundError):
@@ -41,14 +45,16 @@ def test_read_conversation_errors():
     with pytest.raises(TypeError):
         read_ccsv("file.csv", not_valid=",,")
     with pytest.raises(ValueError):
-        read_ccsv("tests/conv_missing_id.csv")
+        read_ccsv(file_csv_missing_id)
     with pytest.raises(ValueError):
-        read_ccsv("tests/conv_missing_target_and_reply.csv")
+        read_ccsv(file_csv_missing_target_and_reply)
+    with pytest.raises(ValueError):
+        read_ccsv(file_csv_no_id_but_target_and_reply)
 
 
-def test_parshift_annotation1():
-    df_read_ccsv = read_ccsv("tests/a.csv").reset_index(drop=False)
-    parshift_annotation_df = pd.read_csv("tests/df.csv", index_col=False).fillna("")
+def test_parshift_annotation1(file_csv_good, file_csv_df_result):
+    df_read_ccsv = read_ccsv(file_csv_good).reset_index(drop=False)
+    parshift_annotation_df = pd.read_csv(file_csv_df_result, index_col=False).fillna("")
 
     assert type(annotate(df_read_ccsv)) == type(parshift_annotation_df)
 
@@ -63,11 +69,11 @@ def test_parshift_annotation1():
     ).all()
 
 
-def test_parshift_annotation2():
-    df_read_ccsv = read_ccsv("tests/b.csv", sep=";", quotechar='"').reset_index(
+def test_parshift_annotation2(file_csv_good_diffsep, file_csv_df_result):
+    df_read_ccsv = read_ccsv(file_csv_good_diffsep, sep=";", quotechar='"').reset_index(
         drop=False
     )
-    parshift_annotation_df = pd.read_csv("tests/df.csv", index_col=False).fillna("")
+    parshift_annotation_df = pd.read_csv(file_csv_df_result, index_col=False).fillna("")
 
     assert type(annotate(df_read_ccsv)) == type(parshift_annotation_df)
 

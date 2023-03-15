@@ -48,7 +48,7 @@ dev = [
 
 [tool.pytest.ini_options]
 minversion = "7.2"
-addopts = "--doctest-modules"
+addopts = "--doctest-modules --mypy"
 norecursedirs = [
     "hooks",
     "*.egg",
