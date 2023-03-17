@@ -4,6 +4,7 @@
 
 """Fixtures to be used by test functions."""
 
+from os import PathLike
 from pathlib import Path
 
 import numpy as np
@@ -13,7 +14,11 @@ import pytest
 # Files containing good conversations, optional parameters required to open them,
 # and CSV file containing respective conversation after annotation
 _good_conversations = [
-    {"csv_in": "conv_good.csv", "kwargs": {}, "csv_out": "df_good.csv"},
+    {
+        "csv_in": "conv_good.csv",
+        "kwargs": {},
+        "csv_out": "df_good.csv",
+    },
     {
         "csv_in": "conv_good_diffsep.csv",
         "kwargs": {"sep": ";", "quotechar": '"'},
@@ -41,8 +46,45 @@ _good_results = [
             "AB-A0": 1,
             "AB-AY": 0,
         },
-    }
+    },
 ]
+
+# Incorrect parametrizations of read_ccsv() and expected errors
+_bad_params_read_ccsv = [
+    {
+        "csv_in": 10,
+        "kwargs": {},
+        "expected_error": ValueError,
+    },
+    {
+        "csv_in": "__this_file_does_not_exist_at_all.csv",
+        "kwargs": {},
+        "expected_error": FileNotFoundError,
+    },
+    {
+        "csv_in": "some_file.csv",
+        "kwargs": {
+            "invalid_param_name": "whatever",
+        },
+        "expected_error": TypeError,
+    },
+    {
+        "csv_in": "conv_missing_id.csv",
+        "kwargs": {},
+        "expected_error": ValueError,
+    },
+    {
+        "csv_in": "conv_missing_target_and_reply.csv",
+        "kwargs": {},
+        "expected_error": ValueError,
+    },
+    {
+        "csv_in": "conv_no_id_but_target_and_reply.csv",
+        "kwargs": {},
+        "expected_error": ValueError,
+    },
+]
+
 
 # Mandatory columns and types of conversation dataframe
 _p_shift_cols_mandatory = {
@@ -97,19 +139,15 @@ def file_csv_good(datapath, request):
     }
 
 
-@pytest.fixture()
-def file_csv_missing_id(datapath):
-    """Location of CSV test file with missing ID."""
-    return Path(datapath, "conv_missing_id.csv")
+@pytest.fixture(params=_bad_params_read_ccsv)
+def file_read_ccsv_bad(datapath, request):
+    """Parameters for generating errors in `read_ccsv()`."""
+    csv_in = request.param["csv_in"]
+    if type(csv_in) in {str, bytes, PathLike}:
+        csv_in = Path(datapath, csv_in)
 
-
-@pytest.fixture()
-def file_csv_missing_target_and_reply(datapath):
-    """Location of CSV test file with missing target and reply IDs."""
-    return Path(datapath, "conv_missing_target_and_reply.csv")
-
-
-@pytest.fixture()
-def file_csv_no_id_but_target_and_reply(datapath):
-    """Location of CSV test file with no ID but having target and reply IDs."""
-    return Path(datapath, "conv_missing_target_and_reply.csv")
+    return {
+        "csv_in": csv_in,
+        "kwargs": request.param["kwargs"],
+        "expected_error": request.param["expected_error"],
+    }

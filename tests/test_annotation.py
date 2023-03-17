@@ -33,25 +33,9 @@ def test_read_conversation(
     assert num_opt_cols > 0
 
 
-def test_read_conversation_errors(
-    file_csv_missing_id,
-    file_csv_missing_target_and_reply,
-    file_csv_no_id_but_target_and_reply,
-):
-    with pytest.raises(ValueError):
-        read_ccsv(10)
-    with pytest.raises(FileNotFoundError):
-        read_ccsv("file")
-    with pytest.raises(TypeError):
-        read_ccsv("file.csv", 1)
-    with pytest.raises(TypeError):
-        read_ccsv("file.csv", not_valid=",,")
-    with pytest.raises(ValueError):
-        read_ccsv(file_csv_missing_id)
-    with pytest.raises(ValueError):
-        read_ccsv(file_csv_missing_target_and_reply)
-    with pytest.raises(ValueError):
-        read_ccsv(file_csv_no_id_but_target_and_reply)
+def test_read_conversation_errors(file_read_ccsv_bad):
+    with pytest.raises(file_read_ccsv_bad["expected_error"]):
+        read_ccsv(file_read_ccsv_bad["csv_in"], **(file_read_ccsv_bad["kwargs"]))
 
 
 def test_parshift_annotation(file_csv_good):
