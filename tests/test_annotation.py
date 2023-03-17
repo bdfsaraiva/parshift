@@ -34,37 +34,66 @@ def test_read_conversation(
 
 
 def test_read_conversation_errors(file_read_ccsv_bad):
+    """Test errors raised by `read_ccsv()`."""
     with pytest.raises(file_read_ccsv_bad["expected_error"]):
         read_ccsv(file_read_ccsv_bad["csv_in"], **(file_read_ccsv_bad["kwargs"]))
 
 
 def test_parshift_annotation(file_csv_good):
+    """Test `annotate()` with correct arguments."""
+
+    # Read the conversation
     df_read_ccsv = read_ccsv(
         file_csv_good["csv_in"], **(file_csv_good["kwargs"])
     ).reset_index(drop=False)
+
+    # Read the expected results
     parshift_annotation_df = pd.read_csv(
         file_csv_good["csv_out"], index_col=False
     ).fillna("")
 
-    assert type(annotate(df_read_ccsv)) == type(parshift_annotation_df)
+    # Apply the annotate() function on the conversation
+    conv_annot = annotate(df_read_ccsv)
 
-    assert len(annotate(df_read_ccsv)) == len(parshift_annotation_df)
+    # Check that the annotate() function returns the expected type
+    assert type(conv_annot) == type(parshift_annotation_df)
 
-    # print(parshift_annotation_df["pshift"].values)
-    print(parshift_annotation_df)
-    # print(annotate(df_read_ccsv)["pshift"].values)
+    # Check that the annotate() function returns a dataframe with the expected
+    # shape/size
+    assert conv_annot.shape == parshift_annotation_df.shape
+
+    # Check that the participation shifts are as expected
     assert (
-        parshift_annotation_df["pshift"].values
-        == annotate(df_read_ccsv)["pshift"].values
+        parshift_annotation_df["pshift"].values == conv_annot["pshift"].values
     ).all()
 
 
-def test_pshift_type_values():
-    assert pshift_type("AB-BA") == "Turn Receiving"
+@pytest.mark.parametrize(
+    "ps,pstype",
+    [
+        ("AB-BA", "Turn Receiving"),
+        ("AB-BA", "Turn Receiving"),
+        ("AB-B0", "Turn Receiving"),
+        ("AB-BY", "Turn Receiving"),
+        ("A0-X0", "Turn Claiming"),
+        ("A0-XA", "Turn Claiming"),
+        ("A0-XY", "Turn Claiming"),
+        ("AB-X0", "Turn Usurping"),
+        ("AB-XA", "Turn Usurping"),
+        ("AB-XB", "Turn Usurping"),
+        ("AB-XY", "Turn Usurping"),
+        ("A0-AY", "Turn Continuing"),
+        ("AB-A0", "Turn Continuing"),
+        ("AB-AY", "Turn Continuing"),
+    ],
+)
+def test_pshift_type_values(ps, pstype):
+    """Test that `pshift_type()` returns the expected type of p-shift."""
+    assert pshift_type(ps) == pstype
 
 
-def test_pshift_type_errors():
-    with pytest.raises(TypeError):
-        pshift_type(1)
-    with pytest.raises(ValueError):
-        pshift_type("hi")
+@pytest.mark.parametrize("ps,expecterr", [(1, TypeError), ("hi", ValueError)])
+def test_pshift_type_errors(ps, expecterr):
+    """Test that `pshift_type()` throws the expected errors."""
+    with pytest.raises(expecterr):
+        pshift_type(ps)
