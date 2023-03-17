@@ -8,9 +8,7 @@ import pytest
 from parshift import annotate, pshift_type, read_ccsv
 
 
-def test_read_conversation(
-    file_csv_good, p_shift_cols_mandatory, p_shift_cols_optional
-):
+def test_read_ccsv_return(file_csv_good, p_shift_cols_mandatory, p_shift_cols_optional):
     """Test that `read_ccsv()` returns a data frame with the appropriate columns."""
 
     # Get the object read by read_ccsv()
@@ -33,14 +31,14 @@ def test_read_conversation(
     assert num_opt_cols > 0
 
 
-def test_read_conversation_errors(file_read_ccsv_bad):
+def test_read_ccsv_errors(file_read_ccsv_bad):
     """Test errors raised by `read_ccsv()`."""
     with pytest.raises(file_read_ccsv_bad["expected_error"]):
         read_ccsv(file_read_ccsv_bad["csv_in"], **(file_read_ccsv_bad["kwargs"]))
 
 
-def test_parshift_annotation(file_csv_good):
-    """Test `annotate()` with correct arguments."""
+def test_annotate_return(file_csv_good):
+    """Test that `annotate()` returns the expected data frame."""
 
     # Read the conversation
     df_read_ccsv = read_ccsv(
@@ -69,6 +67,15 @@ def test_parshift_annotation(file_csv_good):
 
 
 @pytest.mark.parametrize(
+    "conv,expecterr", [(10, TypeError), ("some_string", TypeError)]
+)
+def test_annotate_errors(conv, expecterr):
+    """Test errors raised by `annotate()`."""
+    with pytest.raises(expecterr):
+        annotate(conv)
+
+
+@pytest.mark.parametrize(
     "ps,pstype",
     [
         ("AB-BA", "Turn Receiving"),
@@ -87,7 +94,7 @@ def test_parshift_annotation(file_csv_good):
         ("AB-AY", "Turn Continuing"),
     ],
 )
-def test_pshift_type_values(ps, pstype):
+def test_pshift_type_return(ps, pstype):
     """Test that `pshift_type()` returns the expected type of p-shift."""
     assert pshift_type(ps) == pstype
 
