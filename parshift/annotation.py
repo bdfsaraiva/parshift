@@ -1,13 +1,11 @@
 from __future__ import annotations
+
 import re
 from typing import Any, Dict, List
-from pandas._typing import (
-    FilePath,
-    ReadCsvBuffer,
-)
 
 import numpy as np
 import pandas as pd
+from pandas._typing import FilePath, ReadCsvBuffer
 
 # Participation shift types
 _p_shift_dict = {
@@ -37,7 +35,8 @@ _p_shift_cols = {
 
 
 def read_ccsv(
-    filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str], **kwargs: Any
+    filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    **kwargs: Any,
 ) -> pd.DataFrame:
     """Read a conversation file in CSV format, validate it and return a dataframe.
 
