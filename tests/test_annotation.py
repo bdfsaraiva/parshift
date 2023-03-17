@@ -1,39 +1,36 @@
+# Copyright (c) 2022-2023 Bruno Saraiva and contributors
+# Distributed under the MIT License (See accompanying file LICENSE.txt or copy
+# at http://opensource.org/licenses/MIT)
+
 import pandas as pd
 import pytest
 
 from parshift import annotate, pshift_type, read_ccsv
 
-# conversation = [
-#     {
-#         "ids": ["0"],
-#         "user_id": "10",
-#         "message_text": "olá, como vao?",
-#         "reply_id": "None",
-#     },
-#     {"ids": ["1"], "user_id": "11", "message_text": "Olá amigo", "reply_id": "0"},
-#     {"ids": ["2"], "user_id": "12", "message_text": "Olá a todos", "reply_id": "None"},
-#     {"ids": ["3"], "user_id": "11", "message_text": "Como vão", "reply_id": "None"},
-#     {
-#         "ids": ["4", "5", "6"],
-#         "user_id": "13",
-#         "message_text": "tá calado. ola. xiu",
-#         "reply_id": "2",
-#     },
-#     {"ids": ["7"], "user_id": "13", "message_text": "aaaaa", "reply_id": "None"},
-#     {"ids": ["8"], "user_id": "20", "message_text": "olaaaaa", "reply_id": "5"},
-# ]
 
+def test_read_conversation(
+    file_csv_good, p_shift_cols_mandatory, p_shift_cols_optional
+):
+    """Test that `read_ccsv()` returns a data frame with the appropriate columns."""
 
-def test_read_conversation(file_csv_good):
-    assert type(
-        read_ccsv(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
-    ) == type(pd.DataFrame())
+    # Get the object read by read_ccsv()
+    df_conv = read_ccsv(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
 
-    assert (
-        len(read_ccsv(file_csv_good["csv_in"], **(file_csv_good["kwargs"])).columns)
-        >= 3
-    )
-    # assert len(read_ccsv("tests/b.csv", ";")) == len(conversation)
+    # Is it a data frame?
+    assert type(df_conv) == type(pd.DataFrame())
+
+    # Does it have the required columns of the required type?
+    for col_name in p_shift_cols_mandatory:
+        assert col_name in df_conv.columns
+        assert p_shift_cols_mandatory[col_name] == df_conv.dtypes[col_name]
+
+    # Does it have one of the optional columns with the correct type?
+    num_opt_cols = 0
+    for col_name in p_shift_cols_optional:
+        if col_name in df_conv.columns:
+            assert p_shift_cols_optional[col_name] == df_conv.dtypes[col_name]
+            num_opt_cols += 1
+    assert num_opt_cols > 0
 
 
 def test_read_conversation_errors(

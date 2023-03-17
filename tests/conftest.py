@@ -6,9 +6,9 @@
 
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import pytest
-
 
 _good_conversations = [
     {"csv_in": "conv_good.csv", "kwargs": {}, "csv_out": "df_good.csv"},
@@ -39,6 +39,27 @@ _good_results = [
         },
     }
 ]
+
+_p_shift_cols_mandatory = {
+    "id": np.int64,
+    "user_id": np.int64,
+    "message_text": np.dtype("O"),
+}
+
+_p_shift_cols_optional = {
+    "reply_id": np.dtype("O"),
+    "target_id": np.dtype("O"),
+}
+
+
+@pytest.fixture()
+def p_shift_cols_mandatory():
+    return _p_shift_cols_mandatory
+
+
+@pytest.fixture()
+def p_shift_cols_optional():
+    return _p_shift_cols_optional
 
 
 @pytest.fixture()
