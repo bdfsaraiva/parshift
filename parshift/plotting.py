@@ -12,19 +12,22 @@ from .annotation import pshift_type
 
 
 def frequency_treemap(
-    conditional_probabilities_df: pd.DataFrame,
+    cond_probs_df: pd.DataFrame,
     ax: matplotlib.axes.Axes = None,
     column_name: str = "pshift",
 ) -> matplotlib.axes.Axes:
-    """Function used to return a matplotlib object which contains the conditional probabilities frequencies based in Gibson's paper.
+    """Get a matplotlib axes object displaying the conditional probabilities or frequencies.
 
     Arguments:
-        conditional_probabilities_df: Dataframe object that contain the whole information about the Participation Shift conditional probabilities.
-        column_name: Column name to be used to plot the treemap. Must be one of the following: `pshift`, `pshift_type`.
-        ax: Matplotlib axes to plot the treemap.
+        cond_probs_df: Dataframe with information about the participation shift
+            conditional probabilities. This dataframe can be obtained with
+            [`cond_probs()`][parshift.statistics.cond_probs]
+        column_name: Column name to be used to plot the treemap, either `"pshift"`
+            (default) or `"pshift_type"`.
+        ax: Matplotlib axes with the treemap plot.
 
     Returns:
-        ax: Matplotlib axes with the Participation Shifts Frequency.
+        ax: Matplotlib axes with the participation shifts probabilities or frequency.
     """
 
     if not isinstance(column_name, str):
@@ -35,11 +38,9 @@ def frequency_treemap(
         )
 
     if column_name == "pshift_type":
-        conditional_probabilities_df["pshift_type"] = conditional_probabilities_df[
-            "pshift"
-        ].apply(pshift_type)
+        cond_probs_df["pshift_type"] = cond_probs_df["pshift"].apply(pshift_type)
 
-    gb_parshift = conditional_probabilities_df.groupby([column_name])["Frequency"].sum()
+    gb_parshift = cond_probs_df.groupby([column_name])["Frequency"].sum()
 
     data = [
         el

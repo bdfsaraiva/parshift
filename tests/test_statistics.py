@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 
 from parshift import cond_probs
-from parshift.conditional_probabilities import _frequency_table
+from parshift.statistics import _frequency_table
 
 
 def test_frequency_table(pshift_freq_table):
@@ -12,7 +12,7 @@ def test_frequency_table(pshift_freq_table):
     assert result[0] == pshift_freq_table["freq_table"]
 
 
-def test_conditional_probabilities_errors():
+def test_cond_probs_errors():
     with pytest.raises(TypeError):
         cond_probs(1)
     with pytest.raises(TypeError):
@@ -21,7 +21,7 @@ def test_conditional_probabilities_errors():
         cond_probs(dict())
 
 
-def test_conditional_probabilities(pshift_freq_table):
+def test_cond_probs_ok(pshift_freq_table):
     result = cond_probs(pshift_freq_table["df_ps"])
     assert isinstance(result, pd.DataFrame)
     assert list(result.columns) == [

@@ -12,5 +12,5 @@ __all__ = [
 
 
 from parshift.annotation import annotate, pshift_type, read_ccsv
-from parshift.conditional_probabilities import cond_probs
 from parshift.plotting import frequency_treemap
+from parshift.statistics import cond_probs
