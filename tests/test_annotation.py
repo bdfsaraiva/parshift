@@ -1,99 +1,106 @@
+# Copyright (c) 2022-2023 Bruno Saraiva and contributors
+# Distributed under the MIT License (See accompanying file LICENSE.txt or copy
+# at http://opensource.org/licenses/MIT)
+
 import pandas as pd
 import pytest
 
 from parshift import annotate, pshift_type, read_ccsv
 
-# conversation = [
-#     {
-#         "ids": ["0"],
-#         "user_id": "10",
-#         "message_text": "olá, como vao?",
-#         "reply_id": "None",
-#     },
-#     {"ids": ["1"], "user_id": "11", "message_text": "Olá amigo", "reply_id": "0"},
-#     {"ids": ["2"], "user_id": "12", "message_text": "Olá a todos", "reply_id": "None"},
-#     {"ids": ["3"], "user_id": "11", "message_text": "Como vão", "reply_id": "None"},
-#     {
-#         "ids": ["4", "5", "6"],
-#         "user_id": "13",
-#         "message_text": "tá calado. ola. xiu",
-#         "reply_id": "2",
-#     },
-#     {"ids": ["7"], "user_id": "13", "message_text": "aaaaa", "reply_id": "None"},
-#     {"ids": ["8"], "user_id": "20", "message_text": "olaaaaa", "reply_id": "5"},
-# ]
+
+def test_read_ccsv_return(file_csv_good, p_shift_cols_mandatory, p_shift_cols_optional):
+    """Test that `read_ccsv()` returns a data frame with the appropriate columns."""
+
+    # Get the object read by read_ccsv()
+    df_conv = read_ccsv(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
+
+    # Is it a data frame?
+    assert type(df_conv) == type(pd.DataFrame())
+
+    # Does it have the required columns of the required type?
+    for col_name in p_shift_cols_mandatory:
+        assert col_name in df_conv.columns
+        assert p_shift_cols_mandatory[col_name] == df_conv.dtypes[col_name]
+
+    # Does it have one of the optional columns with the correct type?
+    num_opt_cols = 0
+    for col_name in p_shift_cols_optional:
+        if col_name in df_conv.columns:
+            assert p_shift_cols_optional[col_name] == df_conv.dtypes[col_name]
+            num_opt_cols += 1
+    assert num_opt_cols > 0
 
 
-def test_read_conversation(file_csv_good):
-    assert type(read_ccsv(file_csv_good)) == type(pd.DataFrame())
-
-    assert len(read_ccsv(file_csv_good).columns) >= 3
-    # assert len(read_ccsv("tests/b.csv", ";")) == len(conversation)
-
-
-def test_read_conversation_errors(
-    file_csv_missing_id,
-    file_csv_missing_target_and_reply,
-    file_csv_no_id_but_target_and_reply,
-):
-    with pytest.raises(ValueError):
-        read_ccsv(10)
-    with pytest.raises(FileNotFoundError):
-        read_ccsv("file")
-    with pytest.raises(TypeError):
-        read_ccsv("file.csv", 1)
-    with pytest.raises(TypeError):
-        read_ccsv("file.csv", not_valid=",,")
-    with pytest.raises(ValueError):
-        read_ccsv(file_csv_missing_id)
-    with pytest.raises(ValueError):
-        read_ccsv(file_csv_missing_target_and_reply)
-    with pytest.raises(ValueError):
-        read_ccsv(file_csv_no_id_but_target_and_reply)
+def test_read_ccsv_errors(file_read_ccsv_bad):
+    """Test errors raised by `read_ccsv()`."""
+    with pytest.raises(file_read_ccsv_bad["expected_error"]):
+        read_ccsv(file_read_ccsv_bad["csv_in"], **(file_read_ccsv_bad["kwargs"]))
 
 
-def test_parshift_annotation1(file_csv_good, file_csv_df_result):
-    df_read_ccsv = read_ccsv(file_csv_good).reset_index(drop=False)
-    parshift_annotation_df = pd.read_csv(file_csv_df_result, index_col=False).fillna("")
+def test_annotate_return(file_csv_good):
+    """Test that `annotate()` returns the expected data frame."""
 
-    assert type(annotate(df_read_ccsv)) == type(parshift_annotation_df)
+    # Read the conversation
+    df_read_ccsv = read_ccsv(
+        file_csv_good["csv_in"], **(file_csv_good["kwargs"])
+    ).reset_index(drop=False)
 
-    assert len(annotate(df_read_ccsv)) == len(parshift_annotation_df)
+    # Read the expected results
+    parshift_annotation_df = pd.read_csv(
+        file_csv_good["csv_out"], index_col=False
+    ).fillna("")
 
-    # print(parshift_annotation_df["pshift"].values)
-    print(parshift_annotation_df)
-    # print(annotate(df_read_ccsv)["pshift"].values)
+    # Apply the annotate() function on the conversation
+    conv_annot = annotate(df_read_ccsv)
+
+    # Check that the annotate() function returns the expected type
+    assert type(conv_annot) == type(parshift_annotation_df)
+
+    # Check that the annotate() function returns a dataframe with the expected
+    # shape/size
+    assert conv_annot.shape == parshift_annotation_df.shape
+
+    # Check that the participation shifts are as expected
     assert (
-        parshift_annotation_df["pshift"].values
-        == annotate(df_read_ccsv)["pshift"].values
+        parshift_annotation_df["pshift"].values == conv_annot["pshift"].values
     ).all()
 
 
-def test_parshift_annotation2(file_csv_good_diffsep, file_csv_df_result):
-    df_read_ccsv = read_ccsv(file_csv_good_diffsep, sep=";", quotechar='"').reset_index(
-        drop=False
-    )
-    parshift_annotation_df = pd.read_csv(file_csv_df_result, index_col=False).fillna("")
-
-    assert type(annotate(df_read_ccsv)) == type(parshift_annotation_df)
-
-    assert len(annotate(df_read_ccsv)) == len(parshift_annotation_df)
-
-    # print(parshift_annotation_df["pshift"].values)
-    print(parshift_annotation_df)
-    # print(annotate(df_read_ccsv)["pshift"].values)
-    assert (
-        parshift_annotation_df["pshift"].values
-        == annotate(df_read_ccsv)["pshift"].values
-    ).all()
+@pytest.mark.parametrize(
+    "conv,expecterr", [(10, TypeError), ("some_string", TypeError)]
+)
+def test_annotate_errors(conv, expecterr):
+    """Test errors raised by `annotate()`."""
+    with pytest.raises(expecterr):
+        annotate(conv)
 
 
-def test_pshift_type_values():
-    assert pshift_type("AB-BA") == "Turn Receiving"
+@pytest.mark.parametrize(
+    "ps,pstype",
+    [
+        ("AB-BA", "Turn Receiving"),
+        ("AB-BA", "Turn Receiving"),
+        ("AB-B0", "Turn Receiving"),
+        ("AB-BY", "Turn Receiving"),
+        ("A0-X0", "Turn Claiming"),
+        ("A0-XA", "Turn Claiming"),
+        ("A0-XY", "Turn Claiming"),
+        ("AB-X0", "Turn Usurping"),
+        ("AB-XA", "Turn Usurping"),
+        ("AB-XB", "Turn Usurping"),
+        ("AB-XY", "Turn Usurping"),
+        ("A0-AY", "Turn Continuing"),
+        ("AB-A0", "Turn Continuing"),
+        ("AB-AY", "Turn Continuing"),
+    ],
+)
+def test_pshift_type_return(ps, pstype):
+    """Test that `pshift_type()` returns the expected type of p-shift."""
+    assert pshift_type(ps) == pstype
 
 
-def test_pshift_type_errors():
-    with pytest.raises(TypeError):
-        pshift_type(1)
-    with pytest.raises(ValueError):
-        pshift_type("hi")
+@pytest.mark.parametrize("ps,expecterr", [(1, TypeError), ("hi", ValueError)])
+def test_pshift_type_errors(ps, expecterr):
+    """Test that `pshift_type()` throws the expected errors."""
+    with pytest.raises(expecterr):
+        pshift_type(ps)

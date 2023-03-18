@@ -25,9 +25,12 @@ def _frequency_table(parshift_annotation_df) -> list:
         parshift_annotation_df: A Pandas dataframe containing ParShift annotations
 
     Returns:
-        A list containing a dictionary of ParShift codes and their frequencies, the total number of times a ParShift code starting with "A0" appears,
-            the total number of times a Parshift code starting with "AB" appears, the total number of times a Parshift code with "A0" assuming change of
-            speaker, and the total number of times a ParShift code with "AB" appears assuming change of speaker.
+        A list containing a dictionary of ParShift codes and their frequencies,
+        the total number of times a ParShift code starting with "A0" appears,
+        the total number of times a Parshift code starting with "AB" appears,
+        the total number of times a Parshift code with "A0" assuming change of speaker,
+        and the total number of times a ParShift code with "AB" appears assuming
+        change of speaker.
     """
 
     parshift_codes = [

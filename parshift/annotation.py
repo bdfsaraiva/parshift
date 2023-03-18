@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 import re
-from typing import Dict, List
+from typing import Any, Dict, List
 
 import numpy as np
 import pandas as pd
+from pandas._typing import FilePath, ReadCsvBuffer
 
 # Participation shift types
 _p_shift_dict = {
@@ -31,7 +34,10 @@ _p_shift_cols = {
 }
 
 
-def read_ccsv(filename: str, **kwargs) -> pd.DataFrame:
+def read_ccsv(
+    filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    **kwargs: Any,
+) -> pd.DataFrame:
     """Read a conversation file in CSV format, validate it and return a dataframe.
 
     The conversation file should have the following columns:
@@ -42,16 +48,18 @@ def read_ccsv(filename: str, **kwargs) -> pd.DataFrame:
     - `reply_id` or `target_id`: The reply ID or the target ID (int)
 
     Arguments:
-        filename: Path to csv file.
+        filepath_or_buffer: Any valid string path to CSV file, as accepted by
+            Pandas [`read_csv()`][pandas.read_csv] function.
         **kwargs: Keyword parameters passed to Pandas
             [`read_csv()`][pandas.read_csv] function.
 
     Returns:
-        conversation: Pandas DataFrame containing the validated conversation.
+        A Pandas [`DataFrame`][pandas.DataFrame] containing the validated
+            conversation.
     """
 
     # Read the conversation file
-    conversation: pd.DataFrame = pd.read_csv(filename, dtype=_p_shift_cols, **kwargs)  # type: ignore
+    conversation: pd.DataFrame = pd.read_csv(filepath_or_buffer, dtype=_p_shift_cols, **kwargs)  # type: ignore
 
     # Obtain potentially missing columns
     missing = _p_shift_cols.keys() - conversation.columns
