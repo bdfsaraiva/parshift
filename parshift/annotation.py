@@ -1,3 +1,7 @@
+# Copyright (c) 2022-2023 Bruno Saraiva and contributors
+# Distributed under the MIT License (See accompanying file LICENSE.txt or copy
+# at http://opensource.org/licenses/MIT)
+
 from __future__ import annotations
 
 import re
@@ -151,26 +155,30 @@ def _pshift_code(label):
     return result
 
 
-def annotate(conversation_df: pd.DataFrame) -> pd.DataFrame:
-    """Function used to return a Dataframe which contains the Participation Shift type, based in Gibson's paper.
+def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
+    """Get Gibson's participation shift codes from turns in a conversation.
+
+    Sequences of messages from a speaker to the same addressee are considered to
+    be in the same turn, and therefore will be assigned a single participation
+    shift code.
 
     Arguments:
-        conversation_df: Pandas DataFrame.
+        conv_df: The conversation from where to obtain the participation shift codes.
 
     Returns:
-        New Dataframe with Participation Shift label and type columns added for each turn (sequence of messages from a speaker to the same addressee)
+        A dataframe with the participation shift codes for each turn.
     """
 
-    if not isinstance(conversation_df, pd.DataFrame):
-        print(type(conversation_df))
+    if not isinstance(conv_df, pd.DataFrame):
+        print(type(conv_df))
         raise TypeError("Parameter conversation_df must be a Pandas DataFrame")
 
-    conversation = _group_turns(conversation_df)
+    conversation = _group_turns(conv_df)
 
     part_1 = ""
     part_2 = ""
 
-    if "reply_id" in conversation_df.columns:
+    if "reply_id" in conv_df.columns:
         annotate_df = pd.DataFrame(
             {
                 "ids": [],
@@ -231,7 +239,7 @@ def annotate(conversation_df: pd.DataFrame) -> pd.DataFrame:
                 label_code_v,
             ]
 
-    elif "target_id" in conversation_df.columns:
+    elif "target_id" in conv_df.columns:
         annotate_df = pd.DataFrame(
             {
                 "ids": [],
@@ -277,13 +285,14 @@ def annotate(conversation_df: pd.DataFrame) -> pd.DataFrame:
 
 
 def pshift_type(pshift_code: str) -> str:
-    """Function used to return the Participation Shift type, based in Gibson's paper.
+    """Returns the participation shift type given a participation shift code.
 
     Arguments:
-        pshift_code: Participation Shift Code (e.g A0-XA).\n
+        pshift_code: Participation shift code (e.g A0-XA).
 
     Returns:
-        Participation shift type in a given turn - one of [Turn Receiving, Turn Claiming, Turn Usurping, Turn Continuing].
+        Participation shift type in given the participation shift code (either
+            "Turn Receiving", "Turn Claiming", "Turn Usurping" or  "Turn Continuing").
     """
 
     if not isinstance(pshift_code, str):
