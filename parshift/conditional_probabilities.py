@@ -85,12 +85,12 @@ def _frequency_table(parshift_annotation_df) -> list:
     ]
 
 
-def conditional_probabilities(pshift_codes: pd.DataFrame) -> pd.DataFrame:
+def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
     """Determine the conditional probabilities for a sequence of participation shift codes.
 
     Arguments:
         pshift_codes: A sequence of participation shift code obtained with
-            [`annotate()`](parshift.annotation.annotate).
+            [`annotate()`][parshift.annotation.annotate].
 
     Returns:
         A dataframe containing the frequency, probability and conditional probabilities

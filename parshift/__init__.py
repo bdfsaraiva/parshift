@@ -4,7 +4,7 @@
 
 __all__ = [
     "annotate",
-    "conditional_probabilities",
+    "cond_probs",
     "frequency_treemap",
     "pshift_type",
     "read_ccsv",
@@ -12,5 +12,5 @@ __all__ = [
 
 
 from parshift.annotation import annotate, pshift_type, read_ccsv
-from parshift.conditional_probabilities import conditional_probabilities
+from parshift.conditional_probabilities import cond_probs
 from parshift.plotting import frequency_treemap
