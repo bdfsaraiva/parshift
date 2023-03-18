@@ -48,7 +48,7 @@ of the examples below:
 ## Further reading
 
 - [Function reference](reference.md)
-<!-- - [Developer](dev.md) -->
+- [Development reference](dev.md)
 
 ## License
 
