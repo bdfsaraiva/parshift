@@ -1,3 +1,7 @@
+# Copyright (c) 2022-2023 Bruno Saraiva and contributors
+# Distributed under the MIT License (See accompanying file LICENSE.txt or copy
+# at http://opensource.org/licenses/MIT)
+
 import pandas as pd
 
 _cp_order = {
@@ -81,26 +85,28 @@ def _frequency_table(parshift_annotation_df) -> list:
     ]
 
 
-def conditional_probabilities(parshift_annotation_df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Calculate the conditional probabilities for a given `parshift_annotation` DataFrame based on Gibson's framework.
+def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
+    """Determine the conditional probabilities for a sequence of participation shift codes.
 
     Arguments:
-        parshift_annotation_df: A DataFrame with `parshift` annotation. See [here](https://bdfsaraiva.github.io/parshift/api/annotation.html#parshift.annotation.parshift_annotation)
+        pshift_codes: A sequence of participation shift code obtained with
+            [`annotate()`][parshift.annotation.annotate].
 
     Returns:
-        A DataFrame containing the frequency, probability and conditional probabilities (two) for each parshift code.
-            This DataFrame is divided into two 'subgroups', those beginning with an undirected remark (A0-) and
-            those beginning with a directed one (AB-).
-            CP (Conditional Probability) -> Frequency divided by total occurrences in each subgroup.
-            CPeTC (Conditional Probability excluding Turn Continuing type) -> Frequency divided by total occurrences
-            in each subgroup, assuming change of speaker.
+        A dataframe containing the frequency, probability and conditional probabilities
+            (two) for each parshift code. This dataframe is divided into two 'subgroups':
+            (1) those beginning with an undirected remark (A0-); and, (2) those beginning
+            with a directed one (AB-). The `CP` (conditional probability) column contains
+            the frequency divided by total occurrences in each subgroup, while the `CPeTC`
+            (Conditional Probability excluding Turn Continuing type) column contains the
+            frequency divided by total occurrences in each subgroup, assuming change of
+            speaker.
     """
 
-    if not isinstance(parshift_annotation_df, pd.DataFrame):
+    if not isinstance(pshift_codes, pd.DataFrame):
         raise TypeError("Parameter parshift_annotation_df must be a Dataframe")
 
-    frequency_table_and_counts = _frequency_table(parshift_annotation_df)
+    frequency_table_and_counts = _frequency_table(pshift_codes)
     freq_table = frequency_table_and_counts[0]
 
     cond_prob = {}
