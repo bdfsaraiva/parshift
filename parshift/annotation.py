@@ -79,17 +79,31 @@ def read_ccsv(
     return conversation
 
 
-def _group_turns(conversation_df: pd.DataFrame) -> list:
-    conversation_df = conversation_df.reset_index()
-    if "reply_id" in conversation_df.columns:
+def _group_turns(conv_df: pd.DataFrame) -> list:
+
+    """Take a conversation dataframe and group it into conversation turns.
+        Turn - Group of messages sent by the same user and addressed to the same target.
+
+    Arguments:
+        conv_df: The conversation from where to obtain the conversation turns.
+
+    Returns:
+        A list of dictionaries, each dictionary representing a conversation turn.
+    """
+
+    conv_df = conv_df.reset_index()
+    if "reply_id" in conv_df.columns:
         last_col = "reply_id"
-    elif "target_id" in conversation_df.columns:
+    elif "target_id" in conv_df.columns:
         last_col = "target_id"
 
     conversation: List[Dict] = []
     turn = 0
 
-    for index, row in conversation_df.iterrows():
+    for index, row in conv_df.iterrows():
+
+        # If the row being looped has the same "user_id" and the "last_col" value,
+        # then merge the message text and message IDs into the previous turn.
         if (
             index != 0
             and conversation[turn - 1]["user_id"] == row["user_id"]
@@ -102,12 +116,12 @@ def _group_turns(conversation_df: pd.DataFrame) -> list:
             conversation[turn - 1]["ids"] = list_id
             conversation[turn - 1]["message_text"] = msg_join
 
+        # Otherwise, create a new dictionary representing a new turn
         else:
             id = row["id"]
             user_id = row["user_id"]
             message_text = row["message_text"]
             last_col_val = row[last_col]
-            turn += 1
 
             conversation.append(
                 {
@@ -118,23 +132,27 @@ def _group_turns(conversation_df: pd.DataFrame) -> list:
                 }
             )
 
+            # Increment the turn counter
+            turn += 1
+
     return conversation
 
 
 def _pshift_code(label):
-    # label split
+    # split the label into 4 parts
     a = label.split(",")[0].split("to")[0].replace(" ", "")
     b = label.split(",")[0].split("to")[1].replace(" ", "")
     c = label.split(",")[1].split("to")[0].replace(" ", "")
     d = label.split(",")[1].split("to")[1].replace(" ", "")
 
-    # 1
+    # Part 1 - always stars with A
     result = "A"
 
-    # 2
+    # Parte 2 - "0" if the target is the group, "B" otherwise
     result += "0-" if b == "group" else "B-"
 
-    # 3
+    # Part 3 - "A" if the speaker is the same, "B" if the speaker is the previous target,
+    # "X" otherwise
     if c == a:
         result += "A"
     elif c == b:
@@ -142,7 +160,8 @@ def _pshift_code(label):
     else:
         result += "X"
 
-    # 4
+    # Part 4 - "0" if the current target is the group, "A" if the current target is previous
+    #  speaker, "B" if the target is the previous target, "Y" otherwise
     if d == "group":
         result += "0"
     elif d == a:
@@ -170,12 +189,14 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
     """
 
     if not isinstance(conv_df, pd.DataFrame):
-        print(type(conv_df))
-        raise TypeError("Parameter conversation_df must be a Pandas DataFrame")
+        raise TypeError("Parameter conv_df must be a Pandas DataFrame")
 
     conversation = _group_turns(conv_df)
 
+    # part1 will take the parshift label for the previous turn
     part_1 = ""
+
+    # part2 will take the parshift label for the current turn
     part_2 = ""
 
     if "reply_id" in conv_df.columns:
@@ -190,6 +211,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
             }
         )
 
+        # calculate the participation shift for each turn
         for idx, msg in enumerate(conversation):
             if (
                 msg["reply_id"] == None
@@ -221,14 +243,18 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
                             " " + str(msg["user_id"]) + " to " + str(msgPrev["user_id"])
                         )
 
+            # p1p2 takes the parshift label for the previous + current turn
             p1p2 = part_1 + part_2
-            part_1 = part_2[1:] + ","
-            label_code_v = ""
 
+            # part_1 takes the part_2 label for the next iteration
+            part_1 = part_2[1:] + ","
+
+            # set value to "" for first turn
+            pshift_label = ""
+
+            # we cannot calculate the pshift for the first turn
             if idx != 0:
-                msg["label"] = p1p2
-                label_code_v = _pshift_code(p1p2)
-                msg["pshift"] = label_code_v
+                pshift_label = _pshift_code(p1p2)
 
             annotate_df.loc[len(annotate_df.index)] = [  # type: ignore
                 str(msg["ids"]),
@@ -236,7 +262,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
                 msg["message_text"],
                 str(msg["reply_id"]),
                 p1p2,
-                label_code_v,
+                pshift_label,
             ]
 
     elif "target_id" in conv_df.columns:
@@ -251,6 +277,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
             }
         )
 
+        # calculate the participation shift for each turn
         for idx, msg in enumerate(conversation):
             if (
                 msg["target_id"] == None
@@ -262,21 +289,28 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
                 msgPrev = conversation[idx - 1]
                 part_2 = " " + str(msg["user_id"]) + " to " + str(msgPrev["user_id"])
 
+            # p1p2 takes the parshift label for the previous + current turn
             p1p2 = part_1 + part_2
+
+            # part_1 takes the part_2 label for the next iteration
             part_1 = part_2[1:] + ","
 
+            # set value to "" for first turn
+            pshift_label = ""
+
+            # we cannot calculate the pshift for the first turn
             if idx != 0:
                 msg["label"] = p1p2
-                label_code_v = _pshift_code(p1p2)
-                msg["pshift"] = label_code_v
+                pshift_label = _pshift_code(p1p2)
+                msg["pshift"] = pshift_label
 
             annotate_df.loc[len(annotate_df.index)] = [  # type: ignore
                 str(msg["ids"]),
                 str(msg["user_id"]),
                 msg["message_text"],
                 str(msg["target_id"]),
-                (p1p2),
-                (label_code_v),
+                p1p2,
+                pshift_label,
             ]
 
     annotate_df.drop(columns=["label_desc"], inplace=True)
