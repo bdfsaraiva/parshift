@@ -1,5 +1,5 @@
 [![Tests](https://github.com/bdfsaraiva/parshift/actions/workflows/tests.yml/badge.svg)](https://github.com/bdfsaraiva/parshift/actions/workflows/tests.yml)
-[![Codecov](https://codecov.io/github/bdfsaraiva/parshift/branch/main/graph/badge.svg?token=O5ZCGFW78U)](https://codecov.io/github/bdfsaraiva/parshift)
+[![Codecov](https://codecov.io/gh/bdfsaraiva/parshift/branch/main/graph/badge.svg?token=O5ZCGFW78U)](https://codecov.io/gh/bdfsaraiva/parshift)
 [![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://bdfsaraiva.github.io/parshift)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/bdfsaraiva/py-Participation-Shifts/blob/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/parshift)](https://pypi.org/project/parshift/)
