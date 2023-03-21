@@ -6,3 +6,5 @@ ids,user_id,message_text,target_id,pshift
 "[4, 5, 6]",13,tá calado. ola. xiu,11,A0-XA
 [7],13,aaaaa,None,AB-A0
 [8],20,olaaaaa,13,A0-XA
+[9],13,oi,14,AB-BY
+[10],12,"O que é feito de ti, u14?",14,AB-XB

@@ -279,15 +279,18 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
 
         # calculate the participation shift for each turn
         for idx, msg in enumerate(conversation):
+
+            # if msg has no target, it is directed to the group
             if (
                 msg["target_id"] == None
                 or msg["target_id"] == "None"
                 or msg["target_id"] == ""
             ):
                 part_2 = " " + str(msg["user_id"]) + " to group"
+
+            # if msg has a target, we save it
             else:
-                msgPrev = conversation[idx - 1]
-                part_2 = " " + str(msg["user_id"]) + " to " + str(msgPrev["user_id"])
+                part_2 = " " + str(msg["user_id"]) + " to " + str(msg["target_id"])
 
             # p1p2 takes the parshift label for the previous + current turn
             p1p2 = part_1 + part_2
