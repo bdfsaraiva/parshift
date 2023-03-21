@@ -24,6 +24,11 @@ _good_conversations = [
         "kwargs": {"sep": ";", "quotechar": '"'},
         "csv_out": "df_good.csv",
     },
+    {
+        "csv_in": "conv_good_target_id.csv",
+        "kwargs": {},
+        "csv_out": "df_good_target_id.csv",
+    },
 ]
 
 # CSV files containing a conversation after annotation and their expected

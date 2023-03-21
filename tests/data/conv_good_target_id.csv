@@ -1,0 +1,10 @@
+id,user_id,message_text,target_id
+0,10,"olá, como vao?",None
+1,11,"Olá amigo",10
+2,12,"Olá a todos",None
+3,11,"Como vão",None
+4,13,"tá calado",11
+5,13,"ola",11
+6,13,"xiu",11
+7,13,"aaaaa",None
+8,20,"olaaaaa",13
