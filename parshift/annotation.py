@@ -136,7 +136,7 @@ def _group_turns(conv_df: pd.DataFrame) -> list:
     return conversation
 
 
-def _pshift_code(label):
+def _pshift_code(label: str):
     # split the label into 4 parts
     a = label.split(",")[0].split("to")[0].replace(" ", "")
     b = label.split(",")[0].split("to")[1].replace(" ", "")
