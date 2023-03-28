@@ -79,15 +79,17 @@ def read_ccsv(
     return conversation
 
 
-def _group_turns(conv_df: pd.DataFrame) -> list:
+def group_turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
     """Take a conversation dataframe and group it into conversation turns.
-        Turn - Group of messages sent by the same user and addressed to the same target.
+
+    A turn is a group of messages sent by the same user and addressed to the
+    same target.
 
     Arguments:
         conv_df: The conversation from where to obtain the conversation turns.
 
     Returns:
-        A list of dictionaries, each dictionary representing a conversation turn.
+        A list of dictionaries, each representing a conversation turn.
     """
 
     conv_df = conv_df.reset_index()
@@ -96,7 +98,7 @@ def _group_turns(conv_df: pd.DataFrame) -> list:
     elif "target_id" in conv_df.columns:
         last_col = "target_id"
 
-    conversation: List[Dict] = []
+    conversation: List[Dict[str, Any]] = []
     turn = 0
 
     for index, row in conv_df.iterrows():
@@ -136,14 +138,15 @@ def _group_turns(conv_df: pd.DataFrame) -> list:
     return conversation
 
 
-def _pshift_code(label: str):
+def _pshift_code(label: str) -> str:
+
     # split the label into 4 parts
     a = label.split(",")[0].split("to")[0].replace(" ", "")
     b = label.split(",")[0].split("to")[1].replace(" ", "")
     c = label.split(",")[1].split("to")[0].replace(" ", "")
     d = label.split(",")[1].split("to")[1].replace(" ", "")
 
-    # Part 1 - always stars with A
+    # Part 1 - always starts with A
     result = "A"
 
     # Parte 2 - "0" if the target is the group, "B" otherwise
@@ -189,7 +192,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
     if not isinstance(conv_df, pd.DataFrame):
         raise TypeError("Parameter conv_df must be a Pandas DataFrame")
 
-    conversation = _group_turns(conv_df)
+    conversation = group_turns(conv_df)
 
     # part1 will take the parshift label for the previous turn
     part_1 = ""

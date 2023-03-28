@@ -8,11 +8,12 @@ __all__ = [
     "annotate",
     "cond_probs",
     "frequency_treemap",
+    "group_turns",
     "pshift_type",
     "read_ccsv",
 ]
 
 
-from parshift.annotation import annotate, pshift_type, read_ccsv
+from parshift.annotation import annotate, group_turns, pshift_type, read_ccsv
 from parshift.plotting import frequency_treemap
 from parshift.statistics import cond_probs
