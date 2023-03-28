@@ -1,5 +1,5 @@
 # Copyright (c) 2022-2023 Bruno Saraiva and contributors
-# Distributed under the MIT License (See accompanying file LICENSE.txt or copy
+# Distributed under the MIT License (See accompanying file LICENSE or copy
 # at http://opensource.org/licenses/MIT)
 
 from __future__ import annotations
@@ -80,7 +80,6 @@ def read_ccsv(
 
 
 def _group_turns(conv_df: pd.DataFrame) -> list:
-
     """Take a conversation dataframe and group it into conversation turns.
         Turn - Group of messages sent by the same user and addressed to the same target.
 
@@ -101,7 +100,6 @@ def _group_turns(conv_df: pd.DataFrame) -> list:
     turn = 0
 
     for index, row in conv_df.iterrows():
-
         # If the row being looped has the same "user_id" and the "last_col" value,
         # then merge the message text and message IDs into the previous turn.
         if (
@@ -138,7 +136,7 @@ def _group_turns(conv_df: pd.DataFrame) -> list:
     return conversation
 
 
-def _pshift_code(label):
+def _pshift_code(label: str):
     # split the label into 4 parts
     a = label.split(",")[0].split("to")[0].replace(" ", "")
     b = label.split(",")[0].split("to")[1].replace(" ", "")
@@ -279,7 +277,6 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
 
         # calculate the participation shift for each turn
         for idx, msg in enumerate(conversation):
-
             # if msg has no target, it is directed to the group
             if (
                 msg["target_id"] == None
