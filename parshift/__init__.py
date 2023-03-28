@@ -2,7 +2,7 @@
 # Distributed under the MIT License (See accompanying file LICENSE or copy
 # at http://opensource.org/licenses/MIT)
 
-"""ParShift: package based on Gibson's framework for turn-taking in group conversation analysis."""
+"""API reference for the functions exported by ParShift."""
 
 __all__ = [
     "annotate",
