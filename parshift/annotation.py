@@ -80,7 +80,6 @@ def read_ccsv(
 
 
 def _group_turns(conv_df: pd.DataFrame) -> list:
-
     """Take a conversation dataframe and group it into conversation turns.
         Turn - Group of messages sent by the same user and addressed to the same target.
 
@@ -101,7 +100,6 @@ def _group_turns(conv_df: pd.DataFrame) -> list:
     turn = 0
 
     for index, row in conv_df.iterrows():
-
         # If the row being looped has the same "user_id" and the "last_col" value,
         # then merge the message text and message IDs into the previous turn.
         if (
@@ -279,7 +277,6 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
 
         # calculate the participation shift for each turn
         for idx, msg in enumerate(conversation):
-
             # if msg has no target, it is directed to the group
             if (
                 msg["target_id"] == None

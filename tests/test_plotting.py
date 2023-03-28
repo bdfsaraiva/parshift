@@ -1,3 +1,7 @@
+# Copyright (c) 2022-2023 Bruno Saraiva and contributors
+# Distributed under the MIT License (See accompanying file LICENSE.txt or copy
+# at http://opensource.org/licenses/MIT)
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import pytest
