@@ -64,5 +64,5 @@ def frequency_treemap(
     )
     plt.title("Participation Shifts Frequency (%)")
     plt.axis("off")
-    # plt.show()
+
     return ax
