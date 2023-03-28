@@ -79,7 +79,7 @@ def read_ccsv(
     return conversation
 
 
-def group_turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
+def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
     """Take a conversation dataframe and group it into conversation turns.
 
     A turn is a group of messages sent by the same user and addressed to the
@@ -192,7 +192,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
     if not isinstance(conv_df, pd.DataFrame):
         raise TypeError("Parameter conv_df must be a Pandas DataFrame")
 
-    conversation = group_turns(conv_df)
+    conversation = conv2turns(conv_df)
 
     # part1 will take the parshift label for the previous turn
     part_1 = ""
