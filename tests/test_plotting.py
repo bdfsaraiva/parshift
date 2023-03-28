@@ -3,7 +3,6 @@
 # at http://opensource.org/licenses/MIT)
 
 import matplotlib.pyplot as plt
-import pandas as pd
 import pytest
 
 from parshift import cond_probs, frequency_treemap
