@@ -21,7 +21,7 @@
         <link rel="next" href="../dev/">
       
       <link rel="icon" href="../images/icon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.4">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.c4a75a56.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.240905d7.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
@@ -348,6 +348,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#parshift.conv2turns" class="md-nav__link">
+    conv2turns()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#parshift.frequency_treemap" class="md-nav__link">
     frequency_treemap()
   </a>
@@ -430,6 +437,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#parshift.conv2turns" class="md-nav__link">
+    conv2turns()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#parshift.frequency_treemap" class="md-nav__link">
     frequency_treemap()
   </a>
@@ -475,6 +489,8 @@
 
 
   <div class="doc doc-contents first">
+  
+      <p>API reference for the functions exported by ParShift.</p>
 
   
 
@@ -551,27 +567,7 @@ shift code.</p>
 
       <details class="quote">
         <summary>Source code in <code>parshift/annotation.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
 <span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
@@ -677,7 +673,44 @@ shift code.</p>
 <span class="normal">281</span>
 <span class="normal">282</span>
 <span class="normal">283</span>
-<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">annotate</span><span class="p">(</span><span class="n">conv_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">annotate</span><span class="p">(</span><span class="n">conv_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get Gibson&#39;s participation shift codes from turns in a conversation.</span>
 
 <span class="sd">    Sequences of messages from a speaker to the same addressee are considered to</span>
@@ -692,12 +725,14 @@ shift code.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conv_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">conv_df</span><span class="p">))</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Parameter conversation_df must be a Pandas DataFrame&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Parameter conv_df must be a Pandas DataFrame&quot;</span><span class="p">)</span>
 
-    <span class="n">conversation</span> <span class="o">=</span> <span class="n">_group_turns</span><span class="p">(</span><span class="n">conv_df</span><span class="p">)</span>
+    <span class="n">conversation</span> <span class="o">=</span> <span class="n">conv2turns</span><span class="p">(</span><span class="n">conv_df</span><span class="p">)</span>
 
+    <span class="c1"># part1 will take the parshift label for the previous turn</span>
     <span class="n">part_1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="c1"># part2 will take the parshift label for the current turn</span>
     <span class="n">part_2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">if</span> <span class="s2">&quot;reply_id&quot;</span> <span class="ow">in</span> <span class="n">conv_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
@@ -712,6 +747,7 @@ shift code.</p>
             <span class="p">}</span>
         <span class="p">)</span>
 
+        <span class="c1"># calculate the participation shift for each turn</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">msg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conversation</span><span class="p">):</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;reply_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span>
@@ -743,14 +779,18 @@ shift code.</p>
                             <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; to &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msgPrev</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">])</span>
                         <span class="p">)</span>
 
+            <span class="c1"># p1p2 takes the parshift label for the previous + current turn</span>
             <span class="n">p1p2</span> <span class="o">=</span> <span class="n">part_1</span> <span class="o">+</span> <span class="n">part_2</span>
-            <span class="n">part_1</span> <span class="o">=</span> <span class="n">part_2</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
-            <span class="n">label_code_v</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
+            <span class="c1"># part_1 takes the part_2 label for the next iteration</span>
+            <span class="n">part_1</span> <span class="o">=</span> <span class="n">part_2</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
+
+            <span class="c1"># set value to &quot;&quot; for first turn</span>
+            <span class="n">pshift_label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+            <span class="c1"># we cannot calculate the pshift for the first turn</span>
             <span class="k">if</span> <span class="n">idx</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p1p2</span>
-                <span class="n">label_code_v</span> <span class="o">=</span> <span class="n">_pshift_code</span><span class="p">(</span><span class="n">p1p2</span><span class="p">)</span>
-                <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;pshift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_code_v</span>
+                <span class="n">pshift_label</span> <span class="o">=</span> <span class="n">_pshift_code</span><span class="p">(</span><span class="n">p1p2</span><span class="p">)</span>
 
             <span class="n">annotate_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">annotate_df</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># type: ignore</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;ids&quot;</span><span class="p">]),</span>
@@ -758,7 +798,7 @@ shift code.</p>
                 <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;message_text&quot;</span><span class="p">],</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;reply_id&quot;</span><span class="p">]),</span>
                 <span class="n">p1p2</span><span class="p">,</span>
-                <span class="n">label_code_v</span><span class="p">,</span>
+                <span class="n">pshift_label</span><span class="p">,</span>
             <span class="p">]</span>
 
     <span class="k">elif</span> <span class="s2">&quot;target_id&quot;</span> <span class="ow">in</span> <span class="n">conv_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
@@ -773,32 +813,42 @@ shift code.</p>
             <span class="p">}</span>
         <span class="p">)</span>
 
+        <span class="c1"># calculate the participation shift for each turn</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">msg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conversation</span><span class="p">):</span>
+            <span class="c1"># if msg has no target, it is directed to the group</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;target_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span>
                 <span class="ow">or</span> <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;target_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;None&quot;</span>
                 <span class="ow">or</span> <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;target_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
             <span class="p">):</span>
                 <span class="n">part_2</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; to group&quot;</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">msgPrev</span> <span class="o">=</span> <span class="n">conversation</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-                <span class="n">part_2</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; to &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msgPrev</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">])</span>
 
+            <span class="c1"># if msg has a target, we save it</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">part_2</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; to &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;target_id&quot;</span><span class="p">])</span>
+
+            <span class="c1"># p1p2 takes the parshift label for the previous + current turn</span>
             <span class="n">p1p2</span> <span class="o">=</span> <span class="n">part_1</span> <span class="o">+</span> <span class="n">part_2</span>
+
+            <span class="c1"># part_1 takes the part_2 label for the next iteration</span>
             <span class="n">part_1</span> <span class="o">=</span> <span class="n">part_2</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
 
+            <span class="c1"># set value to &quot;&quot; for first turn</span>
+            <span class="n">pshift_label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+            <span class="c1"># we cannot calculate the pshift for the first turn</span>
             <span class="k">if</span> <span class="n">idx</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p1p2</span>
-                <span class="n">label_code_v</span> <span class="o">=</span> <span class="n">_pshift_code</span><span class="p">(</span><span class="n">p1p2</span><span class="p">)</span>
-                <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;pshift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_code_v</span>
+                <span class="n">pshift_label</span> <span class="o">=</span> <span class="n">_pshift_code</span><span class="p">(</span><span class="n">p1p2</span><span class="p">)</span>
+                <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;pshift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pshift_label</span>
 
             <span class="n">annotate_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">annotate_df</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># type: ignore</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;ids&quot;</span><span class="p">]),</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]),</span>
                 <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;message_text&quot;</span><span class="p">],</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s2">&quot;target_id&quot;</span><span class="p">]),</span>
-                <span class="p">(</span><span class="n">p1p2</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">label_code_v</span><span class="p">),</span>
+                <span class="n">p1p2</span><span class="p">,</span>
+                <span class="n">pshift_label</span><span class="p">,</span>
             <span class="p">]</span>
 
     <span class="n">annotate_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;label_desc&quot;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1017,6 +1067,187 @@ speaker.</p></td>
 
 
 
+<h2 id="parshift.conv2turns" class="doc doc-heading">
+        <span class="doc doc-object-name doc-function-name">conv2turns</span>
+
+
+</h2>
+<div class="highlight"><pre><span></span><code><span class="n">conv2turns</span><span class="p">(</span><span class="n">conv_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>
+</code></pre></div>
+
+  <div class="doc doc-contents ">
+  
+      <p>Take a conversation dataframe and group it into conversation turns.</p>
+<p>A turn is a group of messages sent by the same user and addressed to the
+same target.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>conv_df</code></td>
+          <td>
+                <code><a class="autorefs autorefs-external" title="pandas" href="https://pandas.pydata.org/docs/index.html#module-pandas">pd</a>.<a class="autorefs autorefs-external" title="pandas.DataFrame" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame">DataFrame</a></code>
+          </td>
+          <td><p>The conversation from where to obtain the conversation turns.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-external" title="typing.List" href="https://docs.python.org/3/library/typing.html#typing.List">List</a>[<a class="autorefs autorefs-external" title="typing.Dict" href="https://docs.python.org/3/library/typing.html#typing.Dict">Dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]]</code>
+          </td>
+          <td><p>A list of dictionaries, each representing a conversation turn.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>parshift/annotation.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">conv2turns</span><span class="p">(</span><span class="n">conv_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Take a conversation dataframe and group it into conversation turns.</span>
+
+<span class="sd">    A turn is a group of messages sent by the same user and addressed to the</span>
+<span class="sd">    same target.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        conv_df: The conversation from where to obtain the conversation turns.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of dictionaries, each representing a conversation turn.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">conv_df</span> <span class="o">=</span> <span class="n">conv_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;reply_id&quot;</span> <span class="ow">in</span> <span class="n">conv_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">last_col</span> <span class="o">=</span> <span class="s2">&quot;reply_id&quot;</span>
+    <span class="k">elif</span> <span class="s2">&quot;target_id&quot;</span> <span class="ow">in</span> <span class="n">conv_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">last_col</span> <span class="o">=</span> <span class="s2">&quot;target_id&quot;</span>
+
+    <span class="n">conversation</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">turn</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">conv_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="c1"># If the row being looped has the same &quot;user_id&quot; and the &quot;last_col&quot; value,</span>
+        <span class="c1"># then merge the message text and message IDs into the previous turn.</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">index</span> <span class="o">!=</span> <span class="mi">0</span>
+            <span class="ow">and</span> <span class="n">conversation</span><span class="p">[</span><span class="n">turn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span>
+            <span class="ow">and</span> <span class="nb">str</span><span class="p">(</span><span class="n">conversation</span><span class="p">[</span><span class="n">turn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">last_col</span><span class="p">])</span> <span class="o">==</span> <span class="n">row</span><span class="p">[</span><span class="n">last_col</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="n">msg_join</span> <span class="o">=</span> <span class="s2">&quot;. &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">conversation</span><span class="p">[</span><span class="n">turn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;message_text&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;message_text&quot;</span><span class="p">]]</span>
+            <span class="p">)</span>
+            <span class="n">list_id</span> <span class="o">=</span> <span class="n">conversation</span><span class="p">[</span><span class="n">turn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;ids&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]]</span>
+            <span class="n">conversation</span><span class="p">[</span><span class="n">turn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;ids&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">list_id</span>
+            <span class="n">conversation</span><span class="p">[</span><span class="n">turn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;message_text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">msg_join</span>
+
+        <span class="c1"># Otherwise, create a new dictionary representing a new turn</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span>
+            <span class="n">message_text</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;message_text&quot;</span><span class="p">]</span>
+            <span class="n">last_col_val</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">last_col</span><span class="p">]</span>
+
+            <span class="n">conversation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">id</span><span class="p">],</span>
+                    <span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+                    <span class="s2">&quot;message_text&quot;</span><span class="p">:</span> <span class="n">message_text</span><span class="p">,</span>
+                    <span class="n">last_col</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">last_col_val</span><span class="p">)</span> <span class="k">if</span> <span class="n">last_col_val</span> <span class="o">!=</span> <span class="s2">&quot;None&quot;</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Increment the turn counter</span>
+            <span class="n">turn</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">conversation</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
 <h2 id="parshift.frequency_treemap" class="doc doc-heading">
         <span class="doc doc-object-name doc-function-name">frequency_treemap</span>
 
@@ -1207,7 +1438,7 @@ conditional probabilities. This dataframe can be obtained with
     <span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Participation Shifts Frequency (%)&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-    <span class="c1"># plt.show()</span>
+
     <span class="k">return</span> <span class="n">ax</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -1276,23 +1507,23 @@ conditional probabilities. This dataframe can be obtained with
 
       <details class="quote">
         <summary>Source code in <code>parshift/annotation.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pshift_type</span><span class="p">(</span><span class="n">pshift_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pshift_type</span><span class="p">(</span><span class="n">pshift_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the participation shift type given a participation shift code.</span>
 
 <span class="sd">    Arguments:</span>
@@ -1537,7 +1768,7 @@ conversation.</p></td>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.instant", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      <script src="../assets/javascripts/bundle.19047be9.min.js"></script>
       
     
   </body>
