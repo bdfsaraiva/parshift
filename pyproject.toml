@@ -7,7 +7,7 @@ packages = ["parshift"]
 
 [project]
 name = "parshift"
-version = "0.2.0"
+version = "0.2.1"
 description = "Python package based on Gibson's framework (2003) for turn-taking in group conversation analysis."
 readme = "README.md"
 requires-python = ">=3.8"
