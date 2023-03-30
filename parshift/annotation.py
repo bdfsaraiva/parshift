@@ -31,7 +31,7 @@ _p_shift_dict = {
 # Expected column types
 _p_shift_cols = {
     "id": np.int64,
-    "user_id": np.int64,
+    "user_id": str,
     "message_text": str,
     "reply_id": object,
     "target_id": object,
@@ -47,7 +47,7 @@ def read_ccsv(
     The conversation file should have the following columns:
 
     - `id`: ID of the message (int)
-    - `user_id`: ID of the user sending the message (int)
+    - `user_id`: ID of the user sending the message (str)
     - `message_text`: The message itself (string)
     - `reply_id` or `target_id`: The reply ID or the target ID (int)
 
@@ -75,6 +75,12 @@ def read_ccsv(
     elif len(missing) > 1:
         # If more than one column missing, we have a problem
         raise ValueError(f"CSV file is missing the `{'`, `'.join(missing)}` columns")
+
+    # Change Nan values to empty strings in the `reply_id` or `target_id` column
+    if "reply_id" in conversation.columns:
+        conversation["reply_id"] = conversation["reply_id"].fillna("")
+    else:
+        conversation["target_id"] = conversation["target_id"].fillna("")
 
     return conversation
 
@@ -128,7 +134,11 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
                     "ids": [id],
                     "user_id": user_id,
                     "message_text": message_text,
-                    last_col: int(last_col_val) if last_col_val != "None" else None,
+                    last_col: int(last_col_val)
+                    if last_col_val != ""
+                    and last_col_val != None
+                    and last_col_val != "None"
+                    else None,
                 }
             )
 
