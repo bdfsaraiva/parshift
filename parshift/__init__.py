@@ -11,9 +11,11 @@ __all__ = [
     "conv2turns",
     "pshift_type",
     "read_ccsv",
+    "load_and_process",
 ]
 
 
 from parshift.annotation import annotate, conv2turns, pshift_type, read_ccsv
 from parshift.plotting import frequency_treemap
 from parshift.statistics import cond_probs
+from parshift.load_and_process import load_and_process
