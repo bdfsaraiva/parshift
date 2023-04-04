@@ -38,7 +38,7 @@ class Parshift:
 
         - `utterance_id`: ID of the message (int)
         - `speaker_id`: ID of the user sending the message (str)
-        - `message_text`: The message itself (string)
+        - `utterance`: The message itself (string)
         - `reply_to_id` or `target_id`: The reply ID or the target ID (int)
 
         Arguments:

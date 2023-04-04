@@ -1,4 +1,4 @@
-utterance_ids,speaker_id,message_text,target_id,pshift
+utterance_ids,speaker_id,utterance,target_id,pshift
 [0],10,"olá, como vao?",None,
 [1],11,Olá amigo,10,A0-XA
 [2],12,Olá a todos,None,AB-X0
