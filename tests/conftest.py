@@ -93,7 +93,7 @@ _bad_params_read_ccsv = [
 
 # Mandatory columns and types of conversation dataframe
 _p_shift_cols_mandatory = {
-    "id": np.int64,
+    "utterance_id": np.int64,
     "user_id": np.dtype("O"),
     "message_text": np.dtype("O"),
 }
