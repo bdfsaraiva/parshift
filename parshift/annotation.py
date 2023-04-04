@@ -33,7 +33,7 @@ _p_shift_cols = {
     "id": np.int64,
     "user_id": str,
     "message_text": str,
-    "reply_id": object,
+    "reply_to_id": object,
     "target_id": object,
 }
 
@@ -49,7 +49,7 @@ def read_ccsv(
     - `id`: ID of the message (int)
     - `user_id`: ID of the user sending the message (str)
     - `message_text`: The message itself (string)
-    - `reply_id` or `target_id`: The reply ID or the target ID (int)
+    - `reply_to_id` or `target_id`: The reply ID or the target ID (int)
 
     Arguments:
         filepath_or_buffer: Any valid string path to CSV file, as accepted by
@@ -69,16 +69,20 @@ def read_ccsv(
     missing = _p_shift_cols.keys() - conversation.columns
 
     # Check if we have missing columns
-    if len(missing) == 1 and "reply_id" not in missing and "target_id" not in missing:
-        # If only one column missing, it can't be other than `reply_id` or `target_id`
+    if (
+        len(missing) == 1
+        and "reply_to_id" not in missing
+        and "target_id" not in missing
+    ):
+        # If only one column missing, it can't be other than `reply_to_id` or `target_id`
         raise ValueError(f"CSV file is missing the `{missing.pop()}` column")
     elif len(missing) > 1:
         # If more than one column missing, we have a problem
         raise ValueError(f"CSV file is missing the `{'`, `'.join(missing)}` columns")
 
-    # Change Nan values to empty strings in the `reply_id` or `target_id` column
-    if "reply_id" in conversation.columns:
-        conversation["reply_id"] = conversation["reply_id"].fillna("")
+    # Change Nan values to empty strings in the `reply_to_id` or `target_id` column
+    if "reply_to_id" in conversation.columns:
+        conversation["reply_to_id"] = conversation["reply_to_id"].fillna("")
     else:
         conversation["target_id"] = conversation["target_id"].fillna("")
 
@@ -99,8 +103,8 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
     """
 
     conv_df = conv_df.reset_index()
-    if "reply_id" in conv_df.columns:
-        last_col = "reply_id"
+    if "reply_to_id" in conv_df.columns:
+        last_col = "reply_to_id"
     elif "target_id" in conv_df.columns:
         last_col = "target_id"
 
@@ -210,13 +214,13 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
     # part2 will take the parshift label for the current turn
     part_2 = ""
 
-    if "reply_id" in conv_df.columns:
+    if "reply_to_id" in conv_df.columns:
         annotate_df = pd.DataFrame(
             {
                 "ids": [],
                 "user_id": [],
                 "message_text": [],
-                "reply_id": [],
+                "reply_to_id": [],
                 "label_desc": [],
                 "pshift": [],
             }
@@ -225,24 +229,24 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
         # calculate the participation shift for each turn
         for idx, msg in enumerate(conversation):
             if (
-                msg["reply_id"] == None
-                or msg["reply_id"] == "None"
-                or msg["reply_id"] == ""
+                msg["reply_to_id"] == None
+                or msg["reply_to_id"] == "None"
+                or msg["reply_to_id"] == ""
             ):
                 part_2 = " " + str(msg["user_id"]) + " to group"
             else:
                 for msgPrev in conversation[: idx + 1]:
-                    if msg["reply_id"] in msgPrev["ids"]:
+                    if msg["reply_to_id"] in msgPrev["ids"]:
                         if (
-                            msgPrev["reply_id"] == None
-                            or msgPrev["reply_id"] == "None"
-                            or msgPrev["reply_id"] == ""
+                            msgPrev["reply_to_id"] == None
+                            or msgPrev["reply_to_id"] == "None"
+                            or msgPrev["reply_to_id"] == ""
                         ):
                             part_1 = str(msgPrev["user_id"]) + " to group,"
 
                         else:  # reply - reply
                             for msgPrev2 in conversation[:idx]:
-                                if msgPrev["reply_id"] in msgPrev2["ids"]:
+                                if msgPrev["reply_to_id"] in msgPrev2["ids"]:
                                     part_1 = (
                                         str(msgPrev["user_id"])
                                         + " to "
@@ -271,7 +275,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
                 str(msg["ids"]),
                 str(msg["user_id"]),
                 msg["message_text"],
-                str(msg["reply_id"]),
+                str(msg["reply_to_id"]),
                 p1p2,
                 pshift_label,
             ]

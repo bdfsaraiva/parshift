@@ -7,10 +7,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pytest
 
+model = Parshift()
+
 
 def test_load_and_process(file_csv_good):
     """Test that `load_and_process` returns a dict."""
-    model = Parshift()
     model.load_and_process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
     assert type(model.annotation) == type(pd.DataFrame())
     assert type(model.stats) == type(pd.DataFrame())
@@ -18,8 +19,6 @@ def test_load_and_process(file_csv_good):
 
 def test_get_plot(file_csv_good):
     """Test that `load_and_process` returns a dict."""
-
-    model = Parshift()
     model.load_and_process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
     _, ax = plt.subplots()
     assert type(ax) == type(model.get_plot())

@@ -100,7 +100,7 @@ _p_shift_cols_mandatory = {
 
 # Optional columns and types of conversation dataframe
 _p_shift_cols_optional = {
-    "reply_id": np.dtype("O"),
+    "reply_to_id": np.dtype("O"),
     "target_id": np.dtype("O"),
 }
 

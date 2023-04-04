@@ -1,4 +1,4 @@
-ids,user_id,message_text,reply_id,pshift
+ids,user_id,message_text,reply_to_id,pshift
 ['0'],10,"olá, como vao?",None,,
 ['1'],11,"Olá amigo",0,A0-XA
 ['2'],12, "Olá a todos",None,AB-X0
