@@ -31,7 +31,7 @@ _p_shift_dict = {
 # Expected column types
 _p_shift_cols = {
     "utterance_id": np.int64,
-    "user_id": str,
+    "speaker_id": str,
     "message_text": str,
     "reply_to_id": object,
     "target_id": object,
@@ -47,7 +47,7 @@ def read_ccsv(
     The conversation file should have the following columns:
 
     - `utterance_id`: ID of the message (int)
-    - `user_id`: ID of the user sending the message (str)
+    - `speaker_id`: ID of the user sending the message (str)
     - `message_text`: The message itself (string)
     - `reply_to_id` or `target_id`: The reply ID or the target ID (int)
 
@@ -112,11 +112,11 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
     turn = 0
 
     for index, row in conv_df.iterrows():
-        # If the row being looped has the same "user_id" and the "last_col" value,
+        # If the row being looped has the same "speaker_id" and the "last_col" value,
         # then merge the message text and message utterance_ids into the previous turn.
         if (
             index != 0
-            and conversation[turn - 1]["user_id"] == row["user_id"]
+            and conversation[turn - 1]["speaker_id"] == row["speaker_id"]
             and str(conversation[turn - 1][last_col]) == row[last_col]
         ):
             msg_join = ". ".join(
@@ -129,14 +129,14 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
         # Otherwise, create a new dictionary representing a new turn
         else:
             id = row["utterance_id"]
-            user_id = row["user_id"]
+            speaker_id = row["speaker_id"]
             message_text = row["message_text"]
             last_col_val = row[last_col]
 
             conversation.append(
                 {
                     "utterance_ids": [id],
-                    "user_id": user_id,
+                    "speaker_id": speaker_id,
                     "message_text": message_text,
                     last_col: int(last_col_val)
                     if last_col_val != ""
@@ -218,7 +218,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
         annotate_df = pd.DataFrame(
             {
                 "utterance_ids": [],
-                "user_id": [],
+                "speaker_id": [],
                 "message_text": [],
                 "reply_to_id": [],
                 "label_desc": [],
@@ -233,7 +233,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
                 or msg["reply_to_id"] == "None"
                 or msg["reply_to_id"] == ""
             ):
-                part_2 = " " + str(msg["user_id"]) + " to group"
+                part_2 = " " + str(msg["speaker_id"]) + " to group"
             else:
                 for msgPrev in conversation[: idx + 1]:
                     if msg["reply_to_id"] in msgPrev["utterance_ids"]:
@@ -242,20 +242,23 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
                             or msgPrev["reply_to_id"] == "None"
                             or msgPrev["reply_to_id"] == ""
                         ):
-                            part_1 = str(msgPrev["user_id"]) + " to group,"
+                            part_1 = str(msgPrev["speaker_id"]) + " to group,"
 
                         else:  # reply - reply
                             for msgPrev2 in conversation[:idx]:
                                 if msgPrev["reply_to_id"] in msgPrev2["utterance_ids"]:
                                     part_1 = (
-                                        str(msgPrev["user_id"])
+                                        str(msgPrev["speaker_id"])
                                         + " to "
-                                        + str(msgPrev2["user_id"])
+                                        + str(msgPrev2["speaker_id"])
                                         + ","
                                     )
 
                         part_2 = (
-                            " " + str(msg["user_id"]) + " to " + str(msgPrev["user_id"])
+                            " "
+                            + str(msg["speaker_id"])
+                            + " to "
+                            + str(msgPrev["speaker_id"])
                         )
 
             # p1p2 takes the parshift label for the previous + current turn
@@ -273,7 +276,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
 
             annotate_df.loc[len(annotate_df.index)] = [  # type: ignore
                 str(msg["utterance_ids"]),
-                str(msg["user_id"]),
+                str(msg["speaker_id"]),
                 msg["message_text"],
                 str(msg["reply_to_id"]),
                 p1p2,
@@ -284,7 +287,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
         annotate_df = pd.DataFrame(
             {
                 "utterance_ids": [],
-                "user_id": [],
+                "speaker_id": [],
                 "message_text": [],
                 "target_id": [],
                 "label_desc": [],
@@ -300,11 +303,11 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
                 or msg["target_id"] == "None"
                 or msg["target_id"] == ""
             ):
-                part_2 = " " + str(msg["user_id"]) + " to group"
+                part_2 = " " + str(msg["speaker_id"]) + " to group"
 
             # if msg has a target, we save it
             else:
-                part_2 = " " + str(msg["user_id"]) + " to " + str(msg["target_id"])
+                part_2 = " " + str(msg["speaker_id"]) + " to " + str(msg["target_id"])
 
             # p1p2 takes the parshift label for the previous + current turn
             p1p2 = part_1 + part_2
@@ -323,7 +326,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
 
             annotate_df.loc[len(annotate_df.index)] = [  # type: ignore
                 str(msg["utterance_ids"]),
-                str(msg["user_id"]),
+                str(msg["speaker_id"]),
                 msg["message_text"],
                 str(msg["target_id"]),
                 p1p2,

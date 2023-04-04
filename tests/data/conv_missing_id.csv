@@ -1,4 +1,4 @@
-user_id,message_text,reply_to_id
+speaker_id,message_text,reply_to_id
 10,"olá, como vao?",None
 11,"Olá amigo",0
 12,"Olá a todos",None

@@ -37,7 +37,7 @@ class Parshift:
         The conversation file should have the following columns:
 
         - `utterance_id`: ID of the message (int)
-        - `user_id`: ID of the user sending the message (str)
+        - `speaker_id`: ID of the user sending the message (str)
         - `message_text`: The message itself (string)
         - `reply_to_id` or `target_id`: The reply ID or the target ID (int)
 
