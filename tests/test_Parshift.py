@@ -45,6 +45,6 @@ def test_get_plot(file_csv_good):
 
     model = Parshift()
     model.load_and_process(file_csv_good["csv_in"], N=2, **(file_csv_good["kwargs"]))
-    _, ax = plt.subplots()
+    _, ax = plt.subplots(1, 2)
     assert type(ax) == type(model.get_plot())
     assert type(ax) == type(model.get_plot(type="pshift_type"))
