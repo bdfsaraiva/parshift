@@ -62,7 +62,7 @@ def frequency_treemap(
         color=sns.color_palette("Spectral", len(list(zip(*data))[0])),
         ax=ax,
     )
-    plt.title("Participation Shifts Frequency (%)")
+    # plt.title("Participation Shifts Frequency (%)")
     plt.axis("off")
 
     return ax
