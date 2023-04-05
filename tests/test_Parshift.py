@@ -7,19 +7,44 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pytest
 
-model = Parshift()
-
 
 def test_load_and_process(file_csv_good):
-    """Test that `load_and_process` returns a dict."""
+    """Test that `load_and_process` fills stats and annotation attributes."""
+    model = Parshift()
     model.load_and_process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
     assert type(model.annotation) == type(pd.DataFrame())
     assert type(model.stats) == type(pd.DataFrame())
 
+    model = Parshift()
+    model.load_and_process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]), N=2)
+    assert type(model.annotation) == type(pd.DataFrame())
+    assert isinstance(model.stats, list)
+
+
+@pytest.mark.parametrize("N,expecterr", [(5, ValueError)])
+def test_load_and_process_error(file_csv_good, N, expecterr):
+    model = Parshift()
+    with pytest.raises(expecterr):
+        model.load_and_process(
+            file_csv_good["csv_in"], **(file_csv_good["kwargs"]), N=N
+        )
+
+
+def test_get_plot_error():
+    model = Parshift()
+    with pytest.raises(ValueError):
+        model.get_plot()
+
 
 def test_get_plot(file_csv_good):
-    """Test that `load_and_process` returns a dict."""
+    model = Parshift()
     model.load_and_process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
+    _, ax = plt.subplots()
+    assert type(ax) == type(model.get_plot())
+    assert type(ax) == type(model.get_plot(type="pshift_type"))
+
+    model = Parshift()
+    model.load_and_process(file_csv_good["csv_in"], N=2, **(file_csv_good["kwargs"]))
     _, ax = plt.subplots()
     assert type(ax) == type(model.get_plot())
     assert type(ax) == type(model.get_plot(type="pshift_type"))
