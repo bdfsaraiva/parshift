@@ -89,18 +89,18 @@ class Parshift:
                     ax[i].set_title(f"N {i+1}")
             else:
                 ax = frequency_treemap(self.stats, column_name="pshift")
-        elif type == "pshift_type":
+        elif type == "pshift_class":
             if isinstance(self.stats, list):
                 _, ax = plt.subplots(1, len(self.stats))
 
                 for i in range(len(self.stats)):
                     frequency_treemap(
-                        self.stats[i], column_name="pshift_type", ax=ax[i]
+                        self.stats[i], column_name="pshift_class", ax=ax[i]
                     )
                     ax[i].axis("off")
                     ax[i].set_title(f"N {i+1}")
             else:
-                ax = frequency_treemap(self.stats, column_name="pshift_type")
+                ax = frequency_treemap(self.stats, column_name="pshift_class")
 
         plt.suptitle("Parshift Frequencies")
 

@@ -8,7 +8,7 @@ import pandas as pd
 import seaborn as sns
 import squarify
 
-from .annotation import pshift_type
+from .annotation import pshift_class
 
 
 def frequency_treemap(
@@ -23,7 +23,7 @@ def frequency_treemap(
             conditional probabilities. This dataframe can be obtained with
             [`cond_probs()`][parshift.statistics.cond_probs]
         column_name: Column name to be used to plot the treemap, either `"pshift"`
-            (default) or `"pshift_type"`.
+            (default) or `"pshift_class"`.
         ax: Matplotlib axes with the treemap plot.
 
     Returns:
@@ -32,13 +32,13 @@ def frequency_treemap(
 
     if not isinstance(column_name, str):
         raise TypeError("Parameter filename must be a String")
-    if column_name not in ["pshift_type", "pshift"]:
+    if column_name not in ["pshift_class", "pshift"]:
         raise ValueError(
-            "Parameter column_name must be one of the following: `pshift`, `pshift_type`"
+            "Parameter column_name must be one of the following: `pshift`, `pshift_class`"
         )
 
-    if column_name == "pshift_type":
-        cond_probs_df["pshift_type"] = cond_probs_df["pshift"].apply(pshift_type)
+    if column_name == "pshift_class":
+        cond_probs_df["pshift_class"] = cond_probs_df["pshift"].apply(pshift_class)
 
     gb_parshift = cond_probs_df.groupby([column_name])["Frequency"].sum()
 

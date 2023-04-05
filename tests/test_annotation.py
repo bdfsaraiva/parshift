@@ -5,7 +5,7 @@
 import pandas as pd
 import pytest
 
-from parshift import annotate, pshift_type, read_ccsv
+from parshift import annotate, pshift_class, read_ccsv
 
 
 def test_read_ccsv_return(file_csv_good, p_shift_cols_mandatory, p_shift_cols_optional):
@@ -96,11 +96,11 @@ def test_annotate_errors(conv, expecterr):
 )
 def test_pshift_type_return(ps, pstype):
     """Test that `pshift_type()` returns the expected type of p-shift."""
-    assert pshift_type(ps) == pstype
+    assert pshift_class(ps) == pstype
 
 
 @pytest.mark.parametrize("ps,expecterr", [(1, TypeError), ("hi", ValueError)])
 def test_pshift_type_errors(ps, expecterr):
     """Test that `pshift_type()` throws the expected errors."""
     with pytest.raises(expecterr):
-        pshift_type(ps)
+        pshift_class(ps)

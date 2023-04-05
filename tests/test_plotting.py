@@ -13,7 +13,7 @@ def test_frequency_treemap(pshift_freq_table):
     _, ax = plt.subplots()
     assert type(ax) == type(frequency_treemap(conditional_probabilities_df))
     assert type(ax) == type(
-        frequency_treemap(conditional_probabilities_df, column_name="pshift_type")
+        frequency_treemap(conditional_probabilities_df, column_name="pshift_class")
     )
 
 

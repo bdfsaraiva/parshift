@@ -338,20 +338,20 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
     return annotate_df
 
 
-def pshift_type(pshift_code: str) -> str:
-    """Returns the participation shift type given a participation shift code.
+def pshift_class(pshift: str) -> str:
+    """Returns the participation shift class given a participation shift code.
 
     Arguments:
         pshift_code: Participation shift code (e.g A0-XA).
 
     Returns:
-        Participation shift type in given the participation shift code (either
+        Participation shift classe in given the participation shift code (either
             "Turn Receiving", "Turn Claiming", "Turn Usurping" or  "Turn Continuing").
     """
 
-    if not isinstance(pshift_code, str):
+    if not isinstance(pshift, str):
         raise TypeError("Parameter pshift_code must be a String")
-    if not re.search("A[B|0]-[A|B|X][A|B|X|Y|0]", pshift_code):
+    if not re.search("A[B|0]-[A|B|X][A|B|X|Y|0]", pshift):
         raise ValueError("Parameter pshift_code must be a parshift code. eg: AB-B0")
 
-    return _p_shift_dict[pshift_code]
+    return _p_shift_dict[pshift]
