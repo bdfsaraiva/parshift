@@ -22,7 +22,7 @@ class Parshift:
         """Parshift initialization"""
 
         self.annotation: pd.DataFrame
-        self.stats: None  # pd.DataFrame
+        self.stats: pd.DataFrame | list[pd.DataFrame]
 
     def load_and_process(
         self,
