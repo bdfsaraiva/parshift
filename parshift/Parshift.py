@@ -57,10 +57,10 @@ class Parshift:
         df_annotate = annotate(read_ccsv(filepath_or_buffer, **kwargs))
         self.annotation = df_annotate
 
-        list_stats = []
         if N == 1:
             self.stats = cond_probs(df_annotate)
         elif N in [2, 3, 4]:
+            list_stats = []
             size = len(df_annotate)
             parts = size / N
             for i in range(N):
@@ -73,7 +73,6 @@ class Parshift:
             raise ValueError("N should be between 1 and 4.")
 
     def get_plot(self, type: str = "pshift", save: bool = False):
-
         if self.stats is None:
             raise ValueError(
                 "Parshift.stats is None. Please run Parshift.load_and_process() first."
@@ -81,7 +80,9 @@ class Parshift:
 
         if type == "pshift":
             if isinstance(self.stats, list):
-                _, ax = plt.subplots(1, len(self.stats))
+                _, ax = plt.subplots(
+                    1, len(self.stats), figsize=(5 * len(self.stats), 5)
+                )
 
                 for i in range(len(self.stats)):
                     frequency_treemap(self.stats[i], column_name="pshift", ax=ax[i])
@@ -91,7 +92,9 @@ class Parshift:
                 ax = frequency_treemap(self.stats, column_name="pshift")
         elif type == "pshift_class":
             if isinstance(self.stats, list):
-                _, ax = plt.subplots(1, len(self.stats))
+                _, ax = plt.subplots(
+                    1, len(self.stats), figsize=(5 * len(self.stats), 5)
+                )
 
                 for i in range(len(self.stats)):
                     frequency_treemap(
@@ -107,4 +110,5 @@ class Parshift:
         if save:
             ax.savefig(f"plot_{type}.png")
         else:
+            plt.show()
             return ax
