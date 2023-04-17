@@ -5,7 +5,6 @@
 import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
 import squarify
 
 from .annotation import pshift_class
@@ -52,6 +51,28 @@ def frequency_treemap(
         for idx, el in enumerate(list(zip(*data))[1])
     ]
 
+    color_dict = {
+        "Turn reciving": "#86d87c",
+        "AB-BA": "#86d87c",
+        "AB-B0": "#c6ecbe",
+        "AB-BY": "#7cd892",
+        "Turn Claiming": "#f4b461",
+        "A0-X0": "#f4b461",
+        "A0-XA": "#fb9948",
+        "A0-XY": "#efa107",
+        "Turn Usurping": "#ff4d4d",
+        "AB-X0": "#ff4d4d",
+        "AB-XA": "#fb7477",
+        "AB-XB": "#ef3b6e",
+        "AB-XY": "#ef483b",
+        "Turn Continuing": "#85eff9",
+        "A0-AY": "#3b61ef",
+        "AB-A0": "#85eff9",
+        "AB-AY": "#b9befb",
+    }
+
+    colors = [color_dict[el] for el in list(zip(*data))[1]]
+
     if ax is None:
         _, ax = plt.subplots()
 
@@ -59,10 +80,9 @@ def frequency_treemap(
         list(zip(*data))[0],
         label=labels,
         pad=2,
-        color=sns.color_palette("Spectral", len(list(zip(*data))[0])),
+        color=colors,
         ax=ax,
     )
     # plt.title("Participation Shifts Frequency (%)")
     plt.axis("off")
-
     return ax

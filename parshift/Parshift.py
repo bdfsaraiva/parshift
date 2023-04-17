@@ -108,7 +108,7 @@ class Parshift:
         plt.suptitle("Parshift Frequencies")
 
         if save:
-            ax.savefig(f"plot_{type}.png")
+            plt.savefig(f"plot_{type}.png", dpi=300)
         else:
             plt.show()
             return ax
