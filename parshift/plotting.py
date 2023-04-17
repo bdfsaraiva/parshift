@@ -52,7 +52,7 @@ def frequency_treemap(
     ]
 
     color_dict = {
-        "Turn Reciving": "#86d87c",
+        "Turn Receiving": "#86d87c",
         "AB-BA": "#86d87c",
         "AB-B0": "#c6ecbe",
         "AB-BY": "#7cd892",
