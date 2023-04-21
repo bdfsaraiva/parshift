@@ -32,10 +32,12 @@ def test_get_plot(file_csv_good):
     model = Parshift()
     model.process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
     model.get_plot()
+    model.get_plot(type="Pshift_class")
 
     model = Parshift()
     model.process(file_csv_good["csv_in"], N=2, **(file_csv_good["kwargs"]))
     model.get_plot()
+    model.get_plot(type="Pshift_class")
 
 
 @pytest.mark.parametrize("type,expecterr", [(1, TypeError), ("Bye", ValueError)])
