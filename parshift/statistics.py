@@ -134,11 +134,12 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
         A dataframe containing the frequency, probability and conditional probabilities
             (two) for each parshift code. This dataframe is divided into two 'subgroups':
             (1) those beginning with an undirected remark (A0-); and, (2) those beginning
-            with a directed one (AB-). The `CP` (conditional probability) column contains
-            the frequency divided by total occurrences in each subgroup, while the `CPeTC`
-            (Conditional Probability excluding Turn Continuing type) column contains the
-            frequency divided by total occurrences in each subgroup, assuming change of
-            speaker.
+            with a directed one (AB-). The `P(S|D)` (Probability of a participation shift
+            given a Directed or Undirected remark (D)) column contains the frequency divided
+            by total occurrences in each subgroup, while the `P(S|D and C)` (Probability of
+            a participation shift given a Directed or Undirected remark (D) and assuming
+            Change of Speaker (C)) column contains the frequency divided by total occurrences
+            in each subgroup, for each participation shift where the change of speaker occurs.
     """
 
     if not isinstance(pshift_codes, pd.DataFrame):
@@ -208,6 +209,9 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
         lambda ps: _targeted_remark(ps)
     )
 
-    result.rename(columns={"pshift": "Pshift"}, inplace=True)
+    result.rename(
+        columns={"pshift": "Pshift", "CP": "P(S|D)", "CPeTC": "P(S|D and C"},
+        inplace=True,
+    )
 
     return result
