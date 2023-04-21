@@ -24,7 +24,7 @@ class Parshift:
         self.annotation: pd.DataFrame = None
         self.stats: pd.DataFrame | list[pd.DataFrame] = None
 
-    def load_and_process(
+    def process(
         self,
         filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
         N: int = 1,
@@ -72,43 +72,79 @@ class Parshift:
         else:
             raise ValueError("N should be between 1 and 4.")
 
-    def get_plot(self, type: str = "pshift", save: bool = False):
+    def get_plot(self, type: str = "Pshift", save: bool = False):
+        """Shows the frequency treemap plot returned by [`frequency_treemap()`][parshift.plotting.frequency_treemap]
+
+        Arguments:
+            type: Column name to be used to plot the treemap, either `"Pshift"`
+            (default) or `"Pshift_class"`.
+            N: Number of parts to split the conversation into. Default is 1 (all conversation).
+                `N` should be between 1 and 4.
+            **kwargs: Keyword parameters passed to Pandas
+                [`read_csv()`][pandas.read_csv] function.
+
+        """
+
         if self.stats is None:
             raise ValueError(
-                "Parshift.stats is None. Please run Parshift.load_and_process() first."
+                "Parshift.stats is None. Please run Parshift.process() first."
             )
 
-        if type == "pshift":
+        if not isinstance(type, str):
+            raise TypeError("Parameter filename must be a String")
+        if type not in ["Pshift_class", "Pshift"]:
+            raise ValueError(
+                "Parameter type must be one of the following: `Pshift`, `Pshift_class`"
+            )
+
+        if type == "Pshift":
             if isinstance(self.stats, list):
                 _, ax = plt.subplots(
                     1, len(self.stats), figsize=(5 * len(self.stats), 5)
                 )
 
                 for i in range(len(self.stats)):
-                    frequency_treemap(self.stats[i], column_name="pshift", ax=ax[i])
+                    frequency_treemap(self.stats[i], type=type, ax=ax[i])
                     ax[i].axis("off")
                     ax[i].set_title(f"N {i+1}")
             else:
-                ax = frequency_treemap(self.stats, column_name="pshift")
-        elif type == "pshift_class":
+                ax = frequency_treemap(self.stats, type=type)
+
+            plt.suptitle("Participation-Shift Frequencies")
+
+        elif type == "Pshift_class":
             if isinstance(self.stats, list):
                 _, ax = plt.subplots(
                     1, len(self.stats), figsize=(5 * len(self.stats), 5)
                 )
 
                 for i in range(len(self.stats)):
-                    frequency_treemap(
-                        self.stats[i], column_name="pshift_class", ax=ax[i]
-                    )
+                    frequency_treemap(self.stats[i], type=type, ax=ax[i])
                     ax[i].axis("off")
                     ax[i].set_title(f"N {i+1}")
             else:
-                ax = frequency_treemap(self.stats, column_name="pshift_class")
+                ax = frequency_treemap(self.stats, type=type)
 
-        plt.suptitle("Parshift Frequencies")
+            plt.suptitle("Participation Shifts: Class Proportions")
 
         if save:
             plt.savefig(f"plot_{type}.png", dpi=300)
+
+        plt.show()
+
+    def get_stats(self):
+        if self.stats is None:
+            raise ValueError(
+                "Parshift.stats is None. Please run Parshift.process() first."
+            )
+
+        if isinstance(self.stats, list):
+            for i in range(len(self.stats)):
+                print(f"N{i+1}:")
+                print(self.stats[i])
+                print("-" * 80)
+            # return self.stats
+
         else:
-            plt.show()
-            return ax
+            print(self.stats)
+            # return self.stats

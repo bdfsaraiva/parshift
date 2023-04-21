@@ -13,7 +13,7 @@ from .annotation import pshift_class
 def frequency_treemap(
     cond_probs_df: pd.DataFrame,
     ax: matplotlib.axes.Axes = None,
-    column_name: str = "pshift",
+    type: str = "Pshift",
 ) -> matplotlib.axes.Axes:
     """Get a matplotlib axes object displaying the conditional probabilities or frequencies.
 
@@ -21,25 +21,25 @@ def frequency_treemap(
         cond_probs_df: Dataframe with information about the participation shift
             conditional probabilities. This dataframe can be obtained with
             [`cond_probs()`][parshift.statistics.cond_probs]
-        column_name: Column name to be used to plot the treemap, either `"pshift"`
-            (default) or `"pshift_class"`.
+        type: Column name to be used to plot the treemap, either `"Pshift"`
+            (default) or `"Pshift_class"`.
         ax: Matplotlib axes with the treemap plot.
 
     Returns:
         ax: Matplotlib axes with the participation shifts probabilities or frequency.
     """
 
-    if not isinstance(column_name, str):
+    if not isinstance(type, str):
         raise TypeError("Parameter filename must be a String")
-    if column_name not in ["pshift_class", "pshift"]:
+    if type not in ["Pshift_class", "Pshift"]:
         raise ValueError(
-            "Parameter column_name must be one of the following: `pshift`, `pshift_class`"
+            "Parameter type must be one of the following: `Pshift`, `Pshift_class`"
         )
 
-    if column_name == "pshift_class":
-        cond_probs_df["pshift_class"] = cond_probs_df["pshift"].apply(pshift_class)
+    if type == "Pshift_class":
+        cond_probs_df["Pshift_class"] = cond_probs_df["Pshift"].apply(pshift_class)
 
-    gb_parshift = cond_probs_df.groupby([column_name])["Frequency"].sum()
+    gb_parshift = cond_probs_df.groupby([type])["Frequency"].sum()
 
     data = [
         el

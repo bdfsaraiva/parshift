@@ -20,11 +20,13 @@ def test_cond_probs_ok(pshift_freq_table):
     result = cond_probs(pshift_freq_table["df_ps"])
     assert isinstance(result, pd.DataFrame)
     assert list(result.columns) == [
-        "pshift",
+        "Pshift",
         "Frequency",
         "Probability",
         "CP",
         "CPeTC",
+        "Change of Speaker (C)",
+        "Directed Remark (D)",
     ]
 
 

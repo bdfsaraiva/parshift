@@ -13,12 +13,12 @@ def test_frequency_treemap(pshift_freq_table):
     _, ax = plt.subplots()
     assert type(ax) == type(frequency_treemap(conditional_probabilities_df))
     assert type(ax) == type(
-        frequency_treemap(conditional_probabilities_df, column_name="pshift_class")
+        frequency_treemap(conditional_probabilities_df, type="Pshift_class")
     )
 
 
-@pytest.mark.parametrize("column_name,expecterr", [(1, TypeError), ("Bye", ValueError)])
-def test_frequency_treemap_errors(pshift_freq_table, column_name, expecterr):
+@pytest.mark.parametrize("type,expecterr", [(1, TypeError), ("Bye", ValueError)])
+def test_frequency_treemap_errors(pshift_freq_table, type, expecterr):
     conditional_probabilities_df = cond_probs(pshift_freq_table["df_ps"])
     with pytest.raises(expecterr):
-        frequency_treemap(conditional_probabilities_df, column_name=column_name)
+        frequency_treemap(conditional_probabilities_df, type=type)

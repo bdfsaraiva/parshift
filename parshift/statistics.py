@@ -21,6 +21,44 @@ _cp_order = {
 }
 
 
+def _change_of_speaker(ps):
+    _change_of_speaker_dic = {
+        "AB-BA": True,
+        "AB-B0": True,
+        "AB-BY": True,
+        "A0-X0": True,
+        "A0-XA": True,
+        "A0-XY": True,
+        "AB-X0": True,
+        "AB-XA": True,
+        "AB-XB": True,
+        "AB-XY": True,
+        "A0-AY": False,
+        "AB-A0": False,
+        "AB-AY": False,
+    }
+    return _change_of_speaker_dic[ps]
+
+
+def _targeted_remark(ps):
+    _targeted_remark_dic = {
+        "AB-BA": False,
+        "AB-B0": False,
+        "AB-BY": False,
+        "A0-X0": True,
+        "A0-XA": True,
+        "A0-XY": True,
+        "AB-X0": False,
+        "AB-XA": False,
+        "AB-XB": False,
+        "AB-XY": False,
+        "A0-AY": True,
+        "AB-A0": False,
+        "AB-AY": False,
+    }
+    return _targeted_remark_dic[ps]
+
+
 def _frequency_table(parshift_annotation_df) -> list:
     """
     This function takes in a dataframe of ParShift annotations and returns a frequency table of ParShift codes.
@@ -61,7 +99,7 @@ def _frequency_table(parshift_annotation_df) -> list:
 
     for code in parshift_codes:
         count = 0
-        for index, row in parshift_annotation_df.iterrows():
+        for _, row in parshift_annotation_df.iterrows():
             if row["pshift"] == code:
                 count += 1
 
@@ -114,23 +152,35 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
         if key.split("-")[0] == "A0":
             if key not in ["A0-AY", "AB-A0", "AB-AY", "A0-A0"]:
                 cond_prob[key] = {
-                    "CP": round(freq_table[key] / frequency_table_and_counts[1], 2),
-                    "CPeTC": round(freq_table[key] / frequency_table_and_counts[3], 2),
+                    "CP": round(freq_table[key] / frequency_table_and_counts[1], 2)
+                    if frequency_table_and_counts[1] != 0
+                    else 0,
+                    "CPeTC": round(freq_table[key] / frequency_table_and_counts[3], 2)
+                    if frequency_table_and_counts[3] != 0
+                    else 0,
                 }
             else:
                 cond_prob[key] = {
-                    "CP": round(freq_table[key] / frequency_table_and_counts[1], 2),
+                    "CP": round(freq_table[key] / frequency_table_and_counts[1], 2)
+                    if frequency_table_and_counts[1] != 0
+                    else 0,
                     "CPeTC": "",
                 }
         else:
             if key not in ["A0-AY", "AB-A0", "AB-AY", "A0-A0"]:
                 cond_prob[key] = {
-                    "CP": round(freq_table[key] / frequency_table_and_counts[2], 2),
-                    "CPeTC": round(freq_table[key] / frequency_table_and_counts[4], 2),
+                    "CP": round(freq_table[key] / frequency_table_and_counts[2], 2)
+                    if frequency_table_and_counts[2] != 0
+                    else 0,
+                    "CPeTC": round(freq_table[key] / frequency_table_and_counts[4], 2)
+                    if frequency_table_and_counts[4] != 0
+                    else 0,
                 }
             else:
                 cond_prob[key] = {
-                    "CP": round(freq_table[key] / frequency_table_and_counts[2], 2),
+                    "CP": round(freq_table[key] / frequency_table_and_counts[2], 2)
+                    if frequency_table_and_counts[2] != 0
+                    else 0,
                     "CPeTC": "",
                 }
 
@@ -148,5 +198,16 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
         by=["pshift"], key=lambda x: x.map(_cp_order)
     ).reset_index(drop=True)
 
-    result_ordered = result.iloc[:, [0, 1, 2, 3, 4]]
-    return result_ordered
+    result = result.iloc[:, [0, 1, 2, 3, 4]]
+
+    result["Change of Speaker (C)"] = result["pshift"].apply(
+        lambda ps: _change_of_speaker(ps)
+    )
+
+    result["Directed Remark (D)"] = result["pshift"].apply(
+        lambda ps: _targeted_remark(ps)
+    )
+
+    result.rename(columns={"pshift": "Pshift"}, inplace=True)
+
+    return result
