@@ -341,7 +341,7 @@ def pshift_class(pshift: str) -> str:
     """Returns the participation shift class given a participation shift code.
 
     Arguments:
-        pshift_code: Participation shift code (e.g A0-XA).
+        pshift: Participation shift code (e.g A0-XA).
 
     Returns:
         Participation shift classe in given the participation shift code (either

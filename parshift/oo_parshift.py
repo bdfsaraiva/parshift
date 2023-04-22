@@ -83,11 +83,8 @@ class Parshift:
 
         Arguments:
             type: Column name to be used to plot the treemap, either `"Pshift"`
-            (default) or `"Pshift_class"`.
-            N: Number of parts to split the conversation into. Default is 1 (all conversation).
-                `N` should be between 1 and 4.
-            **kwargs: Keyword parameters passed to Pandas
-                [`read_csv()`][pandas.read_csv] function.
+                (default) or `"Pshift_class"`.
+            save: Whether to save the plot.
 
         """
 
@@ -139,6 +136,8 @@ class Parshift:
         plt.show()
 
     def get_stats(self):
+        """Returns the statistics."""
+
         if self.stats is None:
             raise ValueError(
                 "Parshift.stats is None. Please run Parshift.process() first."
