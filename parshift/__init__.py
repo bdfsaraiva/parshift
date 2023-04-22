@@ -16,6 +16,6 @@ __all__ = [
 
 
 from parshift.annotation import annotate, conv2turns, pshift_class, read_ccsv
+from parshift.oo_parshift import Parshift
 from parshift.plotting import frequency_treemap
 from parshift.statistics import cond_probs
-from parshift.oo_parshift import Parshift

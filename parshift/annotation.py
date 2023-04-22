@@ -153,7 +153,6 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
 
 
 def _pshift_code(label: str) -> str:
-
     # split the label into 4 parts
     a = label.split(",")[0].split("to")[0].replace(" ", "")
     b = label.split(",")[0].split("to")[1].replace(" ", "")
