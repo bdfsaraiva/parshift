@@ -28,7 +28,11 @@ def test_process_error(file_csv_good, N, expecterr):
         model.process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]), N=N)
 
 
-def test_get_plot(file_csv_good):
+def test_get_plot(file_csv_good, monkeypatch):
+
+    # Patch plt.show() so that it doesn't do anything, otherwise tests will hang
+    monkeypatch.setattr(plt, "show", lambda *args, **kwargs: None)
+
     model = Parshift()
     model.process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
     model.get_plot()
