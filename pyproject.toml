@@ -59,7 +59,7 @@ norecursedirs = [
     ".tox",
     ".git",
     "__pycache__" ]
-testpaths = [ "tests" ]
+testpaths = ["parshift", "tests"]
 
 [tool.mypy]
 python_version = 3.8
