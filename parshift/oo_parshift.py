@@ -3,14 +3,16 @@
 # at http://opensource.org/licenses/MIT)
 
 from __future__ import annotations
-from pandas._typing import FilePath, ReadCsvBuffer
-from typing import Any
+
+from typing import Any, List
+
 import matplotlib.pyplot as plt
 import pandas as pd
+from pandas._typing import FilePath, ReadCsvBuffer
 
-from .annotation import read_ccsv, annotate
-from .statistics import cond_probs
+from .annotation import annotate, read_ccsv
 from .plotting import frequency_treemap
+from .statistics import cond_probs
 
 # from parshift.annotation import read_ccsv, annotate
 # from parshift.statistics import cond_probs
@@ -18,11 +20,15 @@ from .plotting import frequency_treemap
 
 
 class Parshift:
-    def __init__(self):
+    def __init__(
+        self,
+        annotation: pd.DataFrame | None = None,
+        stats: pd.DataFrame | List[pd.DataFrame] | None = None,
+    ):
         """Parshift initialization"""
 
-        self.annotation: pd.DataFrame = None
-        self.stats: pd.DataFrame | list[pd.DataFrame] = None
+        self.annotation = annotation
+        self.stats = stats
 
     def process(
         self,
