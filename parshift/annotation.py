@@ -153,7 +153,6 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
 
 
 def _pshift_code(label: str) -> str:
-
     # split the label into 4 parts
     a = label.split(",")[0].split("to")[0].replace(" ", "")
     b = label.split(",")[0].split("to")[1].replace(" ", "")
@@ -342,7 +341,7 @@ def pshift_class(pshift: str) -> str:
     """Returns the participation shift class given a participation shift code.
 
     Arguments:
-        pshift_code: Participation shift code (e.g A0-XA).
+        pshift: Participation shift code (e.g A0-XA).
 
     Returns:
         Participation shift classe in given the participation shift code (either
