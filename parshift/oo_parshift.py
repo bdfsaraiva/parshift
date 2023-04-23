@@ -78,13 +78,13 @@ class Parshift:
         else:
             raise ValueError("N should be between 1 and 4.")
 
-    def get_plot(self, type: str = "Pshift", save: bool = False):
+    def get_plot(self, type: str = "Pshift", filename: str | None = None):
         """Shows the frequency treemap plot returned by [`frequency_treemap()`][parshift.plotting.frequency_treemap]
 
         Arguments:
             type: Column name to be used to plot the treemap, either `"Pshift"`
                 (default) or `"Pshift_class"`.
-            save: Whether to save the plot.
+            filename: Name of the file to save the plot. Default to `None` .
 
         """
 
@@ -94,11 +94,14 @@ class Parshift:
             )
 
         if not isinstance(type, str):
-            raise TypeError("Parameter filename must be a String")
+            raise TypeError("Parameter type must be a String")
         if type not in ["Pshift_class", "Pshift"]:
             raise ValueError(
                 "Parameter type must be one of the following: `Pshift`, `Pshift_class`"
             )
+
+        if filename != None and not isinstance(filename, str):
+            raise TypeError("Parameter filename must be a String")
 
         if type == "Pshift":
             if isinstance(self.stats, list):
@@ -130,8 +133,10 @@ class Parshift:
 
             plt.suptitle("Participation Shifts: Class Proportions")
 
-        if save:
-            plt.savefig(f"plot_{type}.png", dpi=300)
+        if filename:
+            if ".png" not in filename:
+                filename += ".png"
+            plt.savefig(filename, dpi=300)
 
         plt.show()
 

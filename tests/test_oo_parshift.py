@@ -2,6 +2,8 @@
 # Distributed under the MIT License (See accompanying file LICENSE or copy
 # at http://opensource.org/licenses/MIT)
 
+from os import path
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import pytest
@@ -43,6 +45,9 @@ def test_get_plot(file_csv_good, monkeypatch):
     model.get_plot()
     model.get_plot(type="Pshift_class")
 
+    model.get_plot(filename="test.png")
+    assert path.exists("test.png")
+
 
 @pytest.mark.parametrize("type,expecterr", [(1, TypeError), ("Bye", ValueError)])
 def test_get_plot_errors(file_csv_good, type, expecterr):
@@ -54,6 +59,9 @@ def test_get_plot_errors(file_csv_good, type, expecterr):
     model.process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
     with pytest.raises(expecterr):
         model.get_plot(type=type)
+
+    with pytest.raises(TypeError):
+        model.get_plot(filename=1)
 
 
 def test_get_stats(file_csv_good):
