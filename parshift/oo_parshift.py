@@ -141,7 +141,8 @@ class Parshift:
         plt.show()
 
     def get_stats(self):
-        """Returns the statistics."""
+        """Prints the stats returned by [`cond_probs()`][parshift.statistics.cond_probs]
+        Dataframe. If N > 1, prints N Dataframes."""
 
         if self.stats is None:
             raise ValueError(
@@ -153,8 +154,6 @@ class Parshift:
                 print(f"N{i+1}:")
                 print(self.stats[i])
                 print("-" * 80)
-            # return self.stats
 
         else:
             print(self.stats)
-            # return self.stats
