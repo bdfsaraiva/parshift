@@ -12,7 +12,7 @@ from pandas._typing import FilePath, ReadCsvBuffer
 
 from .annotation import annotate, read_ccsv
 from .plotting import frequency_treemap
-from .statistics import cond_probs
+from .statistics import cond_probs, propensities
 
 # from parshift.annotation import read_ccsv, annotate
 # from parshift.statistics import cond_probs
@@ -140,7 +140,7 @@ class Parshift:
 
         plt.show()
 
-    def get_stats(self):
+    def get_stats(self, filename: str | None = None):
         """Prints the stats returned by [`cond_probs()`][parshift.statistics.cond_probs]
         Dataframe. If N > 1, prints N Dataframes."""
 
@@ -155,5 +155,37 @@ class Parshift:
                 print(self.stats[i])
                 print("-" * 80)
 
+                if filename:
+                    if ".csv" not in filename:
+                        filename_changed = f"{filename}_N{i+1}.csv"
+                    else:
+                        filename_changed = filename.replace(".csv", f"_N{i+1}.csv")
+                    self.stats[i].to_csv(filename_changed, index=False)
+
         else:
             print(self.stats)
+            if filename:
+                if ".csv" not in filename:
+                    filename += ".csv"
+                self.stats.to_csv(filename, index=False)
+
+    def get_propensities(self):
+        """Returns a dataframe with the Participation Shift propensities."""
+
+        if self.stats is None:
+            raise ValueError(
+                "Parshift.stats is None. Please run Parshift.process() first."
+            )
+
+        if isinstance(self.stats, list):
+            df = propensities(self.stats[0])
+            df.index = ["N1"]
+            for i in range(1, len(self.stats)):
+                dfx = propensities(self.stats[i])
+                dfx.index = [f"N{i+1}"]
+                df = pd.concat([df, dfx])
+            return df
+        else:
+            df = propensities(self.stats)
+            df.index = ["N"]
+            return df

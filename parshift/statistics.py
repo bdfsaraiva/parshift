@@ -210,8 +210,35 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
     )
 
     result.rename(
-        columns={"pshift": "Pshift", "CP": "P(S|D)", "CPeTC": "P(S|D and C"},
+        columns={"pshift": "Pshift", "CP": "P(S|D)", "CPeTC": "P(S|D and C)"},
         inplace=True,
     )
 
     return result
+
+
+def propensities(cond_probs_df: pd.DataFrame) -> pd.DataFrame:
+    """Determine the propensities from a conditional probabilities dataframe.
+
+    Arguments:
+        cond_probs_df: A dataframe with statistics obtained with
+            [`cond_probs()`][parshift.statistics.cond_probs].
+
+    Returns:
+    """
+
+    dic_propensities = {}
+
+    # turn-receiving propensity -> AB-BA, AB-BO, and AB-BY ( P(S|D) )
+    p_s_d = cond_probs_df["P(S|D)"]
+    p_s_d_c = cond_probs_df["P(S|D and C)"]
+
+    dic_propensities["turn-receiving"] = p_s_d[4] + p_s_d[5] + p_s_d[10]
+
+    # targeting propensity -> AO-XY, AB-BY and AB-XY ( P(S|D and C) )
+    dic_propensities["targeting"] = p_s_d_c[2] + p_s_d_c[10] + p_s_d_c[11]
+
+    # termination propensity -> AO-AY, AB-AO and AB-AY ( P(S|D) )
+    dic_propensities["termination"] = p_s_d[2] + p_s_d[9] + p_s_d[12]
+
+    return pd.DataFrame([dic_propensities])
