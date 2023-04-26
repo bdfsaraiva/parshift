@@ -5,7 +5,7 @@
 import pandas as pd
 import pytest
 
-from parshift import cond_probs
+from parshift import cond_probs, propensities
 from parshift.statistics import _frequency_table
 
 
@@ -24,7 +24,7 @@ def test_cond_probs_ok(pshift_freq_table):
         "Frequency",
         "Probability",
         "P(S|D)",
-        "P(S|D and C",
+        "P(S|D and C)",
         "Change of Speaker (C)",
         "Directed Remark (D)",
     ]
@@ -36,3 +36,10 @@ def test_cond_probs_ok(pshift_freq_table):
 def test_cond_probs_errors(pscodes, expecterr):
     with pytest.raises(expecterr):
         cond_probs(pscodes)
+
+
+def test_propensities(pshift_freq_table):
+    cond_probs_df = cond_probs(pshift_freq_table["df_ps"])
+    result = propensities(cond_probs_df)
+    assert isinstance(result, pd.DataFrame)
+    assert list(result.columns) == ["turn-receiving", "targeting", "termination"]

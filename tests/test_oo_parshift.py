@@ -2,6 +2,7 @@
 # Distributed under the MIT License (See accompanying file LICENSE or copy
 # at http://opensource.org/licenses/MIT)
 
+import os
 from os import path
 
 import matplotlib.pyplot as plt
@@ -47,6 +48,8 @@ def test_get_plot(file_csv_good, monkeypatch):
 
     model.get_plot(filename="test.png")
     assert path.exists("test.png")
+    if path.exists("test.png"):
+        os.remove("test.png")
 
 
 @pytest.mark.parametrize("type,expecterr", [(1, TypeError), ("Bye", ValueError)])
@@ -67,14 +70,42 @@ def test_get_plot_errors(file_csv_good, type, expecterr):
 def test_get_stats(file_csv_good):
     model = Parshift()
     model.process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
-    model.get_stats()
+    model.get_stats(filename="test.csv")
+    assert path.exists("test.csv")
+    if path.exists("test.csv"):
+        os.remove("test.csv")
 
     model = Parshift()
-    model.process(file_csv_good["csv_in"], N=2, **(file_csv_good["kwargs"]))
-    model.get_stats()
+    n = 2
+    model.process(file_csv_good["csv_in"], N=n, **(file_csv_good["kwargs"]))
+    model.get_stats(filename="test.csv")
+    for i in range(n):
+        assert path.exists(f"test_N{i+1}.csv")
+        if path.exists(f"test_N{i+1}.csv"):
+            os.remove(f"test_N{i+1}.csv")
 
 
 def test_get_stats_errors():
     model = Parshift()
     with pytest.raises(ValueError):
         model.get_stats()
+
+
+def test_get_propensities_error():
+    model = Parshift()
+    with pytest.raises(ValueError):
+        model.get_propensities()
+
+
+def test_get_propensities(file_csv_good):
+    model = Parshift()
+    model.process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
+    result = model.get_propensities()
+    assert isinstance(result, pd.DataFrame)
+    assert list(result.columns) == ["turn-receiving", "targeting", "termination"]
+
+    model.process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]), N=2)
+    result = model.get_propensities()
+    assert isinstance(result, pd.DataFrame)
+    assert list(result.columns) == ["turn-receiving", "targeting", "termination"]
+    assert list(result.index) == ["N1", "N2"]
