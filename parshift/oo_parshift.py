@@ -169,7 +169,7 @@ class Parshift:
                     filename += ".csv"
                 self.stats.to_csv(filename, index=False)
 
-    def get_propensities(self):
+    def get_propensities(self, filename: str | None = None):
         """Returns a dataframe with the Participation Shift propensities."""
 
         if self.stats is None:
@@ -189,3 +189,8 @@ class Parshift:
             df = propensities(self.stats)
             df.index = ["N"]
             return df
+
+        if filename:
+            if ".csv" not in filename:
+                filename += ".csv"
+            df.to_csv(filename, index=False)
