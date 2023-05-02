@@ -225,6 +225,7 @@ def propensities(cond_probs_df: pd.DataFrame) -> pd.DataFrame:
             [`cond_probs()`][parshift.statistics.cond_probs].
 
     Returns:
+        A dataframe containing the propensities proposed by Gibson.
     """
 
     dic_propensities = {}

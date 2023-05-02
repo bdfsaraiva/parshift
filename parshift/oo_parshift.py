@@ -142,7 +142,11 @@ class Parshift:
 
     def get_stats(self, filename: str | None = None):
         """Prints the stats returned by [`cond_probs()`][parshift.statistics.cond_probs]
-        Dataframe. If N > 1, prints N Dataframes."""
+        Dataframe. If N > 1, prints N dataframes.
+
+        Arguments:
+            filename: Name of the file (csv) to save the stats dataframe. Default to `None`.
+        """
 
         if self.stats is None:
             raise ValueError(
@@ -169,8 +173,15 @@ class Parshift:
                     filename += ".csv"
                 self.stats.to_csv(filename, index=False)
 
-    def get_propensities(self, filename: str | None = None):
-        """Returns a dataframe with the Participation Shift propensities."""
+    def get_propensities(self, filename: str | None = None) -> pd.DataFrame:
+        """Returns a dataframe with the Participation Shift propensities.
+
+        Arguments:
+            filename: Name of the file (csv) to save the propensities dataframe. Default to `None`.
+
+        Returns:
+            A Pandas [`DataFrame`][pandas.DataFrame] containing the propensities.
+        """
 
         if self.stats is None:
             raise ValueError(
@@ -179,18 +190,24 @@ class Parshift:
 
         if isinstance(self.stats, list):
             df = propensities(self.stats[0])
-            df.index = ["N1"]
+            df.index = ["N1"]  # type: ignore
             for i in range(1, len(self.stats)):
                 dfx = propensities(self.stats[i])
-                dfx.index = [f"N{i+1}"]
+                dfx.index = [f"N{i+1}"]  # type: ignore
                 df = pd.concat([df, dfx])
-            return df
-        else:
-            df = propensities(self.stats)
-            df.index = ["N"]
+
+            if filename:
+                if ".csv" not in filename:
+                    filename += ".csv"
+                df.to_csv(filename, index=False)
             return df
 
-        if filename:
-            if ".csv" not in filename:
-                filename += ".csv"
-            df.to_csv(filename, index=False)
+        else:
+            df = propensities(self.stats)
+            df.index = ["N"]  # type: ignore
+
+            if filename:
+                if ".csv" not in filename:
+                    filename += ".csv"
+                df.to_csv(filename, index=False)
+            return df

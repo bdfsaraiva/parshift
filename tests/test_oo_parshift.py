@@ -78,7 +78,7 @@ def test_get_stats(file_csv_good):
     model = Parshift()
     n = 2
     model.process(file_csv_good["csv_in"], N=n, **(file_csv_good["kwargs"]))
-    model.get_stats(filename="test.csv")
+    model.get_stats(filename="test")
     for i in range(n):
         assert path.exists(f"test_N{i+1}.csv")
         if path.exists(f"test_N{i+1}.csv"):
@@ -109,3 +109,7 @@ def test_get_propensities(file_csv_good):
     assert isinstance(result, pd.DataFrame)
     assert list(result.columns) == ["turn-receiving", "targeting", "termination"]
     assert list(result.index) == ["N1", "N2"]
+    model.get_propensities(filename="test")
+    assert path.exists("test.csv")
+    if path.exists("test.csv"):
+        os.remove("test.csv")
