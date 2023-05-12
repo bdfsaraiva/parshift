@@ -43,7 +43,7 @@ of the examples below:
 
 | Name  | Link  |
 | ----- | ----- |
-| Participation Shifts with ParShift | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1gYa32dMQDVuKwHDLgl1wJiVyHwUw4_zL?usp=sharing)  |
+| Participation Shifts with ParShift | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1zjstEdkIZrCSgZFkilNf8kvTkRCS-bYG?usp=sharing)  |
 
 ## Further reading
 
