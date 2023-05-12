@@ -7,7 +7,7 @@ packages = ["parshift"]
 
 [project]
 name = "parshift"
-version = "0.2.1"
+version = "0.2.2"
 description = "Python package based on Gibson's framework (2003) for turn-taking in group conversation analysis."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -22,7 +22,7 @@ authors = [
     {name = "João Pedro Carvalho", email = "joao.matos.carvalho@ulusofona.pt" },
     {name = "Nuno Fachada", email = "nuno.fachada@ulusofona.pt" },
     {name = "Manuel Pita", email = "manuel.pita@ulusofona.pt" } ]
-dependencies = ["pandas", "matplotlib", "squarify", "seaborn"]
+dependencies = ["pandas", "matplotlib", "squarify"]
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
@@ -65,7 +65,7 @@ testpaths = ["parshift", "tests"]
 python_version = 3.8
 
 [[tool.mypy.overrides]]
-module = [ "squarify", "matplotlib", "matplotlib.pyplot", "seaborn" ]
+module = [ "squarify", "matplotlib", "matplotlib.pyplot"]
 ignore_missing_imports = true
 
 [tool.black]
