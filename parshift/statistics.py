@@ -42,19 +42,19 @@ def _change_of_speaker(ps):
 
 def _targeted_remark(ps):
     _targeted_remark_dic = {
-        "AB-BA": False,
-        "AB-B0": False,
-        "AB-BY": False,
-        "A0-X0": True,
-        "A0-XA": True,
-        "A0-XY": True,
-        "AB-X0": False,
-        "AB-XA": False,
-        "AB-XB": False,
-        "AB-XY": False,
-        "A0-AY": True,
-        "AB-A0": False,
-        "AB-AY": False,
+        "AB-BA": True,
+        "AB-B0": True,
+        "AB-BY": True,
+        "A0-X0": False,
+        "A0-XA": False,
+        "A0-XY": False,
+        "AB-X0": True,
+        "AB-XA": True,
+        "AB-XB": True,
+        "AB-XY": True,
+        "A0-AY": False,
+        "AB-A0": True,
+        "AB-AY": True,
     }
     return _targeted_remark_dic[ps]
 
