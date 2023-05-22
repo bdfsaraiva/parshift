@@ -114,10 +114,15 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
     for index, row in conv_df.iterrows():
         # If the row being looped has the same "speaker_id" and the "last_col" value,
         # then merge the message text and message utterance_ids into the previous turn.
+
+        if row[last_col] == "" or row[last_col] == "None":
+            row[last_col] = None
+        row[last_col] = int(float(row[last_col])) if row[last_col] != None else None
+
         if (
             index != 0
             and conversation[turn - 1]["speaker_id"] == row["speaker_id"]
-            and str(conversation[turn - 1][last_col]) == row[last_col]
+            and conversation[turn - 1][last_col] == row[last_col]
         ):
             msg_join = ". ".join(
                 [conversation[turn - 1]["utterance"], row["utterance"]]
@@ -138,7 +143,7 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
                     "utterance_ids": [id],
                     "speaker_id": speaker_id,
                     "utterance": utterance,
-                    last_col: int(last_col_val)
+                    last_col: last_col_val
                     if last_col_val != ""
                     and last_col_val != None
                     and last_col_val != "None"
