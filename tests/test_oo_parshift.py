@@ -80,9 +80,9 @@ def test_get_stats(file_csv_good):
     model.process(file_csv_good["csv_in"], N=n, **(file_csv_good["kwargs"]))
     model.get_stats(filename="test")
     for i in range(n):
-        assert path.exists(f"test_N{i+1}.csv")
-        if path.exists(f"test_N{i+1}.csv"):
-            os.remove(f"test_N{i+1}.csv")
+        assert path.exists(f"test_n{i+1}.csv")
+        if path.exists(f"test_n{i+1}.csv"):
+            os.remove(f"test_n{i+1}.csv")
 
 
 def test_get_stats_errors():
