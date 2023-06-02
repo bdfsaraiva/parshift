@@ -108,7 +108,7 @@ def test_get_propensities(file_csv_good):
     result = model.get_propensities()
     assert isinstance(result, pd.DataFrame)
     assert list(result.columns) == ["turn-receiving", "targeting", "termination"]
-    assert list(result.index) == ["N1", "N2"]
+    assert list(result.index) == ["n1", "n2"]
     model.get_propensities(filename="test")
     assert path.exists("test.csv")
     if path.exists("test.csv"):

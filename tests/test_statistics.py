@@ -24,7 +24,7 @@ def test_cond_probs_ok(pshift_freq_table):
         "Frequency",
         "Probability",
         "P(S|D)",
-        "P(S|D and C)",
+        "P(S|D,C)",
         "Change of Speaker (C)",
         "Directed Remark (D)",
     ]

@@ -112,7 +112,7 @@ class Parshift:
                 for i in range(len(self.stats)):
                     frequency_treemap(self.stats[i], type=type, ax=ax[i])
                     ax[i].axis("off")
-                    ax[i].set_title(f"N {i+1}")
+                    ax[i].set_title(f"n {i+1}")
             else:
                 ax = frequency_treemap(self.stats, type=type)
 
@@ -127,7 +127,7 @@ class Parshift:
                 for i in range(len(self.stats)):
                     frequency_treemap(self.stats[i], type=type, ax=ax[i])
                     ax[i].axis("off")
-                    ax[i].set_title(f"N {i+1}")
+                    ax[i].set_title(f"n {i+1}")
             else:
                 ax = frequency_treemap(self.stats, type=type)
 
@@ -142,7 +142,7 @@ class Parshift:
 
     def get_stats(self, filename: str | None = None):
         """Prints the stats returned by [`cond_probs()`][parshift.statistics.cond_probs]
-        Dataframe. If N > 1, prints N dataframes.
+        Dataframe. If kwarg N (see [`process`][parshift.Parshift.process]) > 1, prints N dataframes.
 
         Arguments:
             filename: Name of the file (csv) to save the stats dataframe. Default to `None`.
@@ -155,15 +155,15 @@ class Parshift:
 
         if isinstance(self.stats, list):
             for i in range(len(self.stats)):
-                print(f"N{i+1}:")
+                print(f"n{i+1}:")
                 print(self.stats[i])
                 print("-" * 80)
 
                 if filename:
                     if ".csv" not in filename:
-                        filename_changed = f"{filename}_N{i+1}.csv"
+                        filename_changed = f"{filename}_n{i+1}.csv"
                     else:
-                        filename_changed = filename.replace(".csv", f"_N{i+1}.csv")
+                        filename_changed = filename.replace(".csv", f"_n{i+1}.csv")
                     self.stats[i].to_csv(filename_changed, index=False)
 
         else:
@@ -190,10 +190,10 @@ class Parshift:
 
         if isinstance(self.stats, list):
             df = propensities(self.stats[0])
-            df.index = ["N1"]  # type: ignore
+            df.index = ["n1"]  # type: ignore
             for i in range(1, len(self.stats)):
                 dfx = propensities(self.stats[i])
-                dfx.index = [f"N{i+1}"]  # type: ignore
+                dfx.index = [f"n{i+1}"]  # type: ignore
                 df = pd.concat([df, dfx])
 
             if filename:
@@ -204,7 +204,7 @@ class Parshift:
 
         else:
             df = propensities(self.stats)
-            df.index = ["N"]  # type: ignore
+            df.index = ["n"]  # type: ignore
 
             if filename:
                 if ".csv" not in filename:

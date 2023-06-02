@@ -136,7 +136,7 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
             (1) those beginning with an undirected remark (A0-); and, (2) those beginning
             with a directed one (AB-). The `P(S|D)` (Probability of a participation shift
             given a Directed or Undirected remark (D)) column contains the frequency divided
-            by total occurrences in each subgroup, while the `P(S|D and C)` (Probability of
+            by total occurrences in each subgroup, while the `P(S|D,C)` (Probability of
             a participation shift given a Directed or Undirected remark (D) and assuming
             Change of Speaker (C)) column contains the frequency divided by total occurrences
             in each subgroup, for each participation shift where the change of speaker occurs.
@@ -210,7 +210,7 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
     )
 
     result.rename(
-        columns={"pshift": "Pshift", "CP": "P(S|D)", "CPeTC": "P(S|D and C)"},
+        columns={"pshift": "Pshift", "CP": "P(S|D)", "CPeTC": "P(S|D,C)"},
         inplace=True,
     )
 
@@ -232,11 +232,11 @@ def propensities(cond_probs_df: pd.DataFrame) -> pd.DataFrame:
 
     # turn-receiving propensity -> AB-BA, AB-BO, and AB-BY ( P(S|D) )
     p_s_d = cond_probs_df["P(S|D)"]
-    p_s_d_c = cond_probs_df["P(S|D and C)"]
+    p_s_d_c = cond_probs_df["P(S|D,C)"]
 
     dic_propensities["turn-receiving"] = p_s_d[4] + p_s_d[5] + p_s_d[10]
 
-    # targeting propensity -> AO-XY, AB-BY and AB-XY ( P(S|D and C) )
+    # targeting propensity -> AO-XY, AB-BY and AB-XY ( P(S|D,C) )
     dic_propensities["targeting"] = p_s_d_c[2] + p_s_d_c[10] + p_s_d_c[11]
 
     # termination propensity -> AO-AY, AB-AO and AB-AY ( P(S|D) )
