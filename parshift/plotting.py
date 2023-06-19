@@ -19,7 +19,7 @@ def frequency_treemap(
 
     Arguments:
         cond_probs_df: Dataframe with information about the participation shift
-            conditional probabilities. This dataframe can be obtained with
+            conditional probabilities. This data frame can be obtained with
             [`cond_probs()`][parshift.statistics.cond_probs]
         type: Column name to be used to plot the treemap, either `"Pshift"`
             (default) or `"Pshift_class"`.

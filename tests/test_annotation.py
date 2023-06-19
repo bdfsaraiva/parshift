@@ -56,7 +56,7 @@ def test_annotate_return(file_csv_good):
     # Check that the annotate() function returns the expected type
     assert type(conv_annot) == type(parshift_annotation_df)
 
-    # Check that the annotate() function returns a dataframe with the expected
+    # Check that the annotate() function returns a data frame with the expected
     # shape/size
     assert conv_annot.shape == parshift_annotation_df.shape
 

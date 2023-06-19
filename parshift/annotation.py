@@ -42,7 +42,7 @@ def read_ccsv(
     filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
     **kwargs: Any,
 ) -> pd.DataFrame:
-    """Read a conversation file in CSV format, validate it and return a dataframe.
+    """Read a conversation file in CSV format, validate it and return a data frame.
 
     The conversation file should have the following columns:
 
@@ -90,7 +90,7 @@ def read_ccsv(
 
 
 def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
-    """Take a conversation dataframe and group it into conversation turns.
+    """Take a conversation data frame and group it into conversation turns.
 
     A turn is a group of messages sent by the same user and addressed to the
     same target.
@@ -204,7 +204,7 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
         conv_df: The conversation from where to obtain the participation shift codes.
 
     Returns:
-        A dataframe with the participation shift codes for each turn.
+        A data frame with the participation shift codes for each turn.
     """
 
     if not isinstance(conv_df, pd.DataFrame):

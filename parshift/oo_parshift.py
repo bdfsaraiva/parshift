@@ -56,8 +56,8 @@ class Parshift:
             **kwargs: Keyword parameters passed to Pandas
                 [`read_csv()`][pandas.read_csv] function.
 
-        - Parshift.annotation will be dataframe equal as returned by [`annotate()`][parshift.annotation.annotate].
-        - Parshift.stats will be dataframe equal as returned by [`cond_probs()`][parshift.statistics.cond_probs].
+        - Parshift.annotation will be data frame equal as returned by [`annotate()`][parshift.annotation.annotate].
+        - Parshift.stats will be data frame equal as returned by [`cond_probs()`][parshift.statistics.cond_probs].
         """
 
         df_annotate = annotate(read_ccsv(filepath_or_buffer, **kwargs))
@@ -78,7 +78,7 @@ class Parshift:
         else:
             raise ValueError("N should be between 1 and 4.")
 
-    def get_plot(self, type: str = "Pshift", filename: str | None = None):
+    def show_plot(self, type: str = "Pshift", filename: str | None = None):
         """Shows the frequency treemap plot returned by [`frequency_treemap()`][parshift.plotting.frequency_treemap]
 
         Arguments:
@@ -140,12 +140,12 @@ class Parshift:
 
         plt.show()
 
-    def get_stats(self, filename: str | None = None):
+    def show_stats(self, filename: str | None = None):
         """Prints the stats returned by [`cond_probs()`][parshift.statistics.cond_probs]
-        Dataframe. If kwarg N (see [`process`][parshift.Parshift.process]) > 1, prints N dataframes.
+        Dataframe. If kwarg N (see [`process`][parshift.Parshift.process]) > 1, prints N data frames.
 
         Arguments:
-            filename: Name of the file (csv) to save the stats dataframe. Default to `None`.
+            filename: Name of the file (csv) to save the stats data frame. Default to `None`.
         """
 
         if self.stats is None:
@@ -174,10 +174,10 @@ class Parshift:
                 self.stats.to_csv(filename, index=False)
 
     def get_propensities(self, filename: str | None = None) -> pd.DataFrame:
-        """Returns a dataframe with the Participation Shift propensities.
+        """Returns a data frame with the Participation Shift propensities.
 
         Arguments:
-            filename: Name of the file (csv) to save the propensities dataframe. Default to `None`.
+            filename: Name of the file (csv) to save the propensities data frame. Default to `None`.
 
         Returns:
             A Pandas [`DataFrame`][pandas.DataFrame] containing the propensities.

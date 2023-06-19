@@ -61,10 +61,10 @@ def _targeted_remark(ps):
 
 def _frequency_table(parshift_annotation_df) -> list:
     """
-    This function takes in a dataframe of ParShift annotations and returns a frequency table of ParShift codes.
+    This function takes in a data frame of ParShift annotations and returns a frequency table of ParShift codes.
 
     Arguments:
-        parshift_annotation_df: A Pandas dataframe containing ParShift annotations
+        parshift_annotation_df: A Pandas data frame containing ParShift annotations
 
     Returns:
         A list containing a dictionary of ParShift codes and their frequencies,
@@ -131,8 +131,8 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
             [`annotate()`][parshift.annotation.annotate].
 
     Returns:
-        A dataframe containing the frequency, probability and conditional probabilities
-            (two) for each parshift code. This dataframe is divided into two 'subgroups':
+        A data frame containing the frequency, probability and conditional probabilities
+            (two) for each parshift code. This data frame is divided into two 'subgroups':
             (1) those beginning with an undirected remark (A0-); and, (2) those beginning
             with a directed one (AB-). The `P(S|D)` (Probability of a participation shift
             given a Directed or Undirected remark (D)) column contains the frequency divided
@@ -218,14 +218,14 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
 
 
 def propensities(cond_probs_df: pd.DataFrame) -> pd.DataFrame:
-    """Determine the propensities from a conditional probabilities dataframe.
+    """Determine the propensities from a conditional probabilities data frame.
 
     Arguments:
-        cond_probs_df: A dataframe with statistics obtained with
+        cond_probs_df: A data frame with statistics obtained with
             [`cond_probs()`][parshift.statistics.cond_probs].
 
     Returns:
-        A dataframe containing the propensities proposed by Gibson.
+        A data frame containing the propensities proposed by Gibson.
     """
 
     dic_propensities = {}

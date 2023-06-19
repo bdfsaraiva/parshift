@@ -32,45 +32,45 @@ def test_process_error(file_csv_good, N, expecterr):
         model.process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]), N=N)
 
 
-def test_get_plot(file_csv_good, monkeypatch):
+def test_show_plot(file_csv_good, monkeypatch):
     # Patch plt.show() so that it doesn't do anything, otherwise tests will hang
     monkeypatch.setattr(plt, "show", lambda *args, **kwargs: None)
 
     model = Parshift()
     model.process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
-    model.get_plot()
-    model.get_plot(type="Pshift_class")
+    model.show_plot()
+    model.show_plot(type="Pshift_class")
 
     model = Parshift()
     model.process(file_csv_good["csv_in"], N=2, **(file_csv_good["kwargs"]))
-    model.get_plot()
-    model.get_plot(type="Pshift_class")
+    model.show_plot()
+    model.show_plot(type="Pshift_class")
 
-    model.get_plot(filename="test.png")
+    model.show_plot(filename="test")
     assert path.exists("test.png")
     if path.exists("test.png"):
         os.remove("test.png")
 
 
 @pytest.mark.parametrize("type,expecterr", [(1, TypeError), ("Bye", ValueError)])
-def test_get_plot_errors(file_csv_good, type, expecterr):
+def test_show_plot_errors(file_csv_good, type, expecterr):
     model = Parshift()
 
     with pytest.raises(ValueError):
-        model.get_plot()
+        model.show_plot()
 
     model.process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
     with pytest.raises(expecterr):
-        model.get_plot(type=type)
+        model.show_plot(type=type)
 
     with pytest.raises(TypeError):
-        model.get_plot(filename=1)
+        model.show_plot(filename=1)
 
 
-def test_get_stats(file_csv_good):
+def test_show_stats(file_csv_good):
     model = Parshift()
     model.process(file_csv_good["csv_in"], **(file_csv_good["kwargs"]))
-    model.get_stats(filename="test.csv")
+    model.show_stats(filename="test")
     assert path.exists("test.csv")
     if path.exists("test.csv"):
         os.remove("test.csv")
@@ -78,17 +78,17 @@ def test_get_stats(file_csv_good):
     model = Parshift()
     n = 2
     model.process(file_csv_good["csv_in"], N=n, **(file_csv_good["kwargs"]))
-    model.get_stats(filename="test")
+    model.show_stats(filename="test")
     for i in range(n):
         assert path.exists(f"test_n{i+1}.csv")
         if path.exists(f"test_n{i+1}.csv"):
             os.remove(f"test_n{i+1}.csv")
 
 
-def test_get_stats_errors():
+def test_show_stats_errors():
     model = Parshift()
     with pytest.raises(ValueError):
-        model.get_stats()
+        model.show_stats()
 
 
 def test_get_propensities_error():
@@ -109,7 +109,7 @@ def test_get_propensities(file_csv_good):
     assert isinstance(result, pd.DataFrame)
     assert list(result.columns) == ["turn-receiving", "targeting", "termination"]
     assert list(result.index) == ["n1", "n2"]
-    model.get_propensities(filename="test")
-    assert path.exists("test.csv")
-    if path.exists("test.csv"):
-        os.remove("test.csv")
+    model.get_propensities(filename="test_propensities")
+    assert path.exists("test_propensities.csv")
+    if path.exists("test_propensities.csv"):
+        os.remove("test_propensities.csv")

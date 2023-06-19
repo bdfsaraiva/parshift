@@ -91,14 +91,14 @@ _bad_params_read_ccsv = [
 ]
 
 
-# Mandatory columns and types of conversation dataframe
+# Mandatory columns and types of conversation data frame
 _p_shift_cols_mandatory = {
     "utterance_id": np.int64,
     "speaker_id": np.dtype("O"),
     "utterance": np.dtype("O"),
 }
 
-# Optional columns and types of conversation dataframe
+# Optional columns and types of conversation data frame
 _p_shift_cols_optional = {
     "reply_to_id": np.dtype("O"),
     "target_id": np.dtype("O"),
@@ -107,13 +107,13 @@ _p_shift_cols_optional = {
 
 @pytest.fixture()
 def p_shift_cols_mandatory():
-    """The mandatory columns and types of conversation dataframe."""
+    """The mandatory columns and types of conversation data frame."""
     return _p_shift_cols_mandatory
 
 
 @pytest.fixture()
 def p_shift_cols_optional():
-    """The optional columns and types of conversation dataframe."""
+    """The optional columns and types of conversation data frame."""
     return _p_shift_cols_optional
 
 
@@ -125,7 +125,7 @@ def datapath(request):
 
 @pytest.fixture(params=_good_results)
 def pshift_freq_table(datapath, request):
-    """The dataframe supposed to be generated when reading the good input data."""
+    """The data frame supposed to be generated when reading the good input data."""
     return {
         "df_ps": pd.read_csv(
             Path(datapath, request.param["csv_out"]), index_col=False
