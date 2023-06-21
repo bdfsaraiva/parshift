@@ -14,10 +14,6 @@ from .annotation import annotate, read_ccsv
 from .plotting import frequency_treemap
 from .statistics import cond_probs, propensities
 
-# from parshift.annotation import read_ccsv, annotate
-# from parshift.statistics import cond_probs
-# from parshift.plotting import frequency_treemap
-
 
 class Parshift:
     def __init__(
