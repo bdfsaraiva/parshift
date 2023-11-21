@@ -8,11 +8,12 @@ import pandas as pd
 import squarify
 
 from .annotation import pshift_class
+from typing import Optional
 
 
 def frequency_treemap(
     cond_probs_df: pd.DataFrame,
-    ax: matplotlib.axes.Axes = None,
+    ax: Optional[matplotlib.axes.Axes] = None,
     type: str = "Pshift",
 ) -> matplotlib.axes.Axes:
     """Get a matplotlib axes object displaying the conditional probabilities or frequencies.
