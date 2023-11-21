@@ -70,6 +70,15 @@ pytest
 Now you are ready to start developing the project! Don't forget to add tests for
 every new change or feature!
 
+## Reference
+
+If you use this software, please cite the following reference:
+
+* Ferreira-Saraiva, B.D., Matos-Carvalho, J.P., Fachada, N. & Pita, M. (2023).
+  ParShift: a Python package to study order and differentiation in group
+  conversations. *SoftwareX*, 24. 101554.
+  <https://doi.org/10.1016/j.softx.2023.101554>
+
 ## License
 
 [MIT License](LICENSE)
