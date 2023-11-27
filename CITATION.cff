@@ -1,0 +1,77 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: pyclugen
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Bruno
+    family-names: Ferreira-Saraiva
+    email: bruno.saraiva@ulusofona.pt
+    affiliation: 'Lusófona University, COPELABS'
+    orcid: 'https://orcid.org/0000-0001-8839-7222'
+  - given-names: João P.
+    family-names: Matos-Carvalho
+    email: joao.matos.carvalho@ulusofona.pt
+    affiliation: 'Lusófona University, COPELABS'
+    orcid: 'https://orcid.org/0000-0001-9409-7736'
+  - given-names: Nuno
+    family-names: Fachada
+    email: nuno.fachada@ulusofona.pt
+    affiliation: 'Lusófona University, COPELABS'
+    orcid: 'https://orcid.org/0000-0002-8487-5837'
+  - given-names: Manuel
+    family-names: Pita
+    email: manuel.pita@ulusofona.pt
+    affiliation: 'Lusófona University, CICANT'
+    orcid: 'https://orcid.org/0000-0003-2180-6823'
+repository-code: 'https://github.com/bdfsaraiva/parshift'
+abstract: >-
+  Python package based on Gibson's framework (2003) for turn-taking in group
+  conversation analysis.
+keywords:
+  - small groups
+  - social interaction
+  - participation shifts
+  - interpersonal coordination
+  - turn-taking
+  - emergent social behaviour
+license: MIT
+preferred-citation:
+  type: article
+  authors:
+    - given-names: Bruno
+      family-names: Ferreira-Saraiva
+      email: bruno.saraiva@ulusofona.pt
+      affiliation: 'Lusófona University, COPELABS'
+      orcid: 'https://orcid.org/0000-0001-8839-7222'
+    - given-names: João P.
+      family-names: Matos-Carvalho
+      email: joao.matos.carvalho@ulusofona.pt
+      affiliation: 'Lusófona University, COPELABS'
+      orcid: 'https://orcid.org/0000-0001-9409-7736'
+    - given-names: Nuno
+      family-names: Fachada
+      email: nuno.fachada@ulusofona.pt
+      affiliation: 'Lusófona University, COPELABS'
+      orcid: 'https://orcid.org/0000-0002-8487-5837'
+    - given-names: Manuel
+      family-names: Pita
+      email: manuel.pita@ulusofona.pt
+      affiliation: 'Lusófona University, CICANT'
+      orcid: 'https://orcid.org/0000-0003-2180-6823'
+  title: >-
+    ParShift: a Python package to study order and differentiation in
+    group conversations
+  journal: SoftwareX
+  doi: 10.1016/j.softx.2023.101554
+  volume: 24
+  start: 101554
+  month: 12
+  year: 2023
+  url: 'https://doi.org/10.1016/j.softx.2023.101554'
+  publisher:
+    name: Elsevier
