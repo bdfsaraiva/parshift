@@ -3,10 +3,10 @@ name: Tests
 on:
   pull_request:
     branches: [main]
-    paths: [ 'parshift/**', 'tests/**', 'pyproject.toml' ]
+    paths: [ 'parshift/**', 'tests/**', 'pyproject.toml', '.github/workflows/tests.yml' ]
   push:
     branches: [main]
-    paths: [ 'parshift/**', 'tests/**', 'pyproject.toml' ]
+    paths: [ 'parshift/**', 'tests/**', 'pyproject.toml', '.github/workflows/tests.yml' ]
     tags: '*'
 
 jobs:
