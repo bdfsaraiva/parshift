@@ -4,6 +4,7 @@
 
 """Fixtures to be used by test functions."""
 
+from numpy.typing import DTypeLike
 from os import PathLike
 from pathlib import Path
 
@@ -92,14 +93,14 @@ _bad_params_read_ccsv = [
 
 
 # Mandatory columns and types of conversation data frame
-_p_shift_cols_mandatory = {
+_p_shift_cols_mandatory: dict[str, DTypeLike] = {
     "utterance_id": np.int64,
     "speaker_id": np.dtype("O"),
     "utterance": np.dtype("O"),
 }
 
 # Optional columns and types of conversation data frame
-_p_shift_cols_optional = {
+_p_shift_cols_optional: dict[str, DTypeLike] = {
     "reply_to_id": np.dtype("O"),
     "target_id": np.dtype("O"),
 }
