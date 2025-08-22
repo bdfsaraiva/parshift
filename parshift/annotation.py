@@ -125,7 +125,7 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
             and conversation[turn - 1][last_col] == row[last_col]
         ):
             msg_join = ". ".join(
-                [conversation[turn - 1]["utterance"], row["utterance"]]
+                [conversation[turn - 1]["utterance"], str(row["utterance"])]
             )
             list_id = conversation[turn - 1]["utterance_ids"] + [row["utterance_id"]]
             conversation[turn - 1]["utterance_ids"] = list_id
