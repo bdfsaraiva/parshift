@@ -4,13 +4,13 @@
 
 """Fixtures to be used by test functions."""
 
-from numpy.typing import DTypeLike
 from os import PathLike
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import pytest
+from numpy.typing import DTypeLike
 
 # Files containing good conversations, optional parameters required to open them,
 # and CSV file containing respective conversation after annotation

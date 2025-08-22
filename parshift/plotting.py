@@ -2,13 +2,14 @@
 # Distributed under the MIT License (See accompanying file LICENSE or copy
 # at http://opensource.org/licenses/MIT)
 
+from typing import Optional
+
 import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
 import squarify
 
 from .annotation import pshift_class
-from typing import Optional
 
 
 def frequency_treemap(

@@ -143,11 +143,13 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
                     "utterance_ids": [id],
                     "speaker_id": speaker_id,
                     "utterance": utterance,
-                    last_col: last_col_val
-                    if last_col_val != ""
-                    and last_col_val != None
-                    and last_col_val != "None"
-                    else None,
+                    last_col: (
+                        last_col_val
+                        if last_col_val != ""
+                        and last_col_val != None
+                        and last_col_val != "None"
+                        else None
+                    ),
                 }
             )
 
