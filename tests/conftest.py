@@ -10,6 +10,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import pytest
+from numpy.typing import DTypeLike
 
 # Files containing good conversations, optional parameters required to open them,
 # and CSV file containing respective conversation after annotation
@@ -92,14 +93,14 @@ _bad_params_read_ccsv = [
 
 
 # Mandatory columns and types of conversation data frame
-_p_shift_cols_mandatory = {
+_p_shift_cols_mandatory: dict[str, DTypeLike] = {
     "utterance_id": np.int64,
     "speaker_id": np.dtype("O"),
     "utterance": np.dtype("O"),
 }
 
 # Optional columns and types of conversation data frame
-_p_shift_cols_optional = {
+_p_shift_cols_optional: dict[str, DTypeLike] = {
     "reply_to_id": np.dtype("O"),
     "target_id": np.dtype("O"),
 }

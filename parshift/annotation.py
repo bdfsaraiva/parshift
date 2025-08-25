@@ -125,7 +125,7 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
             and conversation[turn - 1][last_col] == row[last_col]
         ):
             msg_join = ". ".join(
-                [conversation[turn - 1]["utterance"], row["utterance"]]
+                [conversation[turn - 1]["utterance"], str(row["utterance"])]
             )
             list_id = conversation[turn - 1]["utterance_ids"] + [row["utterance_id"]]
             conversation[turn - 1]["utterance_ids"] = list_id
@@ -143,11 +143,13 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
                     "utterance_ids": [id],
                     "speaker_id": speaker_id,
                     "utterance": utterance,
-                    last_col: last_col_val
-                    if last_col_val != ""
-                    and last_col_val != None
-                    and last_col_val != "None"
-                    else None,
+                    last_col: (
+                        last_col_val
+                        if last_col_val != ""
+                        and last_col_val != None
+                        and last_col_val != "None"
+                        else None
+                    ),
                 }
             )
 

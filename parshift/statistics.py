@@ -153,35 +153,47 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
         if key.split("-")[0] == "A0":
             if key not in ["A0-AY", "AB-A0", "AB-AY", "A0-A0"]:
                 cond_prob[key] = {
-                    "CP": round(freq_table[key] / frequency_table_and_counts[1], 2)
-                    if frequency_table_and_counts[1] != 0
-                    else 0,
-                    "CPeTC": round(freq_table[key] / frequency_table_and_counts[3], 2)
-                    if frequency_table_and_counts[3] != 0
-                    else 0,
+                    "CP": (
+                        round(freq_table[key] / frequency_table_and_counts[1], 2)
+                        if frequency_table_and_counts[1] != 0
+                        else 0
+                    ),
+                    "CPeTC": (
+                        round(freq_table[key] / frequency_table_and_counts[3], 2)
+                        if frequency_table_and_counts[3] != 0
+                        else 0
+                    ),
                 }
             else:
                 cond_prob[key] = {
-                    "CP": round(freq_table[key] / frequency_table_and_counts[1], 2)
-                    if frequency_table_and_counts[1] != 0
-                    else 0,
+                    "CP": (
+                        round(freq_table[key] / frequency_table_and_counts[1], 2)
+                        if frequency_table_and_counts[1] != 0
+                        else 0
+                    ),
                     "CPeTC": "",
                 }
         else:
             if key not in ["A0-AY", "AB-A0", "AB-AY", "A0-A0"]:
                 cond_prob[key] = {
-                    "CP": round(freq_table[key] / frequency_table_and_counts[2], 2)
-                    if frequency_table_and_counts[2] != 0
-                    else 0,
-                    "CPeTC": round(freq_table[key] / frequency_table_and_counts[4], 2)
-                    if frequency_table_and_counts[4] != 0
-                    else 0,
+                    "CP": (
+                        round(freq_table[key] / frequency_table_and_counts[2], 2)
+                        if frequency_table_and_counts[2] != 0
+                        else 0
+                    ),
+                    "CPeTC": (
+                        round(freq_table[key] / frequency_table_and_counts[4], 2)
+                        if frequency_table_and_counts[4] != 0
+                        else 0
+                    ),
                 }
             else:
                 cond_prob[key] = {
-                    "CP": round(freq_table[key] / frequency_table_and_counts[2], 2)
-                    if frequency_table_and_counts[2] != 0
-                    else 0,
+                    "CP": (
+                        round(freq_table[key] / frequency_table_and_counts[2], 2)
+                        if frequency_table_and_counts[2] != 0
+                        else 0
+                    ),
                     "CPeTC": "",
                 }
 
