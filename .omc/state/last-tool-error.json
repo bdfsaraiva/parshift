@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd \\\"C:/Users/Proprietario/Documents/Code/parshift\\\" && ls -la && echo \\\"--- venv python\\\" && .venv/Scripts/python.exe --version && cat .venv/pyvenv.cfg && echo \\\"--- installed\\\" && (uv pi...",
+  "error": "Exit code 127\ntotal 728\ndrwxr-xr-x 1 Proprietario 197609      0 Nov  3 10:54 .\ndrwxr-xr-x 1 Proprietario 197609      0 Nov  2 15:16 ..\ndrwxr-xr-x 1 Proprietario 197609      0 Nov  3 10:54 .git\ndrwxr-xr-x 1 Proprietario 197609      0 Mar 10  2026 .github\n-rw-r--r-- 1 Proprietario 197609   1974 Mar 10  2026 .gitignore\ndrwxr-xr-x 1 Proprietario 197609      0 Nov  3 10:50 .idea\ndrwxr-xr-x 1 Proprietario 197609      0 Nov  3 10:55 .omc\ndrwxr-xr-x 1 Proprietario 197609      0 Mar 10  2026 .pytest_cach...",
+  "timestamp": "2026-11-03T10:57:55.220Z",
+  "retry_count": 1
+}

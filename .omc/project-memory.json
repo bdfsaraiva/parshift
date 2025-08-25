@@ -1,0 +1,229 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1793703297392,
+  "projectRoot": "C:\\Users\\Proprietario\\Documents\\Code\\parshift",
+  "techStack": {
+    "languages": [
+      {
+        "name": "Python",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "pyproject.toml"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "pytest",
+        "version": null,
+        "category": "testing"
+      }
+    ],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": "pytest",
+    "lintCommand": "ruff check",
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "tests"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 1,
+      "lastAccessed": 1793703297140,
+      "keyFiles": [
+        "mkdocs.yml"
+      ]
+    },
+    "parshift": {
+      "path": "parshift",
+      "purpose": null,
+      "fileCount": 6,
+      "lastAccessed": 1793703297141,
+      "keyFiles": [
+        "annotation.py",
+        "oo_parshift.py",
+        "plotting.py",
+        "py.typed",
+        "statistics.py"
+      ]
+    },
+    "parshift.egg-info": {
+      "path": "parshift.egg-info",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1793703297142,
+      "keyFiles": [
+        "dependency_links.txt",
+        "PKG-INFO",
+        "requires.txt",
+        "SOURCES.txt",
+        "top_level.txt"
+      ]
+    },
+    "tests": {
+      "path": "tests",
+      "purpose": "Test files",
+      "fileCount": 6,
+      "lastAccessed": 1793703297144,
+      "keyFiles": [
+        "conftest.py",
+        "test_annotation.py",
+        "test_oo_parshift.py",
+        "test_plotting.py",
+        "test_statistics.py"
+      ]
+    },
+    "docs\\docs": {
+      "path": "docs\\docs",
+      "purpose": "Documentation",
+      "fileCount": 3,
+      "lastAccessed": 1793703297148,
+      "keyFiles": [
+        "dev.md",
+        "index.md",
+        "reference.md"
+      ]
+    },
+    "tests\\data": {
+      "path": "tests\\data",
+      "purpose": "Data files",
+      "fileCount": 8,
+      "lastAccessed": 1793703297156,
+      "keyFiles": [
+        "conv_good.csv",
+        "conv_good_diffsep.csv",
+        "conv_good_target_id.csv"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "pyproject.toml",
+      "accessCount": 1,
+      "lastAccessed": 1793703336591,
+      "type": "file"
+    },
+    {
+      "path": "parshift\\__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1793703337123,
+      "type": "file"
+    },
+    {
+      "path": "parshift\\annotation.py",
+      "accessCount": 1,
+      "lastAccessed": 1793703337575,
+      "type": "file"
+    },
+    {
+      "path": "parshift\\statistics.py",
+      "accessCount": 1,
+      "lastAccessed": 1793703338410,
+      "type": "file"
+    },
+    {
+      "path": "parshift\\plotting.py",
+      "accessCount": 1,
+      "lastAccessed": 1793703339259,
+      "type": "file"
+    },
+    {
+      "path": "parshift\\oo_parshift.py",
+      "accessCount": 1,
+      "lastAccessed": 1793703340100,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 1,
+      "lastAccessed": 1793703344218,
+      "type": "file"
+    },
+    {
+      "path": "CITATION.cff",
+      "accessCount": 1,
+      "lastAccessed": 1793703344327,
+      "type": "file"
+    },
+    {
+      "path": "docs\\mkdocs.yml",
+      "accessCount": 1,
+      "lastAccessed": 1793703345465,
+      "type": "file"
+    },
+    {
+      "path": "docs\\docs\\dev.md",
+      "accessCount": 1,
+      "lastAccessed": 1793703345833,
+      "type": "file"
+    },
+    {
+      "path": "docs\\docs\\index.md",
+      "accessCount": 1,
+      "lastAccessed": 1793703346454,
+      "type": "file"
+    },
+    {
+      "path": "tests\\conftest.py",
+      "accessCount": 1,
+      "lastAccessed": 1793703347186,
+      "type": "file"
+    },
+    {
+      "path": "docs\\docs\\reference.md",
+      "accessCount": 1,
+      "lastAccessed": 1793703347489,
+      "type": "file"
+    },
+    {
+      "path": "tests\\test_annotation.py",
+      "accessCount": 1,
+      "lastAccessed": 1793703348086,
+      "type": "file"
+    },
+    {
+      "path": "tests\\test_statistics.py",
+      "accessCount": 1,
+      "lastAccessed": 1793703348219,
+      "type": "file"
+    },
+    {
+      "path": "tests\\test_plotting.py",
+      "accessCount": 1,
+      "lastAccessed": 1793703348611,
+      "type": "file"
+    },
+    {
+      "path": "tests\\test_oo_parshift.py",
+      "accessCount": 1,
+      "lastAccessed": 1793703348834,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
