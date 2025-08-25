@@ -2,17 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://bdfsaraiva.github.io/parshift/</loc>
-         <lastmod>2023-12-02</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-08-25</lastmod>
     </url>
     <url>
          <loc>https://bdfsaraiva.github.io/parshift/dev/</loc>
-         <lastmod>2023-12-02</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-08-25</lastmod>
     </url>
     <url>
          <loc>https://bdfsaraiva.github.io/parshift/reference/</loc>
-         <lastmod>2023-12-02</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-08-25</lastmod>
     </url>
 </urlset>
