@@ -5,11 +5,13 @@
 from __future__ import annotations
 
 import re
-from typing import Any, Dict, List
+from typing import TYPE_CHECKING, Any, Dict, List
 
 import numpy as np
 import pandas as pd
-from pandas._typing import FilePath, ReadCsvBuffer
+
+if TYPE_CHECKING:
+    from pandas._typing import FilePath, ReadCsvBuffer
 
 # Participation shift types
 _p_shift_dict = {

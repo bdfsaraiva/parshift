@@ -4,15 +4,17 @@
 
 from __future__ import annotations
 
-from typing import Any, List
+from typing import TYPE_CHECKING, Any, List
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from pandas._typing import FilePath, ReadCsvBuffer
 
 from .annotation import annotate, read_ccsv
 from .plotting import frequency_treemap
 from .statistics import cond_probs, propensities
+
+if TYPE_CHECKING:
+    from pandas._typing import FilePath, ReadCsvBuffer
 
 
 class Parshift:
