@@ -33,8 +33,6 @@ theme:
     code: Fira Code
   favicon: images/icon.png
   logo: images/icon_g.png
-  feature:
-    tabs: true
   features:
     - navigation.tabs
     - navigation.sections
@@ -51,7 +49,7 @@ plugins:
     handlers:
       python:
         paths: [..]
-        import:
+        inventories:
         - https://docs.python.org/3/objects.inv
         - https://pandas.pydata.org/docs/objects.inv
         options:

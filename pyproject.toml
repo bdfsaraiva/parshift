@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
@@ -7,28 +7,38 @@ packages = ["parshift"]
 
 [project]
 name = "parshift"
-version = "1.0.2"
+version = "1.0.3"
 description = "Python package based on Gibson's framework (2003) for turn-taking in group conversation analysis."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 keywords = [
     "python",
     "conversation-analysis",
     "participation-shifts",
     "turn-taking" ]
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     {name = "Bruno Saraiva", email = "bruno.saraiva@ulusofona.pt"},
     {name = "João Pedro Carvalho", email = "joao.matos.carvalho@ulusofona.pt" },
     {name = "Nuno Fachada", email = "nuno.fachada@ulusofona.pt" },
     {name = "Manuel Pita", email = "manuel.pita@ulusofona.pt" } ]
-dependencies = ["pandas", "matplotlib", "squarify"]
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "matplotlib>=3.8",
+    "squarify>=0.4.3" ]
 classifiers = [
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Intended Audience :: Science/Research",
-    "Topic :: Scientific/Engineering" ]
+    "Topic :: Scientific/Engineering",
+    "Typing :: Typed" ]
 
 [project.urls]
 "Homepage" = "https://github.com/bdfsaraiva/parshift"
@@ -60,9 +70,12 @@ norecursedirs = [
     ".git",
     "__pycache__" ]
 testpaths = ["parshift", "tests"]
+filterwarnings = [
+    "error::DeprecationWarning:parshift",
+    "error::FutureWarning:parshift" ]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.11"
 
 [[tool.mypy.overrides]]
 module = [ "squarify", "matplotlib", "matplotlib.pyplot"]
@@ -70,7 +83,7 @@ ignore_missing_imports = true
 
 [tool.black]
 line-length = 88
-target-version = ['py38']
+target-version = ['py311']
 include = '\.pyi?$'
 exclude = '''
 /(

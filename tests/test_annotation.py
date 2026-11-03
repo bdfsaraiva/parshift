@@ -20,13 +20,13 @@ def test_read_ccsv_return(file_csv_good, p_shift_cols_mandatory, p_shift_cols_op
     # Does it have the required columns of the required type?
     for col_name in p_shift_cols_mandatory:
         assert col_name in df_conv.columns
-        assert p_shift_cols_mandatory[col_name] == df_conv.dtypes[col_name]
+        assert p_shift_cols_mandatory[col_name](df_conv.dtypes[col_name])
 
     # Does it have one of the optional columns with the correct type?
     num_opt_cols = 0
     for col_name in p_shift_cols_optional:
         if col_name in df_conv.columns:
-            assert p_shift_cols_optional[col_name] == df_conv.dtypes[col_name]
+            assert p_shift_cols_optional[col_name](df_conv.dtypes[col_name])
             num_opt_cols += 1
     assert num_opt_cols > 0
 
@@ -47,7 +47,7 @@ def test_annotate_return(file_csv_good):
 
     # Read the expected results
     parshift_annotation_df = pd.read_csv(
-        file_csv_good["csv_out"], index_col=False
+        file_csv_good["csv_out"], index_col=False, dtype=object
     ).fillna("")
 
     # Apply the annotate() function on the conversation
@@ -64,6 +64,25 @@ def test_annotate_return(file_csv_good):
     assert (
         parshift_annotation_df["pshift"].values == conv_annot["pshift"].values
     ).all()
+
+
+@pytest.mark.parametrize("last_col", ["reply_to_id", "target_id"])
+def test_annotate_empty(last_col):
+    """Test that `annotate()` returns an empty data frame for an empty conversation."""
+
+    conv = pd.DataFrame(
+        {"utterance_id": [], "speaker_id": [], "utterance": [], last_col: []}
+    )
+    conv_annot = annotate(conv)
+
+    assert conv_annot.shape == (0, 5)
+    assert list(conv_annot.columns) == [
+        "utterance_ids",
+        "speaker_id",
+        "utterance",
+        last_col,
+        "pshift",
+    ]
 
 
 @pytest.mark.parametrize(

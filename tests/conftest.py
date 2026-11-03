@@ -6,11 +6,11 @@
 
 from os import PathLike
 from pathlib import Path
+from typing import Any, Callable
 
 import numpy as np
 import pandas as pd
 import pytest
-from numpy.typing import DTypeLike
 
 # Files containing good conversations, optional parameters required to open them,
 # and CSV file containing respective conversation after annotation
@@ -92,17 +92,18 @@ _bad_params_read_ccsv = [
 ]
 
 
-# Mandatory columns and types of conversation data frame
-_p_shift_cols_mandatory: dict[str, DTypeLike] = {
-    "utterance_id": np.int64,
-    "speaker_id": np.dtype("O"),
-    "utterance": np.dtype("O"),
+# Mandatory columns of conversation data frame and functions checking their types
+# (string columns are `object` in pandas 2 and `str` in pandas 3)
+_p_shift_cols_mandatory: dict[str, Callable[[Any], bool]] = {
+    "utterance_id": lambda dtype: dtype == np.int64,
+    "speaker_id": pd.api.types.is_string_dtype,
+    "utterance": pd.api.types.is_string_dtype,
 }
 
-# Optional columns and types of conversation data frame
-_p_shift_cols_optional: dict[str, DTypeLike] = {
-    "reply_to_id": np.dtype("O"),
-    "target_id": np.dtype("O"),
+# Optional columns of conversation data frame and functions checking their types
+_p_shift_cols_optional: dict[str, Callable[[Any], bool]] = {
+    "reply_to_id": lambda dtype: dtype == np.dtype("O"),
+    "target_id": lambda dtype: dtype == np.dtype("O"),
 }
 
 
@@ -129,7 +130,7 @@ def pshift_freq_table(datapath, request):
     """The data frame supposed to be generated when reading the good input data."""
     return {
         "df_ps": pd.read_csv(
-            Path(datapath, request.param["csv_out"]), index_col=False
+            Path(datapath, request.param["csv_out"]), index_col=False, dtype=object
         ).fillna(""),
         "freq_table": request.param["freq_table"],
     }

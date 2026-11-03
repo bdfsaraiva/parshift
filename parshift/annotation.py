@@ -5,11 +5,13 @@
 from __future__ import annotations
 
 import re
-from typing import Any, Dict, List
+from typing import TYPE_CHECKING, Any, Dict, List
 
 import numpy as np
 import pandas as pd
-from pandas._typing import FilePath, ReadCsvBuffer
+
+if TYPE_CHECKING:
+    from pandas._typing import FilePath, ReadCsvBuffer
 
 # Participation shift types
 _p_shift_dict = {
@@ -220,17 +222,18 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
     # part2 will take the parshift label for the current turn
     part_2 = ""
 
+    # rows of the data frame to be returned
+    rows: List[List[Any]] = []
+
     if "reply_to_id" in conv_df.columns:
-        annotate_df = pd.DataFrame(
-            {
-                "utterance_ids": [],
-                "speaker_id": [],
-                "utterance": [],
-                "reply_to_id": [],
-                "label_desc": [],
-                "pshift": [],
-            }
-        )
+        columns = [
+            "utterance_ids",
+            "speaker_id",
+            "utterance",
+            "reply_to_id",
+            "label_desc",
+            "pshift",
+        ]
 
         # calculate the participation shift for each turn
         for idx, msg in enumerate(conversation):
@@ -280,26 +283,26 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
             if idx != 0:
                 pshift_label = _pshift_code(p1p2)
 
-            annotate_df.loc[len(annotate_df.index)] = [  # type: ignore
-                str(msg["utterance_ids"]),
-                str(msg["speaker_id"]),
-                msg["utterance"],
-                str(msg["reply_to_id"]),
-                p1p2,
-                pshift_label,
-            ]
+            rows.append(
+                [
+                    str(msg["utterance_ids"]),
+                    str(msg["speaker_id"]),
+                    msg["utterance"],
+                    str(msg["reply_to_id"]),
+                    p1p2,
+                    pshift_label,
+                ]
+            )
 
     elif "target_id" in conv_df.columns:
-        annotate_df = pd.DataFrame(
-            {
-                "utterance_ids": [],
-                "speaker_id": [],
-                "utterance": [],
-                "target_id": [],
-                "label_desc": [],
-                "pshift": [],
-            }
-        )
+        columns = [
+            "utterance_ids",
+            "speaker_id",
+            "utterance",
+            "target_id",
+            "label_desc",
+            "pshift",
+        ]
 
         # calculate the participation shift for each turn
         for idx, msg in enumerate(conversation):
@@ -330,16 +333,24 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
                 pshift_label = _pshift_code(p1p2)
                 msg["pshift"] = pshift_label
 
-            annotate_df.loc[len(annotate_df.index)] = [  # type: ignore
-                str(msg["utterance_ids"]),
-                str(msg["speaker_id"]),
-                msg["utterance"],
-                str(msg["target_id"]),
-                p1p2,
-                pshift_label,
-            ]
+            rows.append(
+                [
+                    str(msg["utterance_ids"]),
+                    str(msg["speaker_id"]),
+                    msg["utterance"],
+                    str(msg["target_id"]),
+                    p1p2,
+                    pshift_label,
+                ]
+            )
 
-    annotate_df.drop(columns=["label_desc"], inplace=True)
+    if rows:
+        annotate_df = pd.DataFrame(rows, columns=columns)
+    else:
+        # Keep the column types of a data frame built from empty columns
+        annotate_df = pd.DataFrame({col: [] for col in columns})
+
+    annotate_df = annotate_df.drop(columns=["label_desc"])
 
     return annotate_df
 
