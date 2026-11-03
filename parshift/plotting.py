@@ -39,7 +39,9 @@ def frequency_treemap(
         )
 
     if type == "Pshift_class":
-        cond_probs_df["Pshift_class"] = cond_probs_df["Pshift"].apply(pshift_class)
+        cond_probs_df = cond_probs_df.assign(
+            Pshift_class=cond_probs_df["Pshift"].apply(pshift_class)
+        )
 
     gb_parshift = cond_probs_df.groupby([type])["Frequency"].sum()
 
@@ -86,5 +88,5 @@ def frequency_treemap(
         ax=ax,
     )
     # plt.title("Participation Shifts Frequency (%)")
-    plt.axis("off")
+    ax.axis("off")
     return ax
