@@ -67,3 +67,10 @@ def test_propensities_values(pshifts, expected):
     result = propensities(cond_probs(pd.DataFrame({"pshift": pshifts})))
     for name, value in expected.items():
         assert result[name][0] == pytest.approx(value)
+
+
+def test_cond_probs_warns_on_unknown_codes():
+    """Test that codes outside the 13 participation shifts are reported."""
+    with pytest.warns(UserWarning, match="1 turn.*A0-AA"):
+        result = cond_probs(pd.DataFrame({"pshift": ["", "A0-XA", "A0-AA"]}))
+    assert result["Frequency"].sum() == 1

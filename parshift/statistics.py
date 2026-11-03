@@ -2,6 +2,8 @@
 # Distributed under the MIT License (See accompanying file LICENSE or copy
 # at http://opensource.org/licenses/MIT)
 
+import warnings
+
 import pandas as pd
 
 _cp_order = {
@@ -144,6 +146,19 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
 
     if not isinstance(pshift_codes, pd.DataFrame):
         raise TypeError("Parameter parshift_annotation_df must be a Dataframe")
+
+    # Turns with codes outside the 13 participation shifts (e.g., a speaker
+    # replying to themselves) are not counted
+    codes = pshift_codes["pshift"]
+    unknown = codes[codes.notna() & (codes != "") & ~codes.isin(list(_cp_order))]
+    if len(unknown) > 0:
+        warnings.warn(
+            f"{len(unknown)} turn(s) with participation shift codes outside the 13 "
+            "defined by Gibson were not counted: "
+            + ", ".join(sorted(set(unknown.astype(str)))),
+            UserWarning,
+            stacklevel=2,
+        )
 
     frequency_table_and_counts = _frequency_table(pshift_codes)
     freq_table = frequency_table_and_counts[0]
