@@ -29,6 +29,8 @@ authors:
     affiliation: 'Lusófona University, CICANT'
     orcid: 'https://orcid.org/0000-0003-2180-6823'
 repository-code: 'https://github.com/bdfsaraiva/parshift'
+version: 1.1.0
+date-released: '2026-11-03'
 abstract: >-
   Python package based on Gibson's framework (2003) for turn-taking in group
   conversation analysis.

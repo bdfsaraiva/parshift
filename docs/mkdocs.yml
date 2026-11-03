@@ -63,7 +63,8 @@ plugins:
 
 nav:
   - Home: index.md
+  - Usage: usage.md
   - Reference: reference.md
   - Development: dev.md
 
-copyright: Copyright &copy; 2023-2025 Maintained by <a href="https://github.com/bdfsaraiva">Bruno D. Ferreira-Saraiva</a>.
+copyright: Copyright &copy; 2023-2026 Maintained by <a href="https://github.com/bdfsaraiva">Bruno D. Ferreira-Saraiva</a>.
