@@ -43,3 +43,27 @@ def test_propensities(pshift_freq_table):
     result = propensities(cond_probs_df)
     assert isinstance(result, pd.DataFrame)
     assert list(result.columns) == ["turn-receiving", "targeting", "termination"]
+
+
+@pytest.mark.parametrize(
+    "pshifts,expected",
+    [
+        (
+            ["A0-AY"] * 5,
+            {"turn-receiving": 0.0, "targeting": 0.0, "termination": 1.0},
+        ),
+        (
+            ["A0-XY"] * 5,
+            {"turn-receiving": 0.0, "targeting": 1.0, "termination": 0.0},
+        ),
+        (
+            ["AB-BA", "AB-BY", "AB-A0", "AB-AY"],
+            {"turn-receiving": 0.5, "targeting": 0.5, "termination": 0.5},
+        ),
+    ],
+)
+def test_propensities_values(pshifts, expected):
+    """Test the values of the propensities, as defined by Gibson (2003)."""
+    result = propensities(cond_probs(pd.DataFrame({"pshift": pshifts})))
+    for name, value in expected.items():
+        assert result[name][0] == pytest.approx(value)

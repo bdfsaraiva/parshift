@@ -241,16 +241,22 @@ def propensities(cond_probs_df: pd.DataFrame) -> pd.DataFrame:
 
     dic_propensities = {}
 
-    # turn-receiving propensity -> AB-BA, AB-BO, and AB-BY ( P(S|D) )
-    p_s_d = cond_probs_df["P(S|D)"]
-    p_s_d_c = cond_probs_df["P(S|D,C)"]
+    # Look up the probabilities by participation shift code
+    cond_probs_ps = cond_probs_df.set_index("Pshift")
+    p_s_d = cond_probs_ps["P(S|D)"]
+    p_s_d_c = cond_probs_ps["P(S|D,C)"]
 
-    dic_propensities["turn-receiving"] = p_s_d[4] + p_s_d[5] + p_s_d[10]
+    # turn-receiving propensity -> AB-BA, AB-B0, and AB-BY ( P(S|D) )
+    dic_propensities["turn-receiving"] = (
+        p_s_d["AB-BA"] + p_s_d["AB-B0"] + p_s_d["AB-BY"]
+    )
 
-    # targeting propensity -> AO-XY, AB-BY and AB-XY ( P(S|D,C) )
-    dic_propensities["targeting"] = p_s_d_c[2] + p_s_d_c[10] + p_s_d_c[11]
+    # targeting propensity -> A0-XY, AB-BY and AB-XY ( P(S|D,C) )
+    dic_propensities["targeting"] = (
+        p_s_d_c["A0-XY"] + p_s_d_c["AB-BY"] + p_s_d_c["AB-XY"]
+    )
 
-    # termination propensity -> AO-AY, AB-AO and AB-AY ( P(S|D) )
-    dic_propensities["termination"] = p_s_d[2] + p_s_d[9] + p_s_d[12]
+    # termination propensity -> A0-AY, AB-A0 and AB-AY ( P(S|D) )
+    dic_propensities["termination"] = p_s_d["A0-AY"] + p_s_d["AB-A0"] + p_s_d["AB-AY"]
 
     return pd.DataFrame([dic_propensities])
