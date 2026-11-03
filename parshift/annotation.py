@@ -350,11 +350,11 @@ def pshift_class(pshift: str) -> str:
     """Returns the participation shift class given a participation shift code.
 
     Arguments:
-        pshift: Participation shift code (e.g A0-XA).
+        pshift: Participation shift code (e.g., `A0-XA`).
 
     Returns:
-        Participation shift classe in given the participation shift code (either
-            "Turn Receiving", "Turn Claiming", "Turn Usurping" or  "Turn Continuing").
+        Participation shift class of the given participation shift code (either
+            "Turn Receiving", "Turn Claiming", "Turn Usurping" or "Turn Continuing").
     """
 
     if not isinstance(pshift, str):

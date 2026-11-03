@@ -25,7 +25,8 @@ def frequency_treemap(
             [`cond_probs()`][parshift.statistics.cond_probs]
         type: Column name to be used to plot the treemap, either `"Pshift"`
             (default) or `"Pshift_class"`.
-        ax: Matplotlib axes with the treemap plot.
+        ax: Matplotlib axes where the treemap is drawn. If `None` (default), a
+            new figure with a single axes is created.
 
     Returns:
         ax: Matplotlib axes with the participation shifts probabilities or frequency.

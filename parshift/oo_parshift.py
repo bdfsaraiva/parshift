@@ -18,12 +18,34 @@ if TYPE_CHECKING:
 
 
 class Parshift:
+    """Analysis of a conversation with Gibson's participation shifts.
+
+    The conversation is processed with [`process()`][parshift.Parshift.process],
+    which keeps the results in the `annotation` and `stats` attributes. These are
+    then used by the remaining methods to show, save and plot the results.
+
+    Attributes:
+        annotation: Participation shift codes of each turn, as returned by
+            [`annotate()`][parshift.annotate], or `None` before processing.
+        stats: Conditional probabilities, as returned by
+            [`cond_probs()`][parshift.cond_probs], or a list with one such data
+            frame per part of the conversation if it was split; `None` before
+            processing.
+    """
+
     def __init__(
         self,
         annotation: pd.DataFrame | None = None,
         stats: pd.DataFrame | List[pd.DataFrame] | None = None,
     ):
-        """Parshift initialization"""
+        """Create a `Parshift` object, optionally with existing results.
+
+        Arguments:
+            annotation: Participation shift codes of each turn, as returned by
+                [`annotate()`][parshift.annotate].
+            stats: Conditional probabilities, as returned by
+                [`cond_probs()`][parshift.cond_probs], or a list of them.
+        """
 
         self.annotation = annotation
         self.stats = stats
@@ -34,10 +56,12 @@ class Parshift:
         N: int = 1,
         **kwargs: Any,
     ):
-        """Read a conversation file in CSV format, validate it,
-        get Gibson's participation shift codes from turns in a conversation,
-        determine the conditional probabilities for a sequence of participation shift codes
-        and return a dict with parshift annotations and conditional probabilities.
+        """Read a conversation file in CSV format, validate it, get Gibson's
+        participation shift codes from turns in the conversation, and determine
+        their conditional probabilities.
+
+        The results are kept in the `annotation` and `stats` attributes; the
+        method returns nothing.
 
         The conversation file should have the following columns:
 
@@ -54,8 +78,14 @@ class Parshift:
             **kwargs: Keyword parameters passed to Pandas
                 [`read_csv()`][pandas.read_csv] function.
 
-        - Parshift.annotation will be data frame equal as returned by [`annotate()`][parshift.annotation.annotate].
-        - Parshift.stats will be data frame equal as returned by [`cond_probs()`][parshift.statistics.cond_probs].
+        After processing:
+
+        - `Parshift.annotation` is the data frame returned by
+          [`annotate()`][parshift.annotation.annotate].
+        - `Parshift.stats` is the data frame returned by
+          [`cond_probs()`][parshift.statistics.cond_probs] or, if `N > 1`, a list
+          with one such data frame for each of the `N` parts of the conversation
+          (with approximately the same number of turns each).
         """
 
         df_annotate = annotate(read_ccsv(filepath_or_buffer, **kwargs))
