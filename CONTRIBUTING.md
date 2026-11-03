@@ -13,6 +13,13 @@ source env/bin/activate  # On Windows: . env\Scripts\activate
 pip install -e .[dev]
 ```
 
+Alternatively, with [uv](https://docs.astral.sh/uv/), the dependencies can be
+installed with the exact versions in `uv.lock`:
+
+```bash
+uv sync --extra dev
+```
+
 ## Before opening a pull request
 
 - Add tests for every change or new feature, and make sure all tests pass,
