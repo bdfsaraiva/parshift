@@ -9,17 +9,18 @@ intended change, run `python -m tests.update_golden`."""
 import pytest
 
 from parshift import annotate, cond_probs, propensities
+from parshift.annotation import _p_shift_dict
 
 from .update_golden import conversation_df, frame_to_json, load_golden
 
 # Some golden conversations reply to utterances which do not exist and have
-# self-replies (codes outside the 13 participation shifts) on purpose
+# self-replies on purpose
 pytestmark = [
     pytest.mark.filterwarnings(
         "ignore:.*reply to an utterance which is not in a previous turn:UserWarning"
     ),
     pytest.mark.filterwarnings(
-        "ignore:.*participation shift codes outside the 13:UserWarning"
+        "ignore:.*are addressed to their own speaker:UserWarning"
     ),
 ]
 
@@ -45,3 +46,11 @@ def test_golden_cond_probs(golden):
 def test_golden_propensities(golden):
     result = propensities(cond_probs(annotate(conversation_df(golden))))
     assert frame_to_json(result) == golden["propensities"]
+
+
+def test_golden_codes_are_valid(golden):
+    """Test that `annotate()` only gives the 13 participation shifts (and no code
+    for the first turn)."""
+    result = annotate(conversation_df(golden))
+    assert set(result["pshift"][1:]) <= set(_p_shift_dict)
+    assert result["pshift"][0] == ""

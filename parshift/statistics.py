@@ -147,8 +147,8 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
     if not isinstance(pshift_codes, pd.DataFrame):
         raise TypeError("Parameter parshift_annotation_df must be a Dataframe")
 
-    # Turns with codes outside the 13 participation shifts (e.g., a speaker
-    # replying to themselves) are not counted
+    # Turns with codes outside the 13 participation shifts (which are not given by
+    # `annotate()`, but may exist in codes obtained otherwise) are not counted
     codes = pshift_codes["pshift"]
     unknown = codes[codes.notna() & (codes != "") & ~codes.isin(list(_cp_order))]
     if len(unknown) > 0:

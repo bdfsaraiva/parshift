@@ -208,11 +208,18 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
 
     Sequences of messages from a speaker to the same addressee are considered to
     be in the same turn, and therefore will be assigned a single participation
-    shift code.
+    shift code. In conversations with the `reply_to_id` column, the addressee of
+    a reply is the speaker of the replied utterance.
 
-    In conversations with the `reply_to_id` column, a turn replying to an
-    utterance which is not in a previous turn (e.g., an utterance outside the
-    data) is considered as addressed to the group, and a warning is issued.
+    Only the 13 participation shifts defined by Gibson are assigned. For this
+    purpose, the following turns are considered as addressed to the group, and
+    a warning is issued:
+
+    - turns addressed to their own speaker (e.g., a speaker replying to
+      themselves);
+    - in conversations with the `reply_to_id` column, turns replying to an
+      utterance which is not in a previous turn (e.g., an utterance outside
+      the data).
 
     Arguments:
         conv_df: The conversation from where to obtain the participation shift codes.
@@ -233,19 +240,25 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
 
     columns = ["utterance_ids", "speaker_id", "utterance", last_col, "pshift"]
 
-    # rows of the data frame to be returned
-    rows: List[List[Any]] = []
+    # turns of the conversation (as given by `conv2turns()`, merged by addressee)
+    # and their participation shift codes
+    turns: List[Dict[str, Any]] = []
+    pshifts: List[str] = []
 
     # (speaker, addressee) of each turn, where addressee is `None` for the group
-    turns: List[Tuple[str, str | None]] = []
+    parts: List[Tuple[str, str | None]] = []
 
     # turn (index) of each utterance ID found so far
     turn_of_utterance: Dict[Any, int] = {}
 
-    # number of turns replying to an utterance not in a previous turn
+    # number of turns replying to an utterance not in a previous turn, and of
+    # turns addressed to their own speaker
     unknown_replies = 0
+    self_addressed = 0
 
-    for idx, msg in enumerate(conversation):
+    for msg in conversation:
+        speaker = _speaker_key(msg["speaker_id"])
+
         # index of the turn this turn replies to, if any
         replied: int | None = None
 
@@ -259,34 +272,44 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
                 unknown_replies += 1
                 addressee = None
             else:
-                addressee = turns[replied][0]
+                addressee = parts[replied][0]
         else:
             # if msg has a target, it is directed to it
             addressee = _speaker_key(msg[last_col])
 
-        current = (_speaker_key(msg["speaker_id"]), addressee)
+        # a speaker does not address themselves: such a turn is directed to the group
+        if addressee == speaker:
+            self_addressed += 1
+            addressee = None
+            replied = None
 
-        # we cannot calculate the pshift for the first turn
-        pshift_label = ""
-        if idx != 0:
-            # a reply is compared with the replied turn, otherwise the previous
-            # turn is used
-            previous = turns[replied] if replied is not None else turns[-1]
-            pshift_label = _pshift_code(previous, current)
+        current = (speaker, addressee)
 
-        turns.append(current)
+        if parts and parts[-1] == current:
+            # same speaker and addressee as the previous turn: merge them
+            turn = len(turns) - 1
+            turns[turn]["utterance_ids"] = (
+                turns[turn]["utterance_ids"] + msg["utterance_ids"]
+            )
+            turns[turn]["utterance"] = ". ".join(
+                [str(turns[turn]["utterance"]), str(msg["utterance"])]
+            )
+        else:
+            # we cannot calculate the pshift for the first turn
+            pshift_label = ""
+            if parts:
+                # a reply is compared with the replied turn, otherwise the
+                # previous turn is used
+                previous = parts[replied] if replied is not None else parts[-1]
+                pshift_label = _pshift_code(previous, current)
+
+            turn = len(turns)
+            turns.append(msg)
+            parts.append(current)
+            pshifts.append(pshift_label)
+
         for utterance_id in msg["utterance_ids"]:
-            turn_of_utterance[utterance_id] = idx
-
-        rows.append(
-            [
-                str(msg["utterance_ids"]),
-                str(msg["speaker_id"]),
-                msg["utterance"],
-                str(msg[last_col]),
-                pshift_label,
-            ]
-        )
+            turn_of_utterance[utterance_id] = turn
 
     if unknown_replies > 0:
         warnings.warn(
@@ -295,6 +318,26 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
             UserWarning,
             stacklevel=2,
         )
+
+    if self_addressed > 0:
+        warnings.warn(
+            f"{self_addressed} turn(s) are addressed to their own speaker (e.g., a "
+            "speaker replying to themselves), and were considered as addressed "
+            "to the group",
+            UserWarning,
+            stacklevel=2,
+        )
+
+    rows = [
+        [
+            str(msg["utterance_ids"]),
+            str(msg["speaker_id"]),
+            msg["utterance"],
+            str(msg[last_col]),
+            pshift_label,
+        ]
+        for msg, pshift_label in zip(turns, pshifts)
+    ]
 
     if rows:
         return pd.DataFrame(rows, columns=columns)

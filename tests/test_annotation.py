@@ -185,3 +185,45 @@ def test_annotate_unknown_reply_warns():
     with pytest.warns(UserWarning, match="1 turn"):
         result = annotate(conv)
     assert list(result["pshift"]) == ["", "A0-XA", "AB-X0", "A0-X0"]
+
+
+def test_annotate_self_reply_is_addressed_to_group():
+    """Test that a speaker replying to themselves is considered as addressing the
+    group, with a warning."""
+    conv = _conversation(
+        [(0, "S1", "a", ""), (1, "S2", "b", 0), (2, "S1", "c", 1), (3, "S1", "d", 0)]
+    )
+    with pytest.warns(UserWarning, match="1 turn.*themselves"):
+        result = annotate(conv)
+    assert list(result["pshift"]) == ["", "A0-XA", "AB-BA", "AB-A0"]
+
+
+def test_annotate_self_target_is_addressed_to_group():
+    """Test that a speaker targeting themselves is considered as addressing the
+    group, with a warning."""
+    conv = pd.DataFrame(
+        [(0, "10", "a", ""), (1, "11", "b", 10), (2, "10", "c", 10)],
+        columns=["utterance_id", "speaker_id", "utterance", "target_id"],
+    )
+    with pytest.warns(UserWarning, match="1 turn.*themselves"):
+        result = annotate(conv)
+    assert list(result["pshift"]) == ["", "A0-XA", "AB-B0"]
+
+
+def test_annotate_merges_turns_with_same_addressee():
+    """Test that consecutive messages from the same speaker to the same addressee
+    are in the same turn, even if they reply to different utterances."""
+    conv = _conversation(
+        [
+            (0, "S1", "a", ""),
+            (1, "S1", "b", ""),
+            (2, "S2", "c", 0),
+            (3, "S2", "d", 1),
+            (4, "S3", "e", ""),
+        ]
+    )
+    result = annotate(conv)
+    assert list(result["utterance_ids"]) == ["[0, 1]", "[2, 3]", "[4]"]
+    assert list(result["utterance"]) == ["a. b", "c. d", "e"]
+    assert list(result["reply_to_id"]) == ["None", "0", "None"]
+    assert list(result["pshift"]) == ["", "A0-XA", "AB-X0"]
