@@ -66,6 +66,25 @@ def test_annotate_return(file_csv_good):
     ).all()
 
 
+@pytest.mark.parametrize("last_col", ["reply_to_id", "target_id"])
+def test_annotate_empty(last_col):
+    """Test that `annotate()` returns an empty data frame for an empty conversation."""
+
+    conv = pd.DataFrame(
+        {"utterance_id": [], "speaker_id": [], "utterance": [], last_col: []}
+    )
+    conv_annot = annotate(conv)
+
+    assert conv_annot.shape == (0, 5)
+    assert list(conv_annot.columns) == [
+        "utterance_ids",
+        "speaker_id",
+        "utterance",
+        last_col,
+        "pshift",
+    ]
+
+
 @pytest.mark.parametrize(
     "conv,expecterr", [(10, TypeError), ("some_string", TypeError)]
 )

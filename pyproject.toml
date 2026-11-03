@@ -60,6 +60,9 @@ norecursedirs = [
     ".git",
     "__pycache__" ]
 testpaths = ["parshift", "tests"]
+filterwarnings = [
+    "error::DeprecationWarning:parshift",
+    "error::FutureWarning:parshift" ]
 
 [tool.mypy]
 python_version = "3.11"

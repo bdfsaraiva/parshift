@@ -221,9 +221,8 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
         lambda ps: _targeted_remark(ps)
     )
 
-    result.rename(
-        columns={"pshift": "Pshift", "CP": "P(S|D)", "CPeTC": "P(S|D,C)"},
-        inplace=True,
+    result = result.rename(
+        columns={"pshift": "Pshift", "CP": "P(S|D)", "CPeTC": "P(S|D,C)"}
     )
 
     return result
