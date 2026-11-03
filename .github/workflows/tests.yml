@@ -8,21 +8,31 @@ on:
     branches: [main]
     paths: [ 'parshift/**', 'tests/**', 'pyproject.toml', '.github/workflows/tests.yml' ]
     tags: '*'
+  schedule:
+    # Weekly, to detect breakage caused by new versions of the dependencies
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
 
 jobs:
   run-tests:
     name: Python ${{ matrix.version }} - ${{ matrix.os }} - ${{ github.event_name }}
     runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
-        version: ['3.9', '3.13']
+        version: ['3.11', '3.14']
         os: [ubuntu-latest, windows-latest, macos-latest]
+        experimental: [false]
+        include:
+          - version: '3.15'
+            os: ubuntu-latest
+            experimental: true
     steps:
     - name: Clone repository
-      uses: actions/checkout@v4
-    - name: Setup latest Python
-      uses: actions/setup-python@v4
+      uses: actions/checkout@v7
+    - name: Setup Python
+      uses: actions/setup-python@v7
       with:
         python-version: ${{ matrix.version }}
     - name: Install dependencies
@@ -31,3 +41,21 @@ jobs:
         pip install .[dev]
     - name: Test with pytest
       run: pytest
+
+  minimum-deps:
+    name: Minimum dependency versions - ${{ github.event_name }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v7
+    - name: Setup Python
+      uses: actions/setup-python@v7
+      with:
+        python-version: '3.11'
+    - name: Install dependencies
+      run: |
+        pip install pip --upgrade
+        pip install pandas==2.2.0 numpy==1.26.0 matplotlib==3.8.0 squarify==0.4.3 pytest
+        pip install --no-deps .
+    - name: Test with pytest
+      run: pytest -o addopts=""
