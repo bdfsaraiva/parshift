@@ -9,6 +9,10 @@ on:
     paths: [ 'parshift/**', 'tests/**', 'pyproject.toml', '.github/workflows/cov.yml' ]
     tags: '*'
 
+# Non-interactive Matplotlib backend, so that tests do not depend on Tcl/Tk
+env:
+  MPLBACKEND: Agg
+
 jobs:
   calculate-coverage:
     runs-on: ubuntu-latest
