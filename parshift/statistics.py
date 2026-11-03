@@ -2,6 +2,8 @@
 # Distributed under the MIT License (See accompanying file LICENSE or copy
 # at http://opensource.org/licenses/MIT)
 
+import warnings
+
 import pandas as pd
 
 _cp_order = {
@@ -145,6 +147,19 @@ def cond_probs(pshift_codes: pd.DataFrame) -> pd.DataFrame:
     if not isinstance(pshift_codes, pd.DataFrame):
         raise TypeError("Parameter parshift_annotation_df must be a Dataframe")
 
+    # Turns with codes outside the 13 participation shifts (which are not given by
+    # `annotate()`, but may exist in codes obtained otherwise) are not counted
+    codes = pshift_codes["pshift"]
+    unknown = codes[codes.notna() & (codes != "") & ~codes.isin(list(_cp_order))]
+    if len(unknown) > 0:
+        warnings.warn(
+            f"{len(unknown)} turn(s) with participation shift codes outside the 13 "
+            "defined by Gibson were not counted: "
+            + ", ".join(sorted(set(unknown.astype(str)))),
+            UserWarning,
+            stacklevel=2,
+        )
+
     frequency_table_and_counts = _frequency_table(pshift_codes)
     freq_table = frequency_table_and_counts[0]
 
@@ -241,16 +256,22 @@ def propensities(cond_probs_df: pd.DataFrame) -> pd.DataFrame:
 
     dic_propensities = {}
 
-    # turn-receiving propensity -> AB-BA, AB-BO, and AB-BY ( P(S|D) )
-    p_s_d = cond_probs_df["P(S|D)"]
-    p_s_d_c = cond_probs_df["P(S|D,C)"]
+    # Look up the probabilities by participation shift code
+    cond_probs_ps = cond_probs_df.set_index("Pshift")
+    p_s_d = cond_probs_ps["P(S|D)"]
+    p_s_d_c = cond_probs_ps["P(S|D,C)"]
 
-    dic_propensities["turn-receiving"] = p_s_d[4] + p_s_d[5] + p_s_d[10]
+    # turn-receiving propensity -> AB-BA, AB-B0, and AB-BY ( P(S|D) )
+    dic_propensities["turn-receiving"] = (
+        p_s_d["AB-BA"] + p_s_d["AB-B0"] + p_s_d["AB-BY"]
+    )
 
-    # targeting propensity -> AO-XY, AB-BY and AB-XY ( P(S|D,C) )
-    dic_propensities["targeting"] = p_s_d_c[2] + p_s_d_c[10] + p_s_d_c[11]
+    # targeting propensity -> A0-XY, AB-BY and AB-XY ( P(S|D,C) )
+    dic_propensities["targeting"] = (
+        p_s_d_c["A0-XY"] + p_s_d_c["AB-BY"] + p_s_d_c["AB-XY"]
+    )
 
-    # termination propensity -> AO-AY, AB-AO and AB-AY ( P(S|D) )
-    dic_propensities["termination"] = p_s_d[2] + p_s_d[9] + p_s_d[12]
+    # termination propensity -> A0-AY, AB-A0 and AB-AY ( P(S|D) )
+    dic_propensities["termination"] = p_s_d["A0-AY"] + p_s_d["AB-A0"] + p_s_d["AB-AY"]
 
     return pd.DataFrame([dic_propensities])

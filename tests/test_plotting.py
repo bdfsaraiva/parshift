@@ -22,3 +22,22 @@ def test_frequency_treemap_errors(pshift_freq_table, type, expecterr):
     conditional_probabilities_df = cond_probs(pshift_freq_table["df_ps"])
     with pytest.raises(expecterr):
         frequency_treemap(conditional_probabilities_df, type=type)
+
+
+@pytest.mark.parametrize("type", ["Pshift", "Pshift_class"])
+def test_frequency_treemap_does_not_mutate_input(pshift_freq_table, type):
+    conditional_probabilities_df = cond_probs(pshift_freq_table["df_ps"])
+    columns_before = list(conditional_probabilities_df.columns)
+    frequency_treemap(conditional_probabilities_df, type=type)
+    assert list(conditional_probabilities_df.columns) == columns_before
+    plt.close("all")
+
+
+def test_frequency_treemap_hides_given_axes_only(pshift_freq_table):
+    conditional_probabilities_df = cond_probs(pshift_freq_table["df_ps"])
+    _, (a1, a2) = plt.subplots(1, 2)
+    plt.sca(a2)
+    frequency_treemap(conditional_probabilities_df, ax=a1)
+    assert a1.axison is False
+    assert a2.axison is True
+    plt.close("all")
