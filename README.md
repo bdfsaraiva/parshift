@@ -1,7 +1,7 @@
 [![Tests](https://github.com/bdfsaraiva/parshift/actions/workflows/tests.yml/badge.svg)](https://github.com/bdfsaraiva/parshift/actions/workflows/tests.yml)
 [![Codecov](https://codecov.io/gh/bdfsaraiva/parshift/branch/main/graph/badge.svg?token=O5ZCGFW78U)](https://codecov.io/gh/bdfsaraiva/parshift)
 [![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://bdfsaraiva.github.io/parshift)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/bdfsaraiva/py-Participation-Shifts/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/bdfsaraiva/parshift/blob/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/parshift)](https://pypi.org/project/parshift/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
@@ -39,6 +39,64 @@ pip install .
 ```
 
 ## Getting Started
+
+### Input format
+
+ParShift reads conversations from CSV files with one utterance (message) per
+row and the following columns:
+
+| Column | Description |
+|---|---|
+| `utterance_id` | ID of the utterance (integer) |
+| `speaker_id` | ID of the speaker |
+| `utterance` | The utterance itself (text) |
+| `reply_to_id` **or** `target_id` | ID of the utterance being replied to, **or** ID of the speaker being addressed (integer); empty if the utterance is addressed to the group |
+
+For example (`conversation.csv`):
+
+```csv
+utterance_id,speaker_id,utterance,reply_to_id
+0,Ana,Hello everyone!,
+1,Bruno,Hi Ana!,0
+2,Carla,Good morning.,
+3,Ana,"Carla, how are you?",2
+4,Carla,"Fine, thanks.",3
+5,Bruno,What are we discussing today?,
+```
+
+See the [documentation][usage] for how each column is interpreted.
+
+### Quickstart
+
+Annotate the conversation with participation shift codes, and obtain the
+conditional probabilities and propensities:
+
+```python
+from parshift import annotate, cond_probs, propensities, read_ccsv
+
+conv = read_ccsv("conversation.csv")
+pshifts = annotate(conv)  # One participation shift code per turn
+stats = cond_probs(pshifts)  # Frequencies and conditional probabilities
+print(propensities(stats))  # Gibson's propensities
+```
+
+```text
+   turn-receiving  targeting  termination
+0            0.33        0.0          0.0
+```
+
+The same analysis is available through the `Parshift` class, which can also
+split the conversation in up to four parts and plot the results:
+
+```python
+from parshift import Parshift
+
+ps = Parshift()
+ps.process("conversation.csv")  # Use N=2, 3 or 4 to split the conversation
+ps.show_stats()
+ps.show_plot()
+print(ps.get_propensities())
+```
 
 For an in-depth overview of the features of ParShift please check the
 [documentation][docs] or follow along the provided example:
@@ -85,5 +143,6 @@ If you use this software, please cite the following reference:
 
 [Gibson's framework]:https://doi.org/10.1353/sof.2003.0055
 [docs]:https://bdfsaraiva.github.io/parshift/
+[usage]:https://bdfsaraiva.github.io/parshift/usage/
 [example1]:https://colab.research.google.com/drive/1zjstEdkIZrCSgZFkilNf8kvTkRCS-bYG?usp=sharing
 [issue]:https://github.com/bdfsaraiva/parshift/issues/new/choose
