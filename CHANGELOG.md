@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.1.0] - 2026-11-03
 
-This release fixes defects that produced wrong results.
+This release fixes defects that produced wrong results, and updates ParShift
+to current versions of Python and of its dependencies (including pandas 3).
 
 ### Results may change
 
@@ -57,27 +58,6 @@ Analyses based on such conversations should be repeated.
 As a result, `annotate()` now only gives the 13 participation shifts defined
 by Gibson, which are unchanged, as are their classes.
 
-### Fixed
-
-- `frequency_treemap()` no longer adds the `Pshift_class` column to the data
-  frame it receives. Previously, after plotting with `type="Pshift_class"`, the
-  column also appeared in the statistics (e.g., in the CSV file saved by
-  `Parshift.show_stats()`).
-- `frequency_treemap()` now hides the axis of the given `ax` instead of the
-  current axes.
-
-### Added
-
-- `cond_probs()` issues a warning when there are codes outside the 13
-  participation shifts (which are not given by `annotate()`, but may exist in
-  codes obtained otherwise). These codes are still not counted.
-
-## [1.0.3] - 2026-11-03
-
-Maintenance release. **The output of ParShift does not change**: for the same
-input, `annotate()`, `cond_probs()`, `propensities()` and the `Parshift` class
-return the same results as in version 1.0.2.
-
 ### Changed
 
 - Minimum Python version is now 3.11.
@@ -89,6 +69,12 @@ return the same results as in version 1.0.2.
 
 ### Fixed
 
+- `frequency_treemap()` no longer adds the `Pshift_class` column to the data
+  frame it receives. Previously, after plotting with `type="Pshift_class"`, the
+  column also appeared in the statistics (e.g., in the CSV file saved by
+  `Parshift.show_stats()`).
+- `frequency_treemap()` now hides the axis of the given `ax` instead of the
+  current axes.
 - Compatibility with pandas 3: removed the deprecated usages that raised
   `Pandas4Warning` in `annotate()` and `cond_probs()`.
 - `parshift` no longer imports pandas private types at runtime.
@@ -96,8 +82,11 @@ return the same results as in version 1.0.2.
 
 ### Added
 
-- Golden tests that freeze the output of the processing pipeline for 43
-  conversations, checked with pandas 2 and pandas 3.
+- `cond_probs()` issues a warning when there are codes outside the 13
+  participation shifts (which are not given by `annotate()`, but may exist in
+  codes obtained otherwise). These codes are still not counted.
+- Golden tests that check the output of the processing pipeline for 43
+  conversations, with pandas 2 and pandas 3.
 - CI runs the tests weekly, with the minimum versions of the dependencies and
   with the latest Python version, and builds the documentation in strict mode.
 
@@ -105,6 +94,5 @@ return the same results as in version 1.0.2.
 
 - Last release before this changelog was created.
 
-[1.1.0]: https://github.com/bdfsaraiva/parshift/compare/v1.0.3...v1.1.0
-[1.0.3]: https://github.com/bdfsaraiva/parshift/compare/v1.0.2...v1.0.3
+[1.1.0]: https://github.com/bdfsaraiva/parshift/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/bdfsaraiva/parshift/releases/tag/v1.0.2
