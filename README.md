@@ -128,6 +128,9 @@ pytest
 Now you are ready to start developing the project! Don't forget to add tests for
 every new change or feature!
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the guidelines on tests, commit
+messages and releases.
+
 ## Reference
 
 If you use this software, please cite the following reference:
