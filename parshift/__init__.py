@@ -16,7 +16,12 @@ __all__ = [
 ]
 
 
+from importlib.metadata import version
+
 from parshift.annotation import annotate, conv2turns, pshift_class, read_ccsv
 from parshift.oo_parshift import Parshift
 from parshift.plotting import frequency_treemap
 from parshift.statistics import cond_probs, propensities
+
+# Version of the installed package, as defined in `pyproject.toml`
+__version__ = version("parshift")
