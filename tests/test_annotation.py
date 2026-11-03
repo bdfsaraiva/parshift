@@ -123,3 +123,65 @@ def test_pshift_type_errors(ps, expecterr):
     """Test that `pshift_type()` throws the expected errors."""
     with pytest.raises(expecterr):
         pshift_class(ps)
+
+
+def _conversation(rows):
+    """Build a conversation data frame in reply mode from a list of tuples."""
+    return pd.DataFrame(
+        rows, columns=["utterance_id", "speaker_id", "utterance", "reply_to_id"]
+    )
+
+
+@pytest.mark.parametrize(
+    "names",
+    [
+        ("Vitor", "Antonio", "Beto", "Ana"),
+        ("tom", "Bob", "Eve", "Dan"),
+        ("Ana Maria", "AnaMaria", "Eve", "Dan"),
+        ("group", "Bob", "Eve", "Dan"),
+        ("Smith, J", "Bob", "Eve", "Dan"),
+    ],
+)
+def test_annotate_speaker_names_are_opaque(names):
+    """Test that speaker IDs with "to", spaces, commas or equal to "group" are
+    treated as any other ID."""
+    s1, s2, s3, s4 = names
+    conv = _conversation(
+        [
+            (0, s1, "a", ""),
+            (1, s2, "b", 0),
+            (2, s3, "c", ""),
+            (3, s2, "d", ""),
+            (4, s4, "e", 2),
+            (5, s1, "f", 4),
+            (6, s2, "g", 5),
+        ]
+    )
+    assert list(annotate(conv)["pshift"]) == [
+        "",
+        "A0-XA",
+        "AB-X0",
+        "A0-X0",
+        "A0-XA",
+        "AB-XA",
+        "AB-XA",
+    ]
+
+
+def test_annotate_strips_speaker_whitespace():
+    """Test that leading and trailing spaces do not distinguish speakers."""
+    conv = _conversation([(0, " 10", "a", ""), (1, "11", "b", 0), (2, "10", "c", 1)])
+    result = annotate(conv)
+    assert list(result["pshift"]) == ["", "A0-XA", "AB-BA"]
+    assert list(result["speaker_id"]) == [" 10", "11", "10"]
+
+
+def test_annotate_unknown_reply_warns():
+    """Test that a reply to an utterance not in a previous turn is considered as
+    addressed to the group, with a warning."""
+    conv = _conversation(
+        [(0, "S1", "a", ""), (1, "S2", "b", 0), (2, "S3", "c", 999), (3, "S4", "d", "")]
+    )
+    with pytest.warns(UserWarning, match="1 turn"):
+        result = annotate(conv)
+    assert list(result["pshift"]) == ["", "A0-XA", "AB-X0", "A0-X0"]

@@ -12,6 +12,11 @@ from parshift import annotate, cond_probs, propensities
 
 from .update_golden import conversation_df, frame_to_json, load_golden
 
+# Some golden conversations reply to utterances which do not exist on purpose
+pytestmark = pytest.mark.filterwarnings(
+    "ignore:.*reply to an utterance which is not in a previous turn:UserWarning"
+)
+
 _golden = load_golden()
 
 

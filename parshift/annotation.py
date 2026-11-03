@@ -5,7 +5,8 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Any, Dict, List
+import warnings
+from typing import TYPE_CHECKING, Any, Dict, List, Tuple
 
 import numpy as np
 import pandas as pd
@@ -161,35 +162,40 @@ def conv2turns(conv_df: pd.DataFrame) -> List[Dict[str, Any]]:
     return conversation
 
 
-def _pshift_code(label: str) -> str:
-    # split the label into 4 parts
-    a = label.split(",")[0].split("to")[0].replace(" ", "")
-    b = label.split(",")[0].split("to")[1].replace(" ", "")
-    c = label.split(",")[1].split("to")[0].replace(" ", "")
-    d = label.split(",")[1].split("to")[1].replace(" ", "")
+def _speaker_key(speaker_id: Any) -> str:
+    # Speaker IDs are opaque: they are only compared with each other, and leading
+    # or trailing spaces do not distinguish speakers
+    return str(speaker_id).strip()
+
+
+def _pshift_code(prev: Tuple[str, str | None], cur: Tuple[str, str | None]) -> str:
+    # Each turn is a (speaker, addressee) pair, where an addressee equal to `None`
+    # means the turn is addressed to the group
+    a, b = prev
+    c, d = cur
 
     # Part 1 - always starts with A
     result = "A"
 
     # Parte 2 - "0" if the target is the group, "B" otherwise
-    result += "0-" if b == "group" else "B-"
+    result += "0-" if b is None else "B-"
 
     # Part 3 - "A" if the speaker is the same, "B" if the speaker is the previous target,
     # "X" otherwise
     if c == a:
         result += "A"
-    elif c == b:
+    elif b is not None and c == b:
         result += "B"
     else:
         result += "X"
 
     # Part 4 - "0" if the current target is the group, "A" if the current target is previous
     #  speaker, "B" if the target is the previous target, "Y" otherwise
-    if d == "group":
+    if d is None:
         result += "0"
     elif d == a:
         result += "A"
-    elif d == b:
+    elif b is not None and d == b:
         result += "B"
     else:
         result += "Y"
@@ -204,6 +210,10 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
     be in the same turn, and therefore will be assigned a single participation
     shift code.
 
+    In conversations with the `reply_to_id` column, a turn replying to an
+    utterance which is not in a previous turn (e.g., an utterance outside the
+    data) is considered as addressed to the group, and a warning is issued.
+
     Arguments:
         conv_df: The conversation from where to obtain the participation shift codes.
 
@@ -216,143 +226,81 @@ def annotate(conv_df: pd.DataFrame) -> pd.DataFrame:
 
     conversation = conv2turns(conv_df)
 
-    # part1 will take the parshift label for the previous turn
-    part_1 = ""
+    if "reply_to_id" in conv_df.columns:
+        last_col = "reply_to_id"
+    elif "target_id" in conv_df.columns:
+        last_col = "target_id"
 
-    # part2 will take the parshift label for the current turn
-    part_2 = ""
+    columns = ["utterance_ids", "speaker_id", "utterance", last_col, "pshift"]
 
     # rows of the data frame to be returned
     rows: List[List[Any]] = []
 
-    if "reply_to_id" in conv_df.columns:
-        columns = [
-            "utterance_ids",
-            "speaker_id",
-            "utterance",
-            "reply_to_id",
-            "label_desc",
-            "pshift",
-        ]
+    # (speaker, addressee) of each turn, where addressee is `None` for the group
+    turns: List[Tuple[str, str | None]] = []
 
-        # calculate the participation shift for each turn
-        for idx, msg in enumerate(conversation):
-            if (
-                msg["reply_to_id"] == None
-                or msg["reply_to_id"] == "None"
-                or msg["reply_to_id"] == ""
-            ):
-                part_2 = " " + str(msg["speaker_id"]) + " to group"
-            else:
-                for msgPrev in conversation[: idx + 1]:
-                    if msg["reply_to_id"] in msgPrev["utterance_ids"]:
-                        if (
-                            msgPrev["reply_to_id"] == None
-                            or msgPrev["reply_to_id"] == "None"
-                            or msgPrev["reply_to_id"] == ""
-                        ):
-                            part_1 = str(msgPrev["speaker_id"]) + " to group,"
+    # turn (index) of each utterance ID found so far
+    turn_of_utterance: Dict[Any, int] = {}
 
-                        else:  # reply - reply
-                            for msgPrev2 in conversation[:idx]:
-                                if msgPrev["reply_to_id"] in msgPrev2["utterance_ids"]:
-                                    part_1 = (
-                                        str(msgPrev["speaker_id"])
-                                        + " to "
-                                        + str(msgPrev2["speaker_id"])
-                                        + ","
-                                    )
+    # number of turns replying to an utterance not in a previous turn
+    unknown_replies = 0
 
-                        part_2 = (
-                            " "
-                            + str(msg["speaker_id"])
-                            + " to "
-                            + str(msgPrev["speaker_id"])
-                        )
+    for idx, msg in enumerate(conversation):
+        # index of the turn this turn replies to, if any
+        replied: int | None = None
 
-            # p1p2 takes the parshift label for the previous + current turn
-            p1p2 = part_1 + part_2
-
-            # part_1 takes the part_2 label for the next iteration
-            part_1 = part_2[1:] + ","
-
-            # set value to "" for first turn
-            pshift_label = ""
-
-            # we cannot calculate the pshift for the first turn
-            if idx != 0:
-                pshift_label = _pshift_code(p1p2)
-
-            rows.append(
-                [
-                    str(msg["utterance_ids"]),
-                    str(msg["speaker_id"]),
-                    msg["utterance"],
-                    str(msg["reply_to_id"]),
-                    p1p2,
-                    pshift_label,
-                ]
-            )
-
-    elif "target_id" in conv_df.columns:
-        columns = [
-            "utterance_ids",
-            "speaker_id",
-            "utterance",
-            "target_id",
-            "label_desc",
-            "pshift",
-        ]
-
-        # calculate the participation shift for each turn
-        for idx, msg in enumerate(conversation):
+        if msg[last_col] is None:
             # if msg has no target, it is directed to the group
-            if (
-                msg["target_id"] == None
-                or msg["target_id"] == "None"
-                or msg["target_id"] == ""
-            ):
-                part_2 = " " + str(msg["speaker_id"]) + " to group"
-
-            # if msg has a target, we save it
+            addressee = None
+        elif last_col == "reply_to_id":
+            # if msg is a reply, it is directed to the speaker of the replied turn
+            replied = turn_of_utterance.get(msg[last_col])
+            if replied is None:
+                unknown_replies += 1
+                addressee = None
             else:
-                part_2 = " " + str(msg["speaker_id"]) + " to " + str(msg["target_id"])
+                addressee = turns[replied][0]
+        else:
+            # if msg has a target, it is directed to it
+            addressee = _speaker_key(msg[last_col])
 
-            # p1p2 takes the parshift label for the previous + current turn
-            p1p2 = part_1 + part_2
+        current = (_speaker_key(msg["speaker_id"]), addressee)
 
-            # part_1 takes the part_2 label for the next iteration
-            part_1 = part_2[1:] + ","
+        # we cannot calculate the pshift for the first turn
+        pshift_label = ""
+        if idx != 0:
+            # a reply is compared with the replied turn, otherwise the previous
+            # turn is used
+            previous = turns[replied] if replied is not None else turns[-1]
+            pshift_label = _pshift_code(previous, current)
 
-            # set value to "" for first turn
-            pshift_label = ""
+        turns.append(current)
+        for utterance_id in msg["utterance_ids"]:
+            turn_of_utterance[utterance_id] = idx
 
-            # we cannot calculate the pshift for the first turn
-            if idx != 0:
-                msg["label"] = p1p2
-                pshift_label = _pshift_code(p1p2)
-                msg["pshift"] = pshift_label
+        rows.append(
+            [
+                str(msg["utterance_ids"]),
+                str(msg["speaker_id"]),
+                msg["utterance"],
+                str(msg[last_col]),
+                pshift_label,
+            ]
+        )
 
-            rows.append(
-                [
-                    str(msg["utterance_ids"]),
-                    str(msg["speaker_id"]),
-                    msg["utterance"],
-                    str(msg["target_id"]),
-                    p1p2,
-                    pshift_label,
-                ]
-            )
+    if unknown_replies > 0:
+        warnings.warn(
+            f"{unknown_replies} turn(s) reply to an utterance which is not in a "
+            "previous turn, and were considered as addressed to the group",
+            UserWarning,
+            stacklevel=2,
+        )
 
     if rows:
-        annotate_df = pd.DataFrame(rows, columns=columns)
-    else:
-        # Keep the column types of a data frame built from empty columns
-        annotate_df = pd.DataFrame({col: [] for col in columns})
+        return pd.DataFrame(rows, columns=columns)
 
-    annotate_df = annotate_df.drop(columns=["label_desc"])
-
-    return annotate_df
+    # Keep the column types of a data frame built from empty columns
+    return pd.DataFrame({col: [] for col in columns})
 
 
 def pshift_class(pshift: str) -> str:
