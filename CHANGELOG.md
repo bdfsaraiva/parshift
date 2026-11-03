@@ -5,6 +5,21 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- `parshift.__version__` attribute with the version of the installed package.
+- Quickstart and input format in the README, and a "Usage" page in the
+  documentation explaining the reply and target modes, turns and known
+  limitations.
+- `CONTRIBUTING.md` and `uv.lock`.
+
+### Fixed
+
+- Docstrings of the `Parshift` class, `Parshift.process()`,
+  `frequency_treemap()` and `pshift_class()`.
+
 ## [1.1.0] - 2026-11-03
 
 This release fixes defects that produced wrong results, and updates ParShift
@@ -94,5 +109,6 @@ by Gibson, which are unchanged, as are their classes.
 
 - Last release before this changelog was created.
 
+[Unreleased]: https://github.com/bdfsaraiva/parshift/compare/v1.1.0...HEAD
 [1.1.0]: https://github.com/bdfsaraiva/parshift/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/bdfsaraiva/parshift/releases/tag/v1.0.2
