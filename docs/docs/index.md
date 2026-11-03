@@ -47,6 +47,7 @@ of the examples below:
 
 ## Further reading
 
+- [Usage: input format, reply and target modes](usage.md)
 - [Function reference](reference.md)
 - [Development reference](dev.md)
 
